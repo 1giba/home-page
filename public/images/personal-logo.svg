@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="56" fill="white" stroke="#4CAF50" stroke-width="4"/>
+  <text x="60" y="75" font-family="Arial, sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="#4CAF50">G</text>
+  <path d="M30 90 L90 90" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 30 L90 30" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+</svg>

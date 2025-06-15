@@ -1,0 +1,118 @@
+{
+  "Home": {
+    "title": "Home",
+    "welcome": "Gilberto Junior",
+    "description": "Software Engineer & AI Specialist",
+    "cta_primary": "Contact me",
+    "cta_secondary": "Explore my work",
+    "scroll": "Scroll down",
+    "scroll_aria": "Scroll to about section",
+    "exploreMore": "Explore More"
+  },
+  "About": {
+    "title": "About Me",
+    "subtitle": "Who I am",
+    "welcome": "Learn about my story and experience",
+    "founded": "Over 20 years of experience",
+    "who": "I'm a software engineer with over 20 years of experience in architecture, full-stack development, and automation with a strong focus on artificial intelligence.",
+    "p1": "Currently, I extensively use IDEs with artificial intelligence for code generation to accelerate high-impact deliveries, working almost exclusively on creating AI-assisted features.",
+    "p2": "I use AI as a copilot in virtually every delivery. From feature design to deployment, including refactors, API integrations, test generation, and pipelines.",
+    "skill1_title": "Software Engineering",
+    "skill1_desc": "Modern software engineering (SOLID, TDD, DDD, Clean Architecture)",
+    "skill2_title": "Web Development",
+    "skill2_desc": "Development with focus on AI integration",
+    "skill3_title": "Cloud Infrastructure",
+    "skill3_desc": "Infrastructure with AWS, CI/CD, Docker, Kubernetes",
+    "skill4_title": "Artificial Intelligence",
+    "skill4_desc": "Integrations with AI models and generative flows to automate processes",
+    "skills_title": "My Skills",
+    "tech_title": "Technologies"
+  },
+  "Services": {
+    "title": "My Services",
+    "welcome": "Solutions I offer",
+    "subtitle": "What I do",
+    "service1": "AI-Integrated Systems",
+    "service1Desc": "Development of intelligent systems with LLM integration and generative AI for process automation.",
+    "service2": "SaaS Platforms",
+    "service2Desc": "Creation of SaaS platforms with high-performance backends and scalable architecture.",
+    "service3": "Modern Web Applications",
+    "service3Desc": "Web service development, following modern software engineering practices.",
+    "service4": "AI Consulting",
+    "service4Desc": "Consulting for implementing AI-assisted workflows and process automation with OpenAI.",
+    "cta": "Contact me to discuss your project"
+  },
+  "Contact": {
+    "title": "Get in Touch",
+    "subtitle": "Contact",
+    "welcome": "Have a project in mind or need help with a software solution? Get in touch with me to discuss how I can help.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "subjectPlaceholder": "Message subject",
+    "messagePlaceholder": "Your message",
+    "successMessage": "Message sent successfully! I'll get back to you soon.",
+    "errorMessage": "Error sending message. Please try again.",
+    "languages": "Languages",
+    "languages_list": "Portuguese (Native), English (Advanced)",
+    "location": "Location",
+    "phone": "Phone"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About Me",
+    "services": "Services",
+    "experience": "Experience",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "Footer": {
+    "title": "Footer",
+    "description": "Transform your ideas into solutions powered by AI and professional experience.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "address": "Vera Cruz - SP, Brazil",
+    "phone": "+55 11 98765-4321",
+    "email": "contato@codehappy.com.br",
+    "rights": "All rights reserved.",
+    "company": "Code Happy Tecnologia Ltda",
+    "social": "Social Media",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "Experience": {
+    "title": "Featured SaaS Platforms",
+    "subtitle": "Impact projects",
+    "welcome": "Major projects I've participated in",
+    "project1_title": "Jarvi.io",
+    "project1_desc": "",
+    "project2_title": "HelloFatima.com",
+    "project2_desc": "",
+    "project3_title": "Tray.com.br",
+    "project3_desc": "",
+    "current_focus": "Current Focus",
+    "current_focus_desc": "My focus is on developing scalable SaaS systems with integrated artificial intelligence, using modern architectures and DevOps practices to ensure high availability and performance."
+  },
+  "Skills": {
+    "title": "My Skills",
+    "subtitle": "Competencies",
+    "welcome": "Technologies and tools I master"
+  },
+  "CodeHappy": {
+    "title": "Code Happy",
+    "subtitle": "Development",
+    "welcome": "Software development focused on quality and productivity"
+  },
+  "Success": {
+    "title": "Message sent!",
+    "message": "Thank you for reaching out. Your message was sent successfully and I will get back to you soon.",
+    "backHome": "Back to home"
+  }
+}

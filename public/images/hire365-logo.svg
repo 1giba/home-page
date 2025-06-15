@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <rect width="96" height="96" rx="12" fill="#4CAF50" opacity="0.1"/>
+  <text x="48" y="55" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#4CAF50">Hire365.io</text>
+  <path d="M48 25 C35 25, 25 35, 25 48 C25 61, 35 71, 48 71 C61 71, 71 61, 71 48 C71 35, 61 25, 48 25 Z" fill="none" stroke="#4CAF50" stroke-width="2"/>
+  <path d="M35 40 L35 56 M35 48 L48 48 M48 40 L48 56 M61 40 L61 56" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+</svg>
