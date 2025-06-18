@@ -5,7 +5,7 @@ import './globals.css';
  * This is where we import global styles only once
  * Using Next.js 15 App Router standard layout pattern
  */
-// @ts-expect-error - Ignorando o erro de tipagem do children em React 19
+// @ts-expect-error
 export default function RootLayout({
   children,
 }: {

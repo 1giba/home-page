@@ -1,40 +1,28 @@
-/** 
- * Tailwind CSS configuration for Next.js 15
- * @type {import('tailwindcss').Config} 
+/**
+ * Minimal Tailwind CSS v4 config for Next.js 15 compatibility
+ * Primary theme configuration is in globals.css using @theme
  */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  // Define content sources - ensure we're catching all components
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/[locale]/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  // Default Tailwind theme
   theme: {
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: '1rem',
-        sm: '2rem',
-        lg: '4rem',
-        xl: '5rem',
-        '2xl': '6rem',
-      },
-    },
     extend: {
-      // Map CSS variables to Tailwind colors
+      // Fallback properties - these will be overridden by CSS-first config
+      // but provide compatibility with tooling and type definitions
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
       },
-      // Ensure all theme directives from globals.css are recognized
       fontFamily: {
-        sans: 'var(--font-sans)',
-        mono: 'var(--font-mono)',
+        sans: ['var(--font-sans)'],
+        mono: ['var(--font-mono)'],
       },
     },
   },
-  // Enable dark mode based on class or media query
-  darkMode: 'media',
+  darkMode: 'class',
   plugins: [],
 }

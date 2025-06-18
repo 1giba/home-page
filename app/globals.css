@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* CSS-first configuration for Tailwind v4 */
+@theme {
+  colors {
+    primary: #0070f3;
+    background: var(--background);
+    foreground: var(--foreground);
+  }
+  fontFamily {
+    sans: var(--font-sans);
+    mono: var(--font-mono);
+  }
+}
 
 :root {
   --background: #ffffff;
