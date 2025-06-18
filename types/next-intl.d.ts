@@ -4,7 +4,10 @@ declare module 'next-intl' {
   export function NextIntlClientProvider(props: {
     locale: string;
     messages: Record<string, any>;
-    children: React.ReactNode;
+    children?: React.ReactNode;
+  } | {
+    locale: string;
+    messages: Record<string, any>;
   }): JSX.Element;
 }
 

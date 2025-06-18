@@ -1,21 +1,24 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
+import { useTranslations } from 'next-intl';
 
 /**
  * Featured Platforms section component
  * Shows platforms I've worked with
  */
 export default function FeaturedPlatformsSection() {
+  const t = useTranslations('Experience');
+  
   return (
     <section id="featured-platforms" className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block py-1 px-4 rounded-full bg-green-100 text-green-800 font-medium mb-4">
-            Featured Platforms
+            {t('subtitle')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Platforms I've Worked With</h2>
-          <p className="max-w-2xl mx-auto text-gray-600">Check out some of the platforms I've collaborated with</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('title')}</h2>
+          <p className="max-w-2xl mx-auto text-gray-600">{t('welcome')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">

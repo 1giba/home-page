@@ -25,16 +25,16 @@ export default function SkillsSection() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* Overlay com gradiente para contraste */}
+      {/* Overlay with gradient for contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#4CAF50]/70 to-[#4DD0E1]/60"></div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-  <span className="inline-block py-1 px-4 rounded-full bg-[#4CAF50]/10 text-white font-medium mb-4">
-    {s('subtitle')}
-  </span>
-  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">{s('title')}</h2>
-  <p className="max-w-2xl mx-auto text-white/90">{s('welcome')}</p>
-</div>
+          <span className="inline-block py-1 px-4 rounded-full bg-[#4CAF50]/10 text-white font-medium mb-4">
+            {s('subtitle')}
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">{s('title')}</h2>
+          <p className="max-w-2xl mx-auto text-white/90">{s('welcome')}</p>
+        </div>
 
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8 max-w-4xl mx-auto">
 

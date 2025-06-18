@@ -8,10 +8,10 @@ const intlMiddleware = createIntlMiddleware({
   locales: routing.locales,
 
   // The default locale to use when visiting a non-localized route
-  defaultLocale: 'pt-BR',
+  defaultLocale: routing.defaultLocale,
 
-  // For default locale, don't add prefix to URL
-  localePrefix: 'as-needed',
+  // Always include locale prefix in URL to avoid redirect loops
+  localePrefix: 'always',
 });
 
 // Map of routes to their corresponding anchor links on the homepage
@@ -28,7 +28,10 @@ const MOBILE_USER_AGENT_REGEX = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMob
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
-  // Handle internationalization first
+  // With localePrefix set to 'always', the next-intl middleware will automatically
+  // handle the root path redirect to the default locale, so we don't need custom logic here
+  
+  // Handle internationalization for all paths
   const response = intlMiddleware(request);
   
   // After locale is resolved, check if this is a mobile device and if the path matches our route map

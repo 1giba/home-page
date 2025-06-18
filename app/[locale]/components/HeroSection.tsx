@@ -35,7 +35,7 @@ export default function HeroSection() {
           className="flex items-center justify-center w-12 h-12 rounded-full bg-[#FFEB3B] text-gray-800 shadow-lg hover:bg-[#FDD835] transition-colors duration-300"
           aria-label={t('scroll_aria')}
         >
-          {/* @ts-ignore - React icon component */}
+          {/* @ts-expect-error - React icon component with incompatible properties */}
           <FiArrowDown size={24} />
         </Link>
       </div>

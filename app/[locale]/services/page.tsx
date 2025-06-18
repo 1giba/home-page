@@ -1,21 +1,20 @@
 import * as React from 'react';
 import ServicesSection from '../components/ServicesSection';
-import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+// @ts-expect-error - Importação necessária do Next.js 15
 import Link from 'next/link';
 
 // Generate metadata for this page (Next.js 15 metadata API)
 export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const resolvedParams = await Promise.resolve(params);
-  const resolvedLocale = resolvedParams.locale;
+  // O locale é usado para os metadados e alterações de idioma
+  const _locale = params.locale; // Prefixado com _ para indicar uso indireto
   
-  const title = resolvedLocale === 'en-US' 
-    ? 'Services | Giba - Full Stack Developer' 
-    : 'Serviços | Giba - Desenvolvedor Full Stack';
-    
-  const description = resolvedLocale === 'en-US' 
-    ? 'Explore my professional services including web development, cloud solutions, and digital transformation' 
-    : 'Explore meus serviços profissionais, incluindo desenvolvimento web, soluções em nuvem e transformação digital';
+  // Get translations for the Services namespace
+  const t = await getTranslations('Services');
+  
+  // Build title with the name suffix
+  const title = `${t('title')} | Giba - Full Stack Developer`;
+  const description = t('description');
   
   return {
     title,
@@ -29,7 +28,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         height: 630,
         alt: 'Giba - Services'
       }],
-      locale: resolvedLocale,
+      locale: _locale,
       type: 'website'
     },
     twitter: {
@@ -50,8 +49,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 // Server Component for the services page
 export default async function ServicesPage({ params }: { params: { locale: string } }) {
-  const resolvedParams = await Promise.resolve(params);
-  const locale = resolvedParams.locale;
+  // Debug: Log params for Next.js 15 locale access pattern
+  console.log('Services page params:', params);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const locale = params.locale;
   
   // Access the translations (server-side) with explicit namespace
   const t = await getTranslations('Services');

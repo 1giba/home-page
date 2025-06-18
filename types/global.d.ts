@@ -25,12 +25,12 @@ declare module 'next/server' {
     getAll(): Array<{ name: string; value: string }>;
     has(name: string): boolean;
   }
-  
+
   export interface NextRequest extends Request {
     nextUrl: URL;
     cookies: Cookies;
   }
-  
+
   export class NextResponse extends Response {
     static redirect(url: string | URL, init?: ResponseInit): NextResponse;
     static json(body: any, init?: ResponseInit): NextResponse;
@@ -63,7 +63,7 @@ declare module 'next-intl/server' {
 // Fix next/image module imports
 declare module 'next/image' {
   import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
-  
+
   interface ImageProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     src: string;
     alt: string;
@@ -81,7 +81,7 @@ declare module 'next/image' {
     loading?: 'lazy' | 'eager';
     blurDataURL?: string;
   }
-  
+
   const Image: React.FC<ImageProps>;
   export default Image;
 }
@@ -132,25 +132,8 @@ declare namespace JSX {
     main: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     html: React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLHtmlElement>, HTMLHtmlElement>;
     body: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBodyElement>, HTMLBodyElement>;
-    main: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     article: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-    h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h2: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h3: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h4: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h5: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h6: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
-    a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
-    span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
-    ul: React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement>;
     ol: React.DetailedHTMLProps<React.HTMLAttributes<HTMLOListElement>, HTMLOListElement>;
-    li: React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>;
-    button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
   }
 }
 

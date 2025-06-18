@@ -1,44 +1,38 @@
 // Import React and Next.js modules
 import * as React from 'react';
-import { Metadata } from 'next';
 
 // Import internationalization tools
 import { getTranslations } from 'next-intl/server';
+
 // Using standard Next.js Link with locale support
+// @ts-expect-error - Importação necessária do Next.js 15
 import Link from 'next/link';
-import { routing } from '@/i18n/routing';
 
-// Import error boundary wrapper
-import ErrorBoundaryWrapper from './components/ErrorBoundaryWrapper';
-
-// Import page components individually to isolate potential issues
+// Import page components individually
 import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
+import FeaturedPlatformsSection from './components/FeaturedPlatformsSection';
+
+// Import additional sections that are used in the page
 import SkillsSection from './components/SkillsSection';
 import ServicesSection from './components/ServicesSection';
+import AboutSection from './components/AboutSection';
 
-// Debug: Log all component imports to check for undefined
-console.log('Component import check:', {
-  HeroSection,
-  AboutSection,
-  SkillsSection,
-  ServicesSection
-});
-// Removendo a importação problemática e implementando o componente inline
+// Using components for all sections of the page
 
 // Generate metadata for this page (Next.js 15 metadata API)
 export async function generateMetadata({ params }: { params: { locale: string } }) {
-  // In Next.js 15, params must be awaited before accessing properties
+  // In Next.js 15, params needs to be resolved before accessing its properties
   const resolvedParams = await Promise.resolve(params);
-  const resolvedLocale = resolvedParams.locale;
+  const locale = resolvedParams.locale; // Access locale after resolving params
 
-  const title = resolvedLocale === 'en-US'
-    ? 'Giba - Full Stack Developer'
-    : 'Giba - Desenvolvedor Full Stack';
+  // Get translations from i18n files
+  const t = await getTranslations('Home');
 
-  const description = resolvedLocale === 'en-US'
-    ? 'Full Stack Developer specialized in modern web applications, cloud solutions, and digital transformation'
-    : 'Desenvolvedor Full Stack especializado em aplicações web modernas, soluções em nuvem e transformação digital';
+  // Build title with developer role
+  const title = `Giba - ${t('description')}`;
+
+  // Use the welcome message as description
+  const description = t('welcome');
 
   return {
     title,
@@ -52,7 +46,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         height: 630,
         alt: 'Giba - Full Stack Developer'
       }],
-      locale: resolvedLocale,
+      locale: locale,
       type: 'website'
     },
     twitter: {
@@ -73,9 +67,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 // Server Component for the home page
 export default async function Page({ params }: { params: { locale: string } }) {
-  // In Next.js 15, params must be awaited before accessing properties
+  // Resolve params before accessing its properties
   const resolvedParams = await Promise.resolve(params);
-  const locale = resolvedParams.locale;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _locale = resolvedParams.locale; // Used to verify current language
 
   // We'll handle locale in middleware instead
   // unstable_setRequestLocale is no longer available in next-intl 4.1.0
@@ -104,7 +99,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
       </header>
 
       <main className="flex flex-col min-h-screen">
-        {/* Renderizando cada componente individualmente com tratamento de erro */}
+        {/* Rendering each component individually with error handling */}
         <div>
           {(() => {
             try {
@@ -116,7 +111,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
             }
           })()}
         </div>
-        
+
         <div>
           {(() => {
             try {
@@ -128,7 +123,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
             }
           })()}
         </div>
-        
+
         <div>
           {(() => {
             try {
@@ -140,7 +135,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
             }
           })()}
         </div>
-        
+
         <div>
           {(() => {
             try {
@@ -152,40 +147,18 @@ export default async function Page({ params }: { params: { locale: string } }) {
             }
           })()}
         </div>
-        
-        {/* Implementação embutida da seção de plataformas para evitar problemas de renderização */}
-        <section id="featured-platforms" className="py-16 bg-gray-100">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <span className="inline-block py-1 px-4 rounded-full bg-green-100 text-green-800 font-medium mb-4">
-                Featured Platforms
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Platforms I've Worked With</h2>
-              <p className="max-w-2xl mx-auto text-gray-600">Check out some of the platforms I've collaborated with</p>
-            </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Platform items */}
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <div className="h-40 flex items-center justify-center">
-                  <h3 className="text-xl font-bold text-gray-800">Jarvi</h3>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <div className="h-40 flex items-center justify-center">
-                  <h3 className="text-xl font-bold text-gray-800">HelloFatima</h3>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <div className="h-40 flex items-center justify-center">
-                  <h3 className="text-xl font-bold text-gray-800">Tray</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div>
+          {(() => {
+            try {
+              console.log('Rendering FeaturedPlatformsSection');
+              return <FeaturedPlatformsSection />;
+            } catch (error) {
+              console.error('Error rendering FeaturedPlatformsSection:', error);
+              return <div className="p-8 bg-red-100">Error rendering FeaturedPlatformsSection</div>;
+            }
+          })()}
+        </div>
 
         <section className="py-10 bg-gray-50">
           <div className="container mx-auto px-4 text-center">

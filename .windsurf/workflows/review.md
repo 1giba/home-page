@@ -55,4 +55,4 @@ This ensures the project remains consistent, secure, and aligned with its long-t
 
 ---
 
-All agent work must reflect **expert-level understanding of Next.js**, **zero tolerance for tech debt**, and complete **respect for the
+All agent work must reflect **expert-level understanding of Next.js**, **zero tolerance for tech debt**, and complete **respect for the established architecture**.

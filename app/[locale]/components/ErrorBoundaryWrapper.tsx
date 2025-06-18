@@ -4,7 +4,7 @@ import React from 'react';
 
 type ErrorBoundaryProps = {
   name: string;
-  children: any; // Using any here instead of React.ReactNode to avoid type issues
+  children: unknown; // Usando unknown em vez de any para melhor segurança de tipo
 }
 
 /**

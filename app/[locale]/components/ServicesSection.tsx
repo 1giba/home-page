@@ -24,7 +24,7 @@ export default function ServicesSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100">
             <div className="bg-[#4CAF50]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-              {/* @ts-ignore - React icon component */}
+              {/* @ts-expect-error - React icon component with incompatible typing */}
               <FiCode className="text-[#4CAF50] text-2xl" />
             </div>
             <h3 className="text-xl font-bold mb-3">{t('service1')}</h3>
@@ -33,7 +33,7 @@ export default function ServicesSection() {
           
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100">
             <div className="bg-[#2196F3]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-              {/* @ts-ignore - React icon component */}
+              {/* @ts-expect-error - React icon component with incompatible typing */}
               <FiServer className="text-[#2196F3] text-2xl" />
             </div>
             <h3 className="text-xl font-bold mb-3">{t('service2')}</h3>
@@ -42,7 +42,7 @@ export default function ServicesSection() {
           
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100">
             <div className="bg-[#FFC107]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-              {/* @ts-ignore - React icon component */}
+              {/* @ts-expect-error - React icon component with incompatible typing */}
               <FiDatabase className="text-[#FFC107] text-2xl" />
             </div>
             <h3 className="text-xl font-bold mb-3">{t('service3')}</h3>
@@ -51,7 +51,7 @@ export default function ServicesSection() {
           
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100">
             <div className="bg-[#9C27B0]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-              {/* @ts-ignore - React icon component */}
+              {/* @ts-expect-error - React icon component with incompatible typing */}
               <FiSmartphone className="text-[#9C27B0] text-2xl" />
             </div>
             <h3 className="text-xl font-bold mb-3">{t('service4')}</h3>

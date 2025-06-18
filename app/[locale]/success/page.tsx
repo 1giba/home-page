@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Success | Windsurf Personal Portfolio',
+  title: 'Success | Code Happy Portfolio',
   description: 'Your message has been successfully sent.',
 };
 

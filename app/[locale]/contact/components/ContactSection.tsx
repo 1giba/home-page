@@ -48,8 +48,9 @@ export default function ContactSection() {
           <div className="md:col-span-2">
             <form action="https://formsubmit.co/contato@codehappy.com.br" method="POST" className="bg-gray-800 p-8 rounded-lg">
               <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value={`http://codehappy.com.br/${locale}/success`} />
-              {/* Honeypot field para proteção anti-bot */}
+              {/* Redirect back to the current domain after submission */}
+              <input type="hidden" name="_next" value={`/${locale}/success`} />
+              {/* Honeypot field for anti-bot protection */}
               <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
