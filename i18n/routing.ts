@@ -1,10 +1,17 @@
-import {defineRouting} from 'next-intl/routing';
+// Define supported locales and defaults for next-intl v4 with Next.js 15
 
-export const routing = defineRouting({
-  // A list of all locales that are supported
-  locales: ['en-US', 'pt-BR'] as string[],
-  // Used when no locale matches
-  defaultLocale: 'pt-BR'
-});
+// Supported locales
+export const locales = ['en-US', 'pt-BR'] as const;
+export const defaultLocale = 'pt-BR';
 
-export type Locale = (typeof routing.locales)[number];
+// For TypeScript support
+export type Locale = (typeof locales)[number];
+
+// Export configuration for use in middleware and other parts of the app
+export const routing = {
+  locales,
+  defaultLocale,
+  // Do not fallback to default locale when a translation is missing
+  // Instead, show the key name to identify missing translations
+  fallbackLocale: null
+};

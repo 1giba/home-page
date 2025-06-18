@@ -29,12 +29,14 @@ declare const messages: {
     "skill4_title": "Inteligência Artificial",
     "skill4_desc": "Integrações com modelos e fluxos de IA generativa para automatizar processos",
     "skills_title": "Minhas Habilidades",
-    "tech_title": "Tecnologias"
+    "tech_title": "Tecnologias",
+    "backToHome": "Voltar para a página inicial"
   },
   "Services": {
     "title": "Meus Serviços",
     "welcome": "Soluções que ofereço",
     "subtitle": "O que faço",
+    "description": "Serviços de desenvolvimento com foco em inteligência artificial",
     "service1": "Sistemas com IA Integrada",
     "service1Desc": "Desenvolvimento de sistemas inteligentes com integração de LLMs e IA generativa para automação de processos.",
     "service2": "Plataformas SaaS",
@@ -43,12 +45,14 @@ declare const messages: {
     "service3Desc": "Desenvolvimento de serviços web, seguindo práticas modernas de engenharia de software.",
     "service4": "Consultoria em IA",
     "service4Desc": "Consultoria para implementação de fluxos de trabalho assistidos por IA e automação de processos com OpenAI.",
-    "cta": "Entre em contato para discutir seu projeto"
+    "cta": "Entre em contato para discutir seu projeto",
+    "backToHome": "Voltar para a página inicial"
   },
   "Contact": {
     "title": "Entre em Contato",
     "subtitle": "Contato",
     "welcome": "Tem um projeto em mente ou precisa de ajuda com uma solução de software? Entre em contato comigo para discutirmos como posso ajudar.",
+    "description": "Entre em contato para discutir seu projeto ou tirar dúvidas",
     "name": "Nome",
     "email": "Email",
     "subject": "Assunto",
@@ -60,6 +64,7 @@ declare const messages: {
     "namePlaceholder": "Seu nome",
     "emailPlaceholder": "Seu email",
     "subjectPlaceholder": "Assunto da mensagem",
+    "backToHome": "Voltar para a página inicial",
     "messagePlaceholder": "Sua mensagem",
     "successMessage": "Mensagem enviada com sucesso! Entrarei em contato em breve.",
     "errorMessage": "Erro ao enviar mensagem. Por favor, tente novamente.",
