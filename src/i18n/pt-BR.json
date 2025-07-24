@@ -1,0 +1,305 @@
+{
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "contact": "Contato",
+    "logo": "Code Happy"
+  },
+  "home": {
+    "title": "Olá! Transformo idéias em código que funciona",
+    "subtitle": "Sou desenvolvedor apaixonado por Laravel, trabalho remoto e bom código.",
+    "cta": "Vamos conversar sobre o seu projeto",
+    "qualities": {
+      "fast": "Ágil",
+      "reliable": "Confiável",
+      "innovative": "Criativo"
+    }
+  },
+  "footer": {
+    "copyright": "© 2020-2025 Code Happy Tecnologia Ltda. Todos os direitos reservados.",
+    "logo": "Code Happy",
+    "links": {
+      "home": "Início",
+      "about": "Sobre",
+      "contact": "Contato",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Uso"
+    },
+    "madeWith": "Feito com",
+    "inBrazil": "no Brasil"
+  },
+  "language": {
+    "switch": "Alterar idioma",
+    "portuguese": "Português",
+    "english": "English"
+  },
+  "features": {
+    "title": "Como posso ajudar você?",
+    "subtitle": "Três formas de trabalharmos juntos para acelerar seus projetos",
+    "consulting": {
+      "title": "Consultoria Técnica",
+      "description": "Análise personalizada da sua arquitetura, code review e orientação estratégica. Como problem solver experiente, foco em identificar e resolver seus desafios técnicos mais complexos."
+    },
+    "development": {
+      "title": "Desenvolvimento",
+      "description": "Atuo como extensão da sua equipe, desenvolvendo features, APIs e sistemas completos. Comunicação direta e entregas consistentes."
+    },
+    "aiFeatures": {
+      "title": "Funcionalidades com IA",
+      "description": "Integração de recursos inteligentes em suas aplicações. Desde chatbots até análise de dados, implemento soluções de IA que agregam valor real ao seu produto."
+    }
+  },
+  "contact": {
+    "title": "Vamos conversar?",
+    "subtitle": "Conte-me sobre seu projeto e como posso ajudar você a transformá-lo em realidade.",
+    "form": {
+      "name": {
+        "label": "Nome",
+        "placeholder": "Seu nome completo"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "seu@email.com"
+      },
+      "company": {
+        "label": "Empresa (opcional)",
+        "placeholder": "Nome da sua empresa"
+      },
+      "subject": {
+        "label": "Assunto",
+        "placeholder": "Sobre o que você gostaria de conversar?"
+      },
+      "message": {
+        "label": "Mensagem",
+        "placeholder": "Descreva seu projeto, desafio ou como posso ajudar..."
+      },
+      "submit": "Enviar mensagem",
+      "sending": "Enviando...",
+      "sendAnother": "Enviar outra mensagem",
+      "validation": {
+        "nameRequired": "Nome é obrigatório",
+        "nameMinLength": "Nome deve ter pelo menos 2 caracteres",
+        "emailRequired": "E-mail é obrigatório",
+        "emailInvalid": "E-mail inválido",
+        "subjectRequired": "Assunto é obrigatório",
+        "subjectMinLength": "Assunto deve ter pelo menos 3 caracteres",
+        "messageRequired": "Mensagem é obrigatória",
+        "messageMinLength": "Mensagem deve ter pelo menos 10 caracteres"
+      }
+    },
+    "info": {
+      "title": "Outras formas de contato",
+      "email": "contato@codehappy.com.br",
+      "emailLabel": "E-mail",
+      "response": "Respondo em até 48 horas",
+      "responseLabel": "Tempo de resposta",
+      "availability": "Disponível para projetos",
+      "statusLabel": "Status",
+      "faq": {
+        "title": "Perguntas frequentes",
+        "questions": {
+          "timeline": {
+            "question": "Qual é o prazo típico para um projeto?",
+            "answer": "Depende da complexidade, mas projetos pequenos levam 1-2 semanas, médios 1-2 meses, e projetos maiores podem levar 3+ meses."
+          },
+          "technologies": {
+            "question": "Trabalha com que tecnologias?",
+            "answer": "Especializado em Laravel, Vue.js, PHP, JavaScript, MySQL, PostgreSQL, e tecnologias de IA como OpenAI API."
+          },
+          "budget": {
+            "question": "Como funciona o orçamento?",
+            "answer": "Após entender seu projeto, envio uma proposta detalhada com escopo, prazo e valor. Trabalho com valores fixos ou por hora."
+          }
+        }
+      }
+    },
+    "success": {
+      "title": "Mensagem enviada!",
+      "message": "Obrigado pelo contato. Vou responder em breve!"
+    }
+  },
+  "about": {
+    "title": "Sobre mim",
+    "subtitle": "Senior Software Engineer com mais de 20 anos de experiência",
+    "intro": "Desenvolvedor sênior com experiência profissional desde 2004. Trabalhei por quase 16 anos em regime CLT, mas por conta de melhores oportunidades fundei a Code Happy Tecnologia Ltda em julho de 2020 para trabalho remoto e por conta própria. Atualmente focado em construir plataformas SaaS de alta qualidade baseadas em Laravel com frontends Vue.js, integradas com workflows orientados por IA, tudo containerizado para deploy escalável.",
+    "experience": {
+      "title": "Trajetória Profissional",
+      "subtitle": "Mais de duas décadas construindo soluções que fazem a diferença",
+      "description": "Mais de duas décadas construindo soluções que fazem a diferença",
+      "years": "20+ anos",
+      "since": "Desde 2004",
+      "focus": "Atualmente focado em plataforma SaaS e funcionalidades com IA",
+      "bugFixing": "Correção de Bugs Complexos",
+      "bugFixingDescription": "Experiência em resolver os problemas mais complexos e críticos",
+      "timeline": {
+        "2004": {
+          "title": "Início da Carreira",
+          "description": "Primeiros passos no desenvolvimento profissional, construindo bases sólidas em programação e arquitetura de software."
+        },
+        "2010-2020": {
+          "title": "Plataforma de E-commerce",
+          "description": "Quase 10 anos numa empresa brasileira com grande aderência no segmento de lojas virtuais, desenvolvendo soluções robustas para o mercado nacional."
+        },
+        "2022": {
+          "title": "Freelancer",
+          "description": "Projeto freelance em Londres para uma plataforma SaaS de cunho social, expandindo horizontes e experiência internacional."
+        },
+        "2020+": {
+          "title": "Plataforma SaaS com IA nos EUA",
+          "description": "Atualmente trabalhando para uma empresa norte-americana em software SaaS com inúmeras funcionalidades de IA, na vanguarda da inovação."
+        }
+      }
+    },
+    "expertise": {
+      "title": "Especialidades",
+      "subtitle": "Tecnologias e metodologias que domino",
+      "laravel": {
+        "title": "Laravel Avançado",
+        "description": "Arquitetura avançada com foco em performance, real-time e integração com IA para aplicações modernas."
+      },
+      "principles": {
+        "title": "Princípios de Desenvolvimento",
+        "description": "Especializado em DRY, SOLID e análise de complexidade Big O para código limpo e eficiente."
+      },
+      "architecture": {
+        "title": "Arquitetura de Software",
+        "description": "Projeto de sistemas multitenancy com Domain-Driven Design e APIs RESTful robustas."
+      },
+      "quality": {
+        "title": "Qualidade e Escalabilidade",
+        "description": "Entrego sistemas backend limpos, testáveis e escaláveis, otimizados para manutenibilidade a longo prazo."
+      },
+      "tags": {
+        "laravel": {
+          "octane": "Octane",
+          "horizon": "Horizon",
+          "llm": "LLM",
+          "inertia": "InertiaJs",
+          "tdd": "TDD"
+        },
+        "principles": {
+          "solid": "SOLID",
+          "bigO": "Big O",
+          "dry": "DRY"
+        },
+        "architecture": {
+          "multitenancy": "Multitenancy",
+          "ddd": "DDD",
+          "restful": "API RESTful"
+        },
+        "quality": {
+          "cleanCode": "Código Limpo",
+          "scalable": "Escalável",
+          "testable": "Testável"
+        }
+      }
+    },
+    "technologies": {
+      "title": "Stack Tecnológico",
+      "backend": {
+        "title": "Backend",
+        "items": ["Laravel", "PHP 8+", "Laravel Octane", "Domain-Driven Design"]
+      },
+      "frontend": {
+        "title": "Frontend",
+        "items": ["Vue.js", "JavaScript/TypeScript", "Tailwind CSS", "Vite"]
+      },
+      "database": {
+        "title": "Banco de Dados",
+        "items": ["MySQL", "PostgreSQL", "Redis", "Multitenancy"]
+      },
+      "ai": {
+        "title": "IA & Automação",
+        "items": ["OpenAI API", "LLM Integration", "AI Workflows", "Machine Learning"]
+      },
+      "devops": {
+        "title": "DevOps & Qualidade",
+        "items": ["TDD", "CI/CD", "Docker", "Performance Optimization"]
+      }
+    },
+    "philosophy": {
+      "title": "Filosofia de Desenvolvimento",
+      "subtitle": "Princípios que guiam meu trabalho",
+      "clean": "Código limpo e bem documentado",
+      "cleanDescription": "Código que conta uma história clara, com nomes descritivos e estrutura lógica que qualquer desenvolvedor pode entender e manter.",
+      "scalable": "Arquiteturas escaláveis e maintíveis",
+      "scalableDescription": "Sistemas projetados para crescer, com separação clara de responsabilidades e padrões que facilitam a evolução e manutenção.",
+      "tested": "Testes abrangentes e confiáveis",
+      "testedDescription": "Cobertura de testes que garante confiabilidade, desde testes unitários até integração, permitindo refatorações seguras.",
+      "performance": "Performance otimizada desde o início",
+      "performanceDescription": "Otimização desde o design inicial, considerando complexidade algorítmica e recursos do sistema para máxima eficiência.",
+      "quote": "Código de qualidade não é acidente. É resultado de disciplina, experiência e paixão pelo que fazemos.",
+      "quoteAuthor": "Mais de duas décadas aplicando esses princípios em projetos reais"
+    }
+  },
+  "terms": {
+    "title": "Termos de Uso",
+    "subtitle": "Condições de uso dos serviços da Code Happy Tecnologia Ltda",
+    "lastUpdated": "Última atualização: 24 de julho de 2025",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aceitação dos Termos",
+        "content": "Ao acessar e usar este site, você aceita e concorda em ficar vinculado aos termos e condições deste acordo. Se você não concordar com qualquer parte destes termos e condições, não deve usar nossos serviços."
+      },
+      "services": {
+        "title": "2. Descrição dos Serviços",
+        "content": "A Code Happy Tecnologia Ltda oferece serviços de desenvolvimento de software, consultoria técnica e soluções tecnológicas. Nossos serviços incluem desenvolvimento web, integração de APIs, consultoria em arquitetura de software e implementação de funcionalidades com IA."
+      },
+      "responsibilities": {
+        "title": "3. Responsabilidades do Cliente",
+        "content": "O cliente é responsável por fornecer informações precisas e completas, colaborar durante o desenvolvimento do projeto, e cumprir com os prazos de feedback acordados. O cliente também deve garantir que possui os direitos necessários sobre qualquer material fornecido."
+      },
+      "intellectual": {
+        "title": "4. Propriedade Intelectual",
+        "content": "Todo código desenvolvido especificamente para o cliente torna-se propriedade do cliente após o pagamento integral. Frameworks, bibliotecas e soluções genéricas desenvolvidas pela Code Happy permanecem como propriedade da empresa."
+      },
+      "payment": {
+        "title": "5. Pagamento e Cancelamento",
+        "content": "Os pagamentos devem ser efetuados conforme acordado no contrato específico. Em caso de cancelamento pelo cliente, será cobrado o trabalho já realizado. A Code Happy se reserva o direito de suspender os serviços em caso de inadimplência."
+      },
+      "limitation": {
+        "title": "6. Limitação de Responsabilidade",
+        "content": "A Code Happy não será responsável por danos indiretos, incidentais ou consequenciais. Nossa responsabilidade total não excederá o valor pago pelos serviços específicos que deram origem à reclamação."
+      },
+      "modifications": {
+        "title": "7. Modificações dos Termos",
+        "content": "Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação no site. É responsabilidade do usuário verificar periodicamente os termos atualizados."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "subtitle": "Como coletamos, usamos e protegemos suas informações pessoais",
+    "lastUpdated": "Última atualização: 24 de julho de 2025",
+    "sections": {
+      "collection": {
+        "title": "1. Coleta de Informações",
+        "content": "Coletamos informações que você nos fornece diretamente através de formulários de contato, incluindo nome, e-mail, empresa e mensagem. Também coletamos automaticamente dados de navegação como endereço IP, tipo de navegador e páginas visitadas."
+      },
+      "usage": {
+        "title": "2. Uso das Informações",
+        "content": "Utilizamos suas informações para responder às suas solicitações, fornecer nossos serviços, melhorar nosso site e comunicar sobre projetos. Não vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros sem seu consentimento."
+      },
+      "cookies": {
+        "title": "3. Cookies e Tecnologias Similares",
+        "content": "Utilizamos cookies para melhorar sua experiência de navegação, analisar o tráfego do site e personalizar conteúdo. Você pode configurar seu navegador para recusar cookies, mas isso pode afetar a funcionalidade do site."
+      },
+      "security": {
+        "title": "4. Segurança dos Dados",
+        "content": "Implementamos medidas de segurança técnicas e organizacionais apropriadas para proteger suas informações pessoais contra acesso não autorizado, alteração, divulgação ou destruição."
+      },
+      "retention": {
+        "title": "5. Retenção de Dados",
+        "content": "Mantemos suas informações pessoais apenas pelo tempo necessário para cumprir os propósitos descritos nesta política, a menos que um período de retenção mais longo seja exigido ou permitido por lei."
+      },
+      "rights": {
+        "title": "6. Seus Direitos",
+        "content": "Você tem o direito de acessar, corrigir, excluir ou portar suas informações pessoais. Para exercer esses direitos, entre em contato conosco através do e-mail contato@codehappy.com.br."
+      },
+      "contact": {
+        "title": "7. Contato",
+        "content": "Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco através do e-mail contato@codehappy.com.br ou através do formulário de contato em nosso site."
+      }
+    }
+  }
+}

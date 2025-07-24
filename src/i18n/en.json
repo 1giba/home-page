@@ -1,0 +1,281 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "logo": "Code Happy"
+  },
+  "home": {
+    "title": "Hi! I turn ideas into code that works",
+    "subtitle": "I'm a passionate developer for Laravel, remote work and good code.",
+    "cta": "Let's talk about your project",
+    "qualities": {
+      "fast": "Agile",
+      "reliable": "Reliable",
+      "innovative": "Creative"
+    }
+  },
+  "footer": {
+    "copyright": "© 2020-2025 Code Happy Tecnologia Ltda. All rights reserved.",
+    "logo": "Code Happy",
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use"
+    },
+    "madeWith": "Made with",
+    "inBrazil": "in Brazil"
+  },
+  "language": {
+    "switch": "Switch language",
+    "portuguese": "Português",
+    "english": "English"
+  },
+  "features": {
+    "title": "How can I help you?",
+    "subtitle": "Three ways we can work together to accelerate your projects",
+    "consulting": {
+      "title": "Technical Consulting",
+      "description": "Personalized analysis of your architecture, code reviews, and strategic guidance. As an experienced problem solver, I focus on identifying and resolving your most complex technical challenges."
+    },
+    "development": {
+      "title": "Development",
+      "description": "I work as an extension of your team, developing features, APIs, and complete systems. Direct communication and consistent deliveries."
+    },
+    "aiFeatures": {
+      "title": "AI-Driven Features",
+      "description": "Integration of intelligent features into your applications. From chatbots to data analysis, I implement AI solutions that add real value to your product."
+    }
+  },
+  "contact": {
+    "title": "Let's talk?",
+    "subtitle": "Tell me about your project and how I can help you turn it into reality.",
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your full name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "company": {
+        "label": "Company (optional)",
+        "placeholder": "Your company name"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "What would you like to talk about?"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Describe your project, challenge, or how I can help..."
+      },
+      "submit": "Send message",
+      "sending": "Sending...",
+      "sendAnother": "Send another message",
+      "validation": {
+        "nameRequired": "Name is required",
+        "nameMinLength": "Name must be at least 2 characters",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email",
+        "subjectRequired": "Subject is required",
+        "subjectMinLength": "Subject must be at least 3 characters",
+        "messageRequired": "Message is required",
+        "messageMinLength": "Message must be at least 10 characters"
+      }
+    },
+    "info": {
+      "title": "Other ways to contact",
+      "email": "contato@codehappy.com.br",
+      "emailLabel": "Email",
+      "response": "I respond within 48 hours",
+      "responseLabel": "Response time",
+      "availability": "Available for projects",
+      "statusLabel": "Status",
+      "faq": {
+        "title": "Frequently asked questions",
+        "questions": {
+          "timeline": {
+            "question": "What's the typical timeline for a project?",
+            "answer": "It depends on complexity, but small projects take 1-2 weeks, medium ones 1-2 months, and larger projects can take 3+ months."
+          },
+          "technologies": {
+            "question": "What technologies do you work with?",
+            "answer": "Specialized in Laravel, Vue.js, PHP, JavaScript, MySQL, PostgreSQL, and AI technologies like OpenAI API."
+          },
+          "budget": {
+            "question": "How does budgeting work?",
+            "answer": "After understanding your project, I send a detailed proposal with scope, timeline and cost. I work with fixed prices or hourly rates."
+          }
+        }
+      }
+    },
+    "success": {
+      "title": "Message sent!",
+      "message": "Thank you for reaching out. I'll get back to you soon!"
+    }
+  },
+  "about": {
+    "title": "About me",
+    "subtitle": "Senior Software Engineer with 20+ years of experience",
+    "intro": "Senior Software Engineer with professional experience since 2004. I worked for almost 16 years as an employee, but seeking better opportunities I founded Code Happy Tecnologia Ltda in July 2020 for remote work and entrepreneurship. Currently focused on building high-quality Laravel-based SaaS platforms with Vue.js frontends, integrated with AI-driven workflows, all containerized for scalable deployment.",
+    "experience": {
+      "title": "Professional Journey",
+      "subtitle": "Over two decades building solutions that make a difference",
+      "description": "Over two decades building solutions that make a difference",
+      "years": "20+ years",
+      "since": "Since 2004",
+      "focus": "Currently focused on building high-quality SaaS platforms with AI-driven features",
+      "bugFixing": "Complex Bug Fixing",
+      "bugFixingDescription": "Experienced at solving the most complex and critical problems",
+      "timeline": {
+        "2004": {
+          "title": "Career Start",
+          "description": "First steps in professional development, building solid foundations in programming and software architecture."
+        },
+        "2010-2020": {
+          "title": "E-commerce Platform",
+          "description": "Nearly 10 years at a leading Brazilian company in the e-commerce segment, developing robust solutions for the national market."
+        },
+        "2022": {
+          "title": "Freelancer",
+          "description": "Freelance project in London for a social SaaS platform, expanding horizons and international experience."
+        },
+        "2020+": {
+          "title": "AI-Powered SaaS plataform in the US",
+          "description": "Currently working for a US company on SaaS software with numerous AI functionalities, at the forefront of innovation."
+        }
+      }
+    },
+    "expertise": {
+      "title": "Expertise",
+      "subtitle": "Technologies and methodologies I master",
+      "laravel": {
+        "title": "Advanced Laravel",
+        "description": "Advanced architecture focused on performance, real-time features and AI integration for modern applications."
+      },
+      "principles": {
+        "title": "Development Principles",
+        "description": "Specialized in DRY, SOLID, and Big O complexity analysis for clean and efficient code."
+      },
+      "architecture": {
+        "title": "Software Architecture",
+        "description": "Designing multitenancy systems with Domain-Driven Design and robust RESTful APIs."
+      },
+      "quality": {
+        "title": "Quality & Scalability",
+        "description": "Skilled at delivering clean, testable, and scalable backend systems optimized for long-term maintainability."
+      }
+    },
+    "technologies": {
+      "title": "Technology Stack",
+      "backend": {
+        "title": "Backend",
+        "items": ["Laravel", "PHP 8+", "Laravel Octane", "Domain-Driven Design"]
+      },
+      "frontend": {
+        "title": "Frontend",
+        "items": ["Vue.js", "JavaScript/TypeScript", "Tailwind CSS", "Vite"]
+      },
+      "database": {
+        "title": "Database",
+        "items": ["MySQL", "PostgreSQL", "Redis", "Multitenancy"]
+      },
+      "ai": {
+        "title": "AI & Automation",
+        "items": ["OpenAI API", "LLM Integration", "AI Workflows", "Machine Learning"]
+      },
+      "devops": {
+        "title": "DevOps & Quality",
+        "items": ["TDD", "CI/CD", "Docker", "Performance Optimization"]
+      }
+    },
+    "philosophy": {
+      "title": "Development Philosophy",
+      "subtitle": "Principles that guide my work",
+      "clean": "Clean and well-documented code",
+      "cleanDescription": "Code that tells a clear story, with descriptive names and logical structure that any developer can understand and maintain.",
+      "scalable": "Scalable and maintainable architectures",
+      "scalableDescription": "Systems designed to grow, with clear separation of responsibilities and patterns that facilitate evolution and maintenance.",
+      "tested": "Comprehensive and reliable testing",
+      "testedDescription": "Test coverage that ensures reliability, from unit tests to integration, enabling safe refactoring.",
+      "performance": "Performance optimized from the start",
+      "performanceDescription": "Optimization from initial design, considering algorithmic complexity and system resources for maximum efficiency.",
+      "quote": "Quality code is not an accident. It's the result of discipline, experience, and passion for what we do.",
+      "quoteAuthor": "Over two decades applying these principles in real projects"
+    }
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "subtitle": "Terms and conditions for Code Happy Tecnologia Ltda services",
+    "lastUpdated": "Last updated: July 24, 2025",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptance of Terms",
+        "content": "By accessing and using this website, you accept and agree to be bound by the terms and conditions of this agreement. If you do not agree to any part of these terms and conditions, you must not use our services."
+      },
+      "services": {
+        "title": "2. Description of Services",
+        "content": "Code Happy Tecnologia Ltda offers software development services, technical consulting, and technology solutions. Our services include web development, API integration, software architecture consulting, and AI feature implementation."
+      },
+      "responsibilities": {
+        "title": "3. Client Responsibilities",
+        "content": "The client is responsible for providing accurate and complete information, collaborating during project development, and meeting agreed feedback deadlines. The client must also ensure they have the necessary rights to any material provided."
+      },
+      "intellectual": {
+        "title": "4. Intellectual Property",
+        "content": "All code developed specifically for the client becomes the client's property after full payment. Frameworks, libraries, and generic solutions developed by Code Happy remain the company's property."
+      },
+      "payment": {
+        "title": "5. Payment and Cancellation",
+        "content": "Payments must be made as agreed in the specific contract. In case of cancellation by the client, work already completed will be charged. Code Happy reserves the right to suspend services in case of non-payment."
+      },
+      "limitation": {
+        "title": "6. Limitation of Liability",
+        "content": "Code Happy will not be responsible for indirect, incidental, or consequential damages. Our total liability will not exceed the amount paid for the specific services that gave rise to the claim."
+      },
+      "modifications": {
+        "title": "7. Terms Modifications",
+        "content": "We reserve the right to modify these terms at any time. Changes will take effect immediately after publication on the website. It is the user's responsibility to periodically check for updated terms."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "How we collect, use, and protect your personal information",
+    "lastUpdated": "Last updated: July 24, 2025",
+    "sections": {
+      "collection": {
+        "title": "1. Information Collection",
+        "content": "We collect information you provide directly through contact forms, including name, email, company, and message. We also automatically collect browsing data such as IP address, browser type, and pages visited."
+      },
+      "usage": {
+        "title": "2. Use of Information",
+        "content": "We use your information to respond to your requests, provide our services, improve our website, and communicate about projects. We do not sell, rent, or share your personal information with third parties without your consent."
+      },
+      "cookies": {
+        "title": "3. Cookies and Similar Technologies",
+        "content": "We use cookies to improve your browsing experience, analyze website traffic, and personalize content. You can configure your browser to refuse cookies, but this may affect website functionality."
+      },
+      "security": {
+        "title": "4. Data Security",
+        "content": "We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+      },
+      "retention": {
+        "title": "5. Data Retention",
+        "content": "We keep your personal information only for as long as necessary to fulfill the purposes described in this policy, unless a longer retention period is required or permitted by law."
+      },
+      "rights": {
+        "title": "6. Your Rights",
+        "content": "You have the right to access, correct, delete, or port your personal information. To exercise these rights, contact us at contato@codehappy.com.br."
+      },
+      "contact": {
+        "title": "7. Contact",
+        "content": "If you have questions about this Privacy Policy, contact us at contato@codehappy.com.br or through the contact form on our website."
+      }
+    }
+  }
+}
