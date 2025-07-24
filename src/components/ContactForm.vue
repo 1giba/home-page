@@ -291,7 +291,8 @@ const handleSubmit = (event: any) => {
   })
   .catch(() => {
     // Fallback: submit the form normally if fetch fails
-    form.value.submit()
+    formElement.submit()
+    isSubmitting.value = false
   })
 }
 
