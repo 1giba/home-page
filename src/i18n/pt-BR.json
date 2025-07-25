@@ -59,7 +59,7 @@
       },
       "email": {
         "label": "E-mail",
-        "placeholder": "seu@email.com"
+        "placeholder": "seu{'@'}email.com"
       },
       "company": {
         "label": "Empresa (opcional)",
@@ -89,7 +89,7 @@
     },
     "info": {
       "title": "Outras formas de contato",
-      "email": "contato@codehappy.com.br",
+      "email": "contato{'@'}codehappy.com.br",
       "emailLabel": "E-mail",
       "response": "Respondo em até 48 horas",
       "responseLabel": "Tempo de resposta",
@@ -294,11 +294,11 @@
       },
       "rights": {
         "title": "6. Seus Direitos",
-        "content": "Você tem o direito de acessar, corrigir, excluir ou portar suas informações pessoais. Para exercer esses direitos, entre em contato conosco através do e-mail contato@codehappy.com.br."
+        "content": "Você tem o direito de acessar, corrigir, excluir ou portar suas informações pessoais. Para exercer esses direitos, entre em contato conosco através do e-mail contato{'@'}codehappy.com.br."
       },
       "contact": {
         "title": "7. Contato",
-        "content": "Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco através do e-mail contato@codehappy.com.br ou através do formulário de contato em nosso site."
+        "content": "Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco através do e-mail contato{'@'}codehappy.com.br ou através do formulário de contato em nosso site."
       }
     }
   }

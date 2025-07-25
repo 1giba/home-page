@@ -59,7 +59,7 @@
       },
       "email": {
         "label": "Email",
-        "placeholder": "your@email.com"
+        "placeholder": "your{'@'}email.com"
       },
       "company": {
         "label": "Company (optional)",
@@ -89,7 +89,7 @@
     },
     "info": {
       "title": "Other ways to contact",
-      "email": "contato@codehappy.com.br",
+      "email": "contato{'@'}codehappy.com.br",
       "emailLabel": "Email",
       "response": "I respond within 48 hours",
       "responseLabel": "Response time",
@@ -270,11 +270,11 @@
       },
       "rights": {
         "title": "6. Your Rights",
-        "content": "You have the right to access, correct, delete, or port your personal information. To exercise these rights, contact us at contato@codehappy.com.br."
+        "content": "You have the right to access, correct, delete, or port your personal information. To exercise these rights, contact us at contato{'@'}codehappy.com.br."
       },
       "contact": {
         "title": "7. Contact",
-        "content": "If you have questions about this Privacy Policy, contact us at contato@codehappy.com.br or through the contact form on our website."
+        "content": "If you have questions about this Privacy Policy, contact us at contato{'@'}codehappy.com.br or through the contact form on our website."
       }
     }
   }

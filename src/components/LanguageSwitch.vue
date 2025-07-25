@@ -44,7 +44,7 @@ const switchLanguage = (langCode: string) => {
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute right-0 z-10 mt-2 w-40 md:w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute left-0 sm:right-0 z-50 mt-2 w-40 md:w-48 origin-top-left sm:origin-top-right rounded-md bg-white/95 backdrop-blur-sm shadow-xl ring-1 ring-gray-900/10 focus:outline-none border border-gray-200"
       >
         <div class="py-1">
           <MenuItem v-for="language in languages" :key="language.code" v-slot="{ active }">
