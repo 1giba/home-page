@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { RouterLink } from 'vue-router'
 
 const { t } = useI18n()
 </script>
@@ -96,20 +97,20 @@ const { t } = useI18n()
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap justify-center gap-8 mb-8 text-sm">
-          <a
-            href="/"
+          <router-link
+            to="/"
             class="text-gray-300 hover:text-white transition-colors duration-300 hover:underline underline-offset-4"
-            >{{ t('footer.links.home') }}</a
+            >{{ t('footer.links.home') }}</router-link
           >
-          <a
-            href="/about"
+          <router-link
+            to="/about"
             class="text-gray-300 hover:text-white transition-colors duration-300 hover:underline underline-offset-4"
-            >{{ t('footer.links.about') }}</a
+            >{{ t('footer.links.about') }}</router-link
           >
-          <a
-            href="/contact"
+          <router-link
+            to="/contact"
             class="text-gray-300 hover:text-white transition-colors duration-300 hover:underline underline-offset-4"
-            >{{ t('footer.links.contact') }}</a
+            >{{ t('footer.links.contact') }}</router-link
           >
           <router-link
             to="/privacy"
