@@ -44,6 +44,6 @@ const { t } = useI18n()
 // Set page title
 onMounted(() => {
   // eslint-disable-next-line no-undef
-  document.title = `${t('contact.title')} - Gabriel Alves`
+  document.title = `${t('contact.title')} - Giba`
 })
 </script>
