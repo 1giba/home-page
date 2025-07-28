@@ -6,8 +6,8 @@
     "logo": "Code Happy"
   },
   "home": {
-    "title": "Olá! Transformo idéias em código que funciona",
-    "subtitle": "Sou desenvolvedor apaixonado por Laravel, trabalho remoto e bom código.",
+    "title": "Olá! Transformo ideias em soluções digitais reais",
+    "subtitle": "Sou especialista em Laravel, apaixonado por código limpo e resultados concretos.",
     "cta": "Vamos conversar sobre o seu projeto",
     "qualities": {
       "fast": "Ágil",
@@ -38,20 +38,20 @@
     "subtitle": "Três formas de trabalharmos juntos para acelerar seus projetos",
     "consulting": {
       "title": "Consultoria Técnica",
-      "description": "Análise personalizada da sua arquitetura, code review e orientação estratégica. Como problem solver experiente, foco em identificar e resolver seus desafios técnicos mais complexos."
+      "description": "Tem um desafio técnico travando seu projeto? Eu entro para destravar, revisar, repensar e escalar com você — do código à arquitetura."
     },
     "development": {
       "title": "Desenvolvimento",
-      "description": "Atuo como extensão da sua equipe, desenvolvendo features, APIs e sistemas completos. Comunicação direta e entregas consistentes."
+      "description": "Entrego o que sua equipe precisa: features bem feitas, APIs robustas e sistemas completos. Sem ruído, com entrega clara e no prazo."
     },
     "aiFeatures": {
       "title": "Funcionalidades com IA",
-      "description": "Integração de recursos inteligentes em suas aplicações. Desde chatbots até análise de dados, implemento soluções de IA que agregam valor real ao seu produto."
+      "description": "Do chatbot ao workflow inteligente, integro IA de verdade nas suas aplicações — sem promessas vazias, só valor concreto."
     }
   },
   "contact": {
     "title": "Vamos conversar?",
-    "subtitle": "Conte-me sobre seu projeto e como posso ajudar você a transformá-lo em realidade.",
+    "subtitle": "Me conte sobre seu projeto — e vamos juntos tirar ele do papel com estratégia e código bem feito.",
     "form": {
       "name": {
         "label": "Nome",
@@ -89,6 +89,11 @@
     },
     "info": {
       "title": "Outras formas de contato",
+      "calendly": {
+        "label": "Agendar reunião",
+        "description": "Agende uma conversa de 30 minutos",
+        "cta": "Escolher horário"
+      },
       "email": "contato{'@'}codehappy.com.br",
       "emailLabel": "E-mail",
       "response": "Respondo em até 48 horas",
@@ -121,7 +126,7 @@
   "about": {
     "title": "Sobre mim",
     "subtitle": "Senior Software Engineer com mais de 20 anos de experiência",
-    "intro": "Desenvolvedor sênior com experiência profissional desde 2004. Trabalhei por quase 16 anos em regime CLT, mas por conta de melhores oportunidades fundei a Code Happy Tecnologia Ltda em julho de 2020 para trabalho remoto e por conta própria. Atualmente focado em construir plataformas SaaS de alta qualidade baseadas em Laravel com frontends Vue.js, integradas com workflows orientados por IA, tudo containerizado para deploy escalável.",
+    "intro": "Atuo com desenvolvimento desde 2004. Após 16 anos de experiência CLT em grandes projetos, fundei a Code Happy em 2020 para focar no que mais amo: criar soluções digitais com liberdade, propósito e alto padrão técnico.",
     "experience": {
       "title": "Trajetória Profissional",
       "subtitle": "Mais de duas décadas construindo soluções que fazem a diferença",
@@ -129,8 +134,8 @@
       "years": "20+ anos",
       "since": "Desde 2004",
       "focus": "Atualmente focado em plataforma SaaS e funcionalidades com IA",
-      "bugFixing": "Correção de Bugs Complexos",
-      "bugFixingDescription": "Experiência em resolver os problemas mais complexos e críticos",
+      "bugFixing": "Seu projeto desandou com IA?",
+      "bugFixingDescription": "A IA generativa montou o projeto, mas nada faz sentido? Me chame que eu desvendo o caos e entrego uma solução real.",
       "timeline": {
         "2004": {
           "title": "Início da Carreira",
@@ -198,23 +203,48 @@
       "title": "Stack Tecnológico",
       "backend": {
         "title": "Backend",
-        "items": ["Laravel", "PHP 8+", "Laravel Octane", "Domain-Driven Design"]
+        "items": [
+          "Laravel",
+          "PHP 8+",
+          "Laravel Octane",
+          "Domain-Driven Design"
+        ]
       },
       "frontend": {
         "title": "Frontend",
-        "items": ["Vue.js", "JavaScript/TypeScript", "Tailwind CSS", "Vite"]
+        "items": [
+          "Vue.js",
+          "JavaScript/TypeScript",
+          "Tailwind CSS",
+          "Vite"
+        ]
       },
       "database": {
         "title": "Banco de Dados",
-        "items": ["MySQL", "PostgreSQL", "Redis", "Multitenancy"]
+        "items": [
+          "MySQL",
+          "PostgreSQL",
+          "Redis",
+          "Multitenancy"
+        ]
       },
       "ai": {
         "title": "IA & Automação",
-        "items": ["OpenAI API", "LLM Integration", "AI Workflows", "Machine Learning"]
+        "items": [
+          "OpenAI API",
+          "LLM Integration",
+          "AI Workflows",
+          "Machine Learning"
+        ]
       },
       "devops": {
         "title": "DevOps & Qualidade",
-        "items": ["TDD", "CI/CD", "Docker", "Performance Optimization"]
+        "items": [
+          "TDD",
+          "CI/CD",
+          "Docker",
+          "Performance Optimization"
+        ]
       }
     },
     "philosophy": {
@@ -228,7 +258,7 @@
       "testedDescription": "Cobertura de testes que garante confiabilidade, desde testes unitários até integração, permitindo refatorações seguras.",
       "performance": "Performance otimizada desde o início",
       "performanceDescription": "Otimização desde o design inicial, considerando complexidade algorítmica e recursos do sistema para máxima eficiência.",
-      "quote": "Código de qualidade não é acidente. É resultado de disciplina, experiência e paixão pelo que fazemos.",
+      "quote": "Código de verdade não nasce por acaso. É fruto de experiência, disciplina e paixão por resolver problemas do jeito certo.",
       "quoteAuthor": "Mais de duas décadas aplicando esses princípios em projetos reais"
     }
   },

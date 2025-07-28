@@ -7,6 +7,53 @@
       </h3>
 
       <div class="space-y-6">
+        <!-- Calendly Scheduling -->
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <svg
+                class="w-5 h-5 text-indigo-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-sm font-medium text-gray-900">{{ t('contact.info.calendly.label') }}</h4>
+            <p class="text-gray-600 text-sm mb-2">{{ t('contact.info.calendly.description') }}</p>
+            <a
+              href="https://calendly.com/1giba"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+              aria-label="{{ t('contact.info.calendly.label') }} - {{ t('contact.info.calendly.description') }}"
+            >
+              <svg
+                class="w-4 h-4 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+              {{ t('contact.info.calendly.cta') }}
+            </a>
+          </div>
+        </div>
+
         <!-- Email -->
         <div class="flex items-start space-x-4">
           <div class="flex-shrink-0">
