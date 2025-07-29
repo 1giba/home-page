@@ -1,4 +1,13 @@
 {
+  "meta": {
+    "titles": {
+      "home": "Giba - Full Stack Developer",
+      "about": "About - Giba",
+      "contact": "Contact - Giba",
+      "terms": "Terms of Use - Giba",
+      "privacy": "Privacy Policy - Giba"
+    }
+  },
   "nav": {
     "home": "Home",
     "about": "About",

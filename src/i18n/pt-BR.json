@@ -1,4 +1,13 @@
 {
+  "meta": {
+    "titles": {
+      "home": "Giba - Desenvolvedor Full Stack",
+      "about": "Sobre - Giba",
+      "contact": "Contato - Giba",
+      "terms": "Termos de Uso - Giba",
+      "privacy": "Política de Privacidade - Giba"
+    }
+  },
   "nav": {
     "home": "Início",
     "about": "Sobre",

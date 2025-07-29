@@ -29,17 +29,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ExperienceSection from '@/components/ExperienceSection.vue'
 import ExpertiseSection from '@/components/ExpertiseSection.vue'
 import PhilosophySection from '@/components/PhilosophySection.vue'
+import { usePageTitle } from '@/composables/usePageTitle'
 
 const { t } = useI18n()
 
-// Set page title
-onMounted(() => {
-  // eslint-disable-next-line no-undef
-  document.title = `${t('about.title')} - Giba`
-})
+// Ensure proper title updates on mount and locale changes
+usePageTitle()
 </script>

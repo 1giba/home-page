@@ -34,16 +34,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ContactForm from '@/components/ContactForm.vue'
 import ContactInfo from '@/components/ContactInfo.vue'
+import { usePageTitle } from '@/composables/usePageTitle'
 
 const { t } = useI18n()
 
-// Set page title
-onMounted(() => {
-  // eslint-disable-next-line no-undef
-  document.title = `${t('contact.title')} - Giba`
-})
+// Ensure proper title updates on mount and locale changes
+usePageTitle()
 </script>
