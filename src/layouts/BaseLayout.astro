@@ -14,6 +14,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString()
 const alternatePath = lang === 'en'
   ? (Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/')
   : `/en${Astro.url.pathname === '/' ? '/' : Astro.url.pathname}`
+const portugueseUrl = new URL(lang === 'en' ? alternatePath : Astro.url.pathname, siteUrl).toString()
+const englishUrl = new URL(lang === 'en' ? Astro.url.pathname : alternatePath, siteUrl).toString()
 ---
 <!doctype html>
 <html lang={lang}>
@@ -25,9 +27,9 @@ const alternatePath = lang === 'en'
     <meta name="description" content={description} />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="pt-BR" href={new URL(lang === 'en' ? alternatePath : Astro.url.pathname, siteUrl)} />
-    <link rel="alternate" hreflang="en" href={new URL(lang === 'en' ? Astro.url.pathname : alternatePath, siteUrl)} />
-    <link rel="alternate" hreflang="x-default" href={new URL(lang === 'en' ? alternatePath : Astro.url.pathname, siteUrl)} />
+    <link rel="alternate" hreflang="pt-BR" href={portugueseUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="x-default" href={portugueseUrl} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Code Happy" />
@@ -37,7 +39,7 @@ const alternatePath = lang === 'en'
     <title>{title} | Code Happy</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <a class="skip-link" href="#main">{lang === 'en' ? 'Skip to content' : 'Pular para o conteúdo'}</a>
     <Header lang={lang} />
     <slot />
     <Footer lang={lang} />
