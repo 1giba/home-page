@@ -9,4 +9,6 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
+  // Backed by eslint-plugin-jsx-a11y-x (ESLint 10-compatible fork; eslint-plugin-jsx-a11y caps at ESLint 9).
+  ...astro.configs['jsx-a11y-recommended'],
 ]
