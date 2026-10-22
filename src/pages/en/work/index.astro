@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import ProjectCard from '../../../components/ProjectCard.astro'
+import { content } from '../../../data/content'
+const lang = 'en'
+const copy = content[lang]
+const projects = ['eficaz', 'traain', 'fatima', 'pedbot'] as const
+---
+<BaseLayout title="Selected Work" description="Experience across technology consulting, AI-powered SaaS, software development, and infrastructure analysis." lang={lang}>
+  <main id="main">
+    <section class="page-hero"><div class="container-shell"><span class="eyebrow">SELECTED WORK</span><h1 class="display-title">Experience shaped by <em>real problems.</em></h1><p class="lead">Each project represents a different context and a specific contribution, with responsibilities stated clearly.</p></div></section>
+    <section class="section-space"><div class="container-shell"><div class="projects-grid">{projects.map((slug) => <ProjectCard slug={slug} project={copy.cases[slug]} lang={lang} />)}</div><p class="portfolio-note">These summaries describe the products and my role in each context. Architecture, client, and outcome details are shared only where disclosure is appropriate.</p></div></section>
+  </main>
+</BaseLayout>
+<style>
+.page-hero { padding-block:clamp(70px,9vw,120px) 48px; }
+.page-hero h1 { max-width:850px; }
+.page-hero p { max-width:700px; margin-top:24px; }
+.projects-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.portfolio-note { margin:28px 0 0; border-top:1px solid var(--line); padding-top:22px; color:var(--muted); font-size:12px; line-height:1.75; }
+@media(max-width:650px) { .projects-grid { grid-template-columns:1fr; } }
+</style>
