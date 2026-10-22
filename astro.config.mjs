@@ -1,0 +1,20 @@
+// @ts-check
+import { defineConfig } from 'astro/config'
+import tailwindcss from '@tailwindcss/vite'
+
+// https://docs.astro.build/en/reference/configuration-reference/
+export default defineConfig({
+  site: 'https://codehappy.com.br',
+  output: 'static',
+  trailingSlash: 'always',
+  build: { format: 'directory' },
+  i18n: {
+    // Plain path strings: Astro 7.4.1 types `defaultLocale` as a locale *code* for object locales,
+    // while its runtime validator requires the *path*. BCP 47 tags (pt-BR, en) live in src/i18n.
+    locales: ['pt-br', 'en'],
+    defaultLocale: 'pt-br',
+    // Root and legacy redirects come from src/config/redirects.ts (F2-03), not from i18n routing.
+    routing: { prefixDefaultLocale: true, redirectToDefaultLocale: false },
+  },
+  vite: { plugins: [tailwindcss()] },
+})
