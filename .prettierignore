@@ -2,3 +2,9 @@ node_modules
 dist
 coverage
 *.log
+.astro
+legacy
+package-lock.json
+test-results
+playwright-report
+.superpowers
