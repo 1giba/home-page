@@ -1,10 +1,12 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 import { SOCIAL } from '../../src/config/site'
+import { PAGES } from './fixtures'
 
-// Runs against the placeholder `/` page (pt-br) until F2-02 adds the localized routes.
-// Locale/URL-specific behaviour is covered by tests/unit/site-chrome.test.ts.
-const URL = '/'
+// Runs against the real localized routes. Locale/URL-specific markup is also covered by
+// tests/unit/site-chrome.test.ts.
+const URL = '/pt-br/'
+const URL_EN = '/en/'
 const MOBILE = { width: 375, height: 800 }
 const DESKTOP = { width: 1280, height: 900 }
 
@@ -42,19 +44,24 @@ async function tabThrough(page: Page, max = 40) {
 }
 
 test.describe('keyboard', () => {
-  test('the skip link is the first Tab stop, becomes visible, and moves focus to main', async ({
-    page,
-  }) => {
-    await page.goto(URL)
-    await page.keyboard.press('Tab')
-    const skip = page.locator(':focus')
-    await expect(skip).toHaveText('Pular para o conteúdo')
-    await expect(skip).toHaveAttribute('href', '#main')
-    const box = await skip.boundingBox()
-    expect(box && box.width > 1 && box.height > 1).toBe(true)
-    await page.keyboard.press('Enter')
-    await expect(page.locator('main#main')).toBeFocused()
-  })
+  for (const [url, label] of [
+    [URL, 'Pular para o conteúdo'],
+    [URL_EN, 'Skip to content'],
+  ] as const) {
+    test(`the skip link is the first Tab stop, becomes visible, and moves focus to main (${url})`, async ({
+      page,
+    }) => {
+      await page.goto(url)
+      await page.keyboard.press('Tab')
+      const skip = page.locator(':focus')
+      await expect(skip).toHaveText(label)
+      await expect(skip).toHaveAttribute('href', '#main')
+      const box = await skip.boundingBox()
+      expect(box && box.width > 1 && box.height > 1).toBe(true)
+      await page.keyboard.press('Enter')
+      await expect(page.locator('main#main')).toBeFocused()
+    })
+  }
 
   for (const [name, viewport] of [
     ['mobile', MOBILE],
@@ -101,19 +108,11 @@ test('with the mobile menu open, no later Tab stop is hidden under it (WCAG 2.2 
 test.describe('large text (SPEC §12.2: 200% text without loss of content, WCAG 1.4.4)', () => {
   for (const width of [320, 375, 1024, 1280]) {
     for (const lang of ['pt-br', 'en'] as const) {
-      test(`header stays within the page at ${width}px with 200% text (${lang} copy)`, async ({
+      test(`header stays within the page at ${width}px with 200% text (${lang})`, async ({
         page,
       }) => {
         await page.setViewportSize({ width, height: 900 })
-        await page.goto(URL)
-        if (lang === 'en') {
-          // Swap in the longer English CTA copy so both languages are exercised on the one page.
-          await page.evaluate(() =>
-            document
-              .querySelectorAll('[data-cta="primary"]')
-              .forEach((el) => (el.textContent = 'Book an intro call'))
-          )
-        }
+        await page.goto(lang === 'en' ? URL_EN : URL)
         await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         const summary = page.locator('header details > summary')
         for (const open of [false, true]) {
@@ -175,6 +174,30 @@ test('desktop shows the inline navigation, switcher and CTA, not the menu button
   await expect(page.locator('header [data-desktop-nav] a[href="/pt-br/about/"]')).toBeVisible()
   await expect(page.locator('header [data-desktop-nav] [data-lang-switch]')).toBeVisible()
   await expect(page.locator('header [data-desktop-nav] [data-cta="primary"]')).toBeVisible()
+})
+
+test.describe('language switcher (SPEC §8.4)', () => {
+  test.use({ viewport: DESKTOP })
+
+  for (const { pt, en } of PAGES) {
+    test(`switches ${pt} ↔ ${en} and sets the document language`, async ({ page }) => {
+      await page.goto(pt)
+      await page.locator('header [data-desktop-nav] [data-lang-switch] a[hreflang="en"]').click()
+      await expect(page).toHaveURL(new RegExp(`${en}$`))
+      await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+      await page.locator('header [data-desktop-nav] [data-lang-switch] a[hreflang="pt-BR"]').click()
+      await expect(page).toHaveURL(new RegExp(`${pt}$`))
+      await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
+    })
+  }
+
+  test('the 404 page offers both homes instead of a switcher', async ({ page }) => {
+    const response = await page.goto('/does-not-exist/')
+    expect(response?.status()).toBe(404)
+    await expect(page.locator('[data-lang-switch]')).toHaveCount(0)
+    await expect(page.locator('main a[href="/pt-br/"]')).toBeVisible()
+    await expect(page.locator('main a[href="/en/"]')).toBeVisible()
+  })
 })
 
 test('footer social links point to the exact destinations (SPEC §13.1)', async ({ page }) => {
@@ -272,11 +295,13 @@ test.describe('automated accessibility scan (WCAG 2.2 AA)', () => {
       .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)
   }
 
-  test('desktop has no serious or critical violations', async ({ page }) => {
-    await page.setViewportSize(DESKTOP)
-    await page.goto(URL)
-    expect(await scan(page)).toEqual([])
-  })
+  for (const url of [...PAGES.flatMap(({ pt, en }) => [pt, en]), '/404.html']) {
+    test(`desktop has no serious or critical violations (${url})`, async ({ page }) => {
+      await page.setViewportSize(DESKTOP)
+      await page.goto(url)
+      expect(await scan(page)).toEqual([])
+    })
+  }
 
   test('mobile with the menu open has no serious or critical violations', async ({ page }) => {
     await page.setViewportSize(MOBILE)

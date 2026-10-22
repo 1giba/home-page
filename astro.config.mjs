@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import { DEFAULT_LOCALE, LOCALES } from './src/i18n/locales.ts'
+import { LEGACY_REDIRECTS } from './src/config/redirects.ts'
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory' },
+  redirects: { ...LEGACY_REDIRECTS },
   i18n: {
     // Plain path strings: Astro 7.4.1 types `defaultLocale` as a locale *code* for object locales,
     // while its runtime validator requires the *path*. BCP 47 tags (pt-BR, en) live in LANG_TAG.

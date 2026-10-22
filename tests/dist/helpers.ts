@@ -41,6 +41,11 @@ export function topLevelDirs(): string[] {
     .map((entry) => entry.name)
 }
 
+/** True for Astro's static redirect fallback pages (a meta refresh, no <html lang>). */
+export function isRedirectStub(rel: string): boolean {
+  return /<meta http-equiv="refresh"/.test(readRaw(rel))
+}
+
 /** True for pages under a locale prefix (`pt-br/…`, `en/…`). */
 export function isLocalized(rel: string): boolean {
   return rel.startsWith('pt-br/') || rel.startsWith('en/')
