@@ -44,6 +44,39 @@ describe('localizedPath', () => {
     expect(() => localizedPath('en', '//example.com/a')).toThrow(/internal path/)
     expect(() => localizedPath('en', 'mailto:contato@codehappy.com.br')).toThrow(/internal path/)
   })
+
+  it('rejects dot segments that would escape the locale prefix', () => {
+    for (const path of ['/../pt-br/about', '..', '/about/../../x', '/./about', 'about/..']) {
+      expect(() => localizedPath('en', path), path).toThrow(/invalid internal path/i)
+    }
+  })
+
+  it('rejects percent-encoded dot segments, which URL parsing also resolves', () => {
+    for (const path of ['/%2e%2e/pt-br/', '/%2E%2E/x', '/.%2e/x', '/%2e./x', '/%2e/x']) {
+      expect(() => localizedPath('en', path), path).toThrow(/invalid internal path/i)
+    }
+  })
+
+  it('rejects backslashes and control characters, which URL parsing treats as / or strips', () => {
+    for (const path of ['/about\\..\\..\\x', '\\about', '/.\t./x', '/ab\nout', '/a\u0000b']) {
+      expect(() => localizedPath('en', path), JSON.stringify(path)).toThrow(
+        /invalid internal path/i
+      )
+    }
+  })
+
+  it('keeps dots that are part of a segment name', () => {
+    expect(localizedPath('en', '/v1.2/')).toBe('/en/v1.2/')
+    expect(localizedPath('en', '/.well-known/')).toBe('/en/.well-known/')
+    expect(localizedPath('en', '/.../')).toBe('/en/.../')
+  })
+
+  it('keeps every result inside the locale prefix once a browser resolves it', () => {
+    for (const path of ['/about/', '/v1.2/', '/contact?next=/../x', '/a#/../../b']) {
+      const resolved = new URL(localizedPath('pt-br', path), 'https://codehappy.com.br')
+      expect(resolved.pathname.startsWith('/pt-br/'), path).toBe(true)
+    }
+  })
 })
 
 describe('stripLocale', () => {
@@ -106,6 +139,24 @@ describe('absoluteUrl', () => {
     expect(() => absoluteUrl('en/about/')).toThrow(/root-relative/)
     expect(() => absoluteUrl('//example.com/')).toThrow(/root-relative/)
     expect(() => absoluteUrl('https://example.com/')).toThrow(/root-relative/)
+  })
+
+  it('never produces a URL off the site origin, whatever the path contains', () => {
+    for (const path of [
+      '/\\evil.com/',
+      '/\\\\evil.com',
+      '/\t/evil.com',
+      '/\n/evil.com',
+      '/\r\n/evil.com',
+    ]) {
+      expect(() => absoluteUrl(path), JSON.stringify(path)).toThrow(/root-relative/)
+    }
+  })
+
+  it('rejects backslashes and control characters even when they would stay on-origin', () => {
+    for (const path of ['/\\codehappy.com.br/x', '/en\\about/', '/en/\u0000/']) {
+      expect(() => absoluteUrl(path), JSON.stringify(path)).toThrow(/root-relative/)
+    }
   })
 })
 
