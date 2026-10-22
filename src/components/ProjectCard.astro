@@ -1,0 +1,27 @@
+---
+const { slug, project, lang = 'pt-BR' } = Astro.props
+const prefix = lang === 'en' ? '/en' : ''
+---
+<a class="project-card" href={`${prefix}/work/${slug}`}>
+  <div class="project-top">
+    <span class="project-category">{project.category}</span>
+    <span class="project-arrow" aria-hidden="true">↗</span>
+  </div>
+  <h3>{project.title}</h3>
+  <p>{project.description}</p>
+  <div class="project-bottom">
+    <span>{project.role}</span>
+    <span class="project-link">{lang === 'en' ? 'View case study' : 'Ver case'}</span>
+  </div>
+</a>
+<style>
+  .project-card { display:flex; min-height:275px; flex-direction:column; border:1px solid var(--line); border-radius:20px; padding:26px; background:#fff; transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+  .project-card:hover { transform:translateY(-4px); border-color:#b5cabb; box-shadow:0 15px 44px rgba(20,33,31,.055); }
+  .project-top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .project-category { color:var(--green); font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  .project-arrow { display:grid; width:34px; height:34px; flex:0 0 auto; place-items:center; border:1px solid var(--line); border-radius:50%; font-size:16px; }
+  h3 { margin:30px 0 10px; font-size:27px; font-weight:650; letter-spacing:-.05em; }
+  p { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+  .project-bottom { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; margin-top:auto; padding-top:24px; color:#35453e; font-size:11px; }
+  .project-link { color:var(--green); font-weight:750; }
+</style>
