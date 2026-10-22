@@ -1,0 +1,62 @@
+---
+// Static (non-sticky) header, so it can never cover a focused element (WCAG 2.2 SC 2.4.11).
+// Desktop (≥ lg): inline nav, language switcher and booking CTA. Below lg: <MobileNav>.
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import MobileNav from '@/components/MobileNav.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+import { ariaCurrent, mainNav } from '@/lib/navigation'
+
+export interface Props {
+  locale: Locale
+  showWork: boolean
+}
+const { locale, showWork } = Astro.props
+const t = useTranslations(locale)
+const items = mainNav(locale, showWork)
+---
+
+<header class="relative border-t-[3px] border-b border-t-accent border-b-border bg-bg">
+  <Container class="flex h-16 items-center justify-between gap-6">
+    <a
+      href={localizedPath(locale, '/')}
+      class="text-lg font-semibold tracking-tight text-text no-underline hover:text-text"
+    >
+      Code Happy
+    </a>
+
+    <div data-desktop-nav class="hidden items-center gap-6 lg:flex">
+      <nav aria-label={t('nav.label')}>
+        <ul class="flex items-center gap-1">
+          {items.map((item) => {
+            const current = ariaCurrent(Astro.url.pathname, item.href)
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={current}
+                  class:list={[
+                    'inline-block rounded-base px-3 py-2 text-sm font-medium text-text no-underline hover:text-accent',
+                    current && 'underline decoration-accent decoration-2 underline-offset-8',
+                  ]}
+                >
+                  {t(item.key)}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+      <LanguageSwitcher locale={locale} />
+      <LinkButton href={CALENDLY_URL} variant="primary">
+        {t('cta.book')}
+      </LinkButton>
+    </div>
+
+    <MobileNav locale={locale} items={items} class="lg:hidden" />
+  </Container>
+</header>

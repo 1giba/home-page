@@ -1,0 +1,24 @@
+---
+// A link styled as a button (navigation, not an action). Opens in the same tab (SPEC §6.2).
+// Height is at least 44px so it meets the primary-control target size (SPEC §6.3).
+export interface Props {
+  href: string
+  variant: 'primary' | 'secondary'
+  class?: string
+}
+const { href, variant, class: className } = Astro.props
+---
+
+<a
+  href={href}
+  data-cta={variant}
+  class:list={[
+    'inline-flex min-h-11 items-center justify-center rounded-base px-4 text-sm font-semibold no-underline transition-colors duration-150',
+    variant === 'primary'
+      ? 'bg-accent text-on-accent hover:bg-accent-hover hover:text-on-accent'
+      : 'border border-text text-text hover:bg-surface hover:text-text',
+    className,
+  ]}
+>
+  <slot />
+</a>

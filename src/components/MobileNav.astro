@@ -1,0 +1,56 @@
+---
+// Mobile menu built on <details>/<summary>: opens and closes with mouse, touch, Enter or Space
+// without any JavaScript (SPEC §6.1). The panel is positioned against the (relative) header.
+import Container from '@/components/ui/Container.astro'
+import Icon from '@/components/ui/Icon.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { ariaCurrent, type NavItem } from '@/lib/navigation'
+
+export interface Props {
+  locale: Locale
+  items: NavItem[]
+  class?: string
+}
+const { locale, items, class: className } = Astro.props
+const t = useTranslations(locale)
+---
+
+<details class={className}>
+  <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-base border border-border px-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+    <Icon name="menu" />
+    {t('nav.menu')}
+  </summary>
+  <div class="absolute inset-x-0 top-full z-10 border-b border-border bg-bg shadow-overlay">
+    <Container class="flex flex-col gap-4 py-4">
+      <nav aria-label={t('nav.label')}>
+        <ul class="flex flex-col">
+          {items.map((item) => {
+            const current = ariaCurrent(Astro.url.pathname, item.href)
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={current}
+                  class:list={[
+                    'block rounded-base py-3 text-base font-medium text-text no-underline hover:text-accent',
+                    current && 'underline decoration-accent decoration-2 underline-offset-8',
+                  ]}
+                >
+                  {t(item.key)}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+      <LanguageSwitcher locale={locale} class="-mx-2" />
+      <LinkButton href={CALENDLY_URL} variant="primary" class="w-full">
+        {t('cta.book')}
+      </LinkButton>
+    </Container>
+  </div>
+</details>

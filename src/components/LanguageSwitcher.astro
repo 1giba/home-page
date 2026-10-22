@@ -1,0 +1,39 @@
+---
+// Plain links, no JS (SPEC §8.4): each language named in itself, pointing to the same page in that
+// language (or its home outside the locale tree). No flags.
+import { LANG_TAG, LOCALE_NAME, LOCALES, type Locale } from '@/i18n/locales'
+import { switchLocalePath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+
+export interface Props {
+  locale: Locale
+  class?: string
+}
+const { locale, class: className } = Astro.props
+const t = useTranslations(locale)
+---
+
+<ul
+  data-lang-switch
+  aria-label={t('lang.label')}
+  class:list={['flex items-center gap-1 text-sm', className]}
+>
+  {LOCALES.map((target) => (
+    <li>
+      <a
+        href={switchLocalePath(Astro.url.pathname, target)}
+        lang={LANG_TAG[target]}
+        hreflang={LANG_TAG[target]}
+        aria-current={target === locale ? 'true' : undefined}
+        class:list={[
+          'inline-block rounded-base px-2 py-1 no-underline',
+          target === locale
+            ? 'font-semibold text-text hover:text-text'
+            : 'text-muted hover:text-accent hover:underline',
+        ]}
+      >
+        {LOCALE_NAME[target]}
+      </a>
+    </li>
+  ))}
+</ul>

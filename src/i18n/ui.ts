@@ -8,6 +8,18 @@ const ptBR = {
   skip: 'Pular para o conteúdo',
   'lang.label': 'Idioma',
   'cta.book': 'Agendar uma conversa',
+  'nav.label': 'Principal',
+  'nav.menu': 'Menu',
+  'nav.services': 'Serviços',
+  'nav.work': 'Projetos',
+  'nav.about': 'Sobre',
+  'nav.contact': 'Contato',
+  'footer.tagline': 'Liderança sênior de tecnologia, sem contratar um CTO em tempo integral.',
+  'footer.nav': 'Rodapé',
+  'footer.social': 'Perfis',
+  'footer.privacy': 'Política de Privacidade',
+  'footer.terms': 'Termos de Uso',
+  'footer.rights': 'Todos os direitos reservados.',
 } as const
 
 export type UiKey = keyof typeof ptBR
@@ -16,6 +28,18 @@ const en: Record<UiKey, string> = {
   skip: 'Skip to content',
   'lang.label': 'Language',
   'cta.book': 'Book an intro call',
+  'nav.label': 'Main',
+  'nav.menu': 'Menu',
+  'nav.services': 'Services',
+  'nav.work': 'Work',
+  'nav.about': 'About',
+  'nav.contact': 'Contact',
+  'footer.tagline': 'Senior technology leadership, without hiring a full-time CTO.',
+  'footer.nav': 'Footer',
+  'footer.social': 'Profiles',
+  'footer.privacy': 'Privacy Policy',
+  'footer.terms': 'Terms of Use',
+  'footer.rights': 'All rights reserved.',
 }
 
 export const ui: Record<Locale, Record<UiKey, string>> = { 'pt-br': ptBR, en }

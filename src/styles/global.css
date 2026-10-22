@@ -38,6 +38,10 @@
 
   --container-content: 72rem;
   --container-prose: 42rem;
+
+  /* At most two shadow levels (SPEC §7.3); this one separates overlays such as the mobile menu. */
+  --shadow-*: initial;
+  --shadow-overlay: 0 12px 24px -12px rgb(15 23 42 / 0.3);
 }
 
 @layer base {
