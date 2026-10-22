@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { content } from '../../data/content'
+const lang = 'en'
+const legal = content[lang].legal
+---
+<BaseLayout title={legal.termsTitle} description="Terms of use for the Code Happy Tecnologia Ltda website." lang={lang}>
+  <main id="main"><section class="legal-hero"><div class="container-shell"><span class="eyebrow">LEGAL</span><h1 class="display-title">{legal.termsTitle}</h1><p class="lead">{legal.termsIntro}</p><span class="updated">{legal.updated}</span></div></section>
+  <section class="section-space"><div class="container-shell legal-layout"><aside>CODE HAPPY<br />TECNOLOGIA LTDA</aside><div class="legal-body">{legal.termsSections.map((section) => <article><h2>{section.title}</h2><p>{section.body}</p></article>)}<p>Contact: <a href="mailto:contato@codehappy.com.br">contato@codehappy.com.br</a>.</p></div></div></section></main>
+</BaseLayout>
+<style>
+.legal-hero { padding-block:clamp(70px,9vw,110px) 38px; }
+.legal-hero h1 { max-width:800px; }
+.legal-hero .lead { max-width:760px; margin-top:23px; }
+.updated { display:block; margin-top:20px; color:var(--muted); font-size:11px; }
+.legal-layout { display:grid; grid-template-columns:.45fr 1.55fr; gap:70px; border-top:1px solid var(--line); padding-top:44px; }
+.legal-layout aside { color:var(--green); font-size:10px; font-weight:800; letter-spacing:.12em; line-height:1.9; }
+.legal-body article { margin-bottom:30px; }
+.legal-body h2 { margin:0 0 10px; font-size:20px; font-weight:650; letter-spacing:-.04em; }
+.legal-body p { margin:0; color:var(--muted); font-size:14px; line-height:1.85; }
+.legal-body a { color:var(--green); text-decoration:underline; text-underline-offset:3px; }
+@media(max-width:700px) { .legal-layout { grid-template-columns:1fr; gap:25px; } }
+</style>
