@@ -1,0 +1,48 @@
+---
+import type { Locale } from '../data/content'
+import { content } from '../data/content'
+const { lang } = Astro.props as { lang: Locale }
+const copy = content[lang]
+const prefix = lang === 'en' ? '/en' : ''
+---
+<footer class="site-footer">
+  <div class="container-shell footer-main">
+    <div class="footer-brand">
+      <a href={prefix || '/'} class="footer-logo"><span>ch<span>.</span></span> code happy</a>
+      <p>{copy.footer.tagline}</p>
+    </div>
+    <div class="footer-column">
+      <h2>{copy.footer.links}</h2>
+      <a href={prefix || '/'}>{copy.nav.home}</a>
+      <a href={`${prefix}/services`}>{copy.nav.services}</a>
+      <a href={`${prefix}/work`}>{copy.nav.work}</a>
+      <a href={`${prefix}/about`}>{copy.nav.about}</a>
+      <a href={`${prefix}/contact`}>{copy.nav.contact}</a>
+    </div>
+    <div class="footer-column">
+      <h2>{copy.footer.legal}</h2>
+      <a href={`${prefix}/privacy`}>{copy.footer.privacy}</a>
+      <a href={`${prefix}/terms`}>{copy.footer.terms}</a>
+      <a href="mailto:contato@codehappy.com.br">contato@codehappy.com.br</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="container-shell footer-bottom">
+    <span>© {new Date().getFullYear()} Code Happy Tecnologia Ltda. {copy.footer.rights}</span>
+    <span>Built for clarity, not complexity.</span>
+  </div>
+</footer>
+<style>
+  .site-footer { margin-top:40px; background:var(--ink); color:#f5f7f3; }
+  .footer-main { display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:48px; padding-block:64px 56px; }
+  .footer-logo { display:inline-flex; align-items:center; gap:9px; font-size:18px; font-weight:750; letter-spacing:-.04em; }
+  .footer-logo > span { color:var(--lime); font-weight:850; }
+  .footer-logo > span span { color:white; }
+  .footer-brand p { max-width:260px; margin-top:18px; color:#aebbb5; font-size:14px; line-height:1.7; }
+  .footer-column { display:flex; flex-direction:column; align-items:flex-start; gap:13px; }
+  .footer-column h2 { margin:0 0 4px; color:#93a29b; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+  .footer-column a { color:#e2e7e2; font-size:13px; transition:color .2s ease; }
+  .footer-column a:hover { color:var(--lime); }
+  .footer-bottom { display:flex; min-height:68px; align-items:center; justify-content:space-between; gap:20px; border-top:1px solid #364540; color:#aebbb5; font-size:11px; }
+  @media(max-width:700px) { .footer-main { grid-template-columns:1fr 1fr; gap:34px 24px; padding-block:48px; } .footer-brand { grid-column:1/-1; } .footer-bottom { align-items:flex-start; flex-direction:column; justify-content:center; padding-block:18px; gap:6px; } }
+</style>
