@@ -1,15 +1,11 @@
 ---
-// Temporary placeholder proving the build pipeline; replaced by the root redirect in F2-03.
-import '../styles/global.css'
+// Temporary placeholder that exercises BaseLayout in the build and browser tests.
+// Replaced by the root redirect in F2-03.
+import BaseLayout from '@/layouts/BaseLayout.astro'
 ---
 
-<html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Code Happy</title>
-  </head>
-  <body>
-    <p class="p-4">build ok</p>
-  </body>
-</html>
+<BaseLayout locale="pt-br" title="Code Happy">
+  <div class="mx-auto max-w-content px-4 py-16 sm:px-8">
+    <h1 class="text-3xl font-semibold tracking-tight">Code Happy</h1>
+  </div>
+</BaseLayout>
