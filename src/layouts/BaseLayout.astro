@@ -31,6 +31,7 @@ const englishUrl = new URL(lang === 'en' ? Astro.url.pathname : alternatePath, s
     <link rel="alternate" hreflang="en" href={englishUrl} />
     <link rel="alternate" hreflang="x-default" href={portugueseUrl} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Code Happy" />
     <meta property="og:title" content={title} />
