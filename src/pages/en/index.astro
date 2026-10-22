@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ServiceCard from '../../components/ServiceCard.astro'
+import ProjectCard from '../../components/ProjectCard.astro'
+import { content } from '../../data/content'
+const lang = 'en'
+const copy = content[lang]
+const projects = ['eficaz', 'traain', 'fatima', 'pedbot'] as const
+---
+<BaseLayout title="Technology Leadership & AI Consulting" description="Fractional CTO, technical leadership, and AI consulting for companies that need better technology decisions and reliable product engineering." lang={lang}>
+  <main id="main">
+    <section class="hero">
+      <div class="container-shell hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">{copy.home.eyebrow}</span>
+          <h1 class="display-title" set:html={copy.home.title}></h1>
+          <p class="lead hero-description">{copy.home.description}</p>
+          <div class="hero-actions">
+            <a class="button-primary" href="/en/contact">{copy.home.primaryCta}<span aria-hidden="true">↗</span></a>
+            <a class="button-secondary" href="#work">{copy.home.secondaryCta}</a>
+          </div>
+          <p class="hero-trust"><span aria-hidden="true">●</span>{copy.home.trustLine}</p>
+        </div>
+        <aside class="hero-aside" aria-label="Areas of work">
+          <div class="aside-top"><span>CODE HAPPY / ADVISORY</span><span>01—03</span></div>
+          <div class="orbit" aria-hidden="true"><div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div><div class="orbit-core">ch<span>.</span></div><span class="orbit-dot dot-one"></span><span class="orbit-dot dot-two"></span><span class="orbit-dot dot-three"></span></div>
+          <div class="aside-bottom"><div><span>FOCUS</span><strong>Strategy → Engineering → Impact</strong></div><span class="availability"><i></i> Senior expertise</span></div>
+        </aside>
+      </div>
+      <div class="container-shell hero-bottom"><span>FRACTIONAL CTO</span><span>AI STRATEGY & ENGINEERING</span><span>TECHNOLOGY ADVISORY</span></div>
+    </section>
+
+    <section id="services" class="section-space">
+      <div class="container-shell">
+        <div class="section-heading">
+          <div><span class="eyebrow">{copy.home.servicesEyebrow}</span><h2>{copy.home.servicesTitle}</h2></div>
+          <p>{copy.home.servicesIntro}</p>
+        </div>
+        <div class="services-grid">{copy.services.map((service) => <ServiceCard service={service} />)}</div>
+      </div>
+    </section>
+
+    <section id="work" class="section-space work-section">
+      <div class="container-shell">
+        <div class="section-heading">
+          <div><span class="eyebrow">{copy.home.workEyebrow}</span><h2>{copy.home.workTitle}</h2></div>
+          <p>{copy.home.workIntro}</p>
+        </div>
+        <div class="projects-grid">{projects.map((slug) => <ProjectCard slug={slug} project={copy.cases[slug]} lang={lang} />)}</div>
+        <div class="work-note"><span class="note-mark">↗</span><p>Experience across different contexts — from strategic advisory to AI products and systems in production.</p><a href="/en/work">Explore all work <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="about-band section-space">
+      <div class="container-shell about-grid">
+        <div><span class="eyebrow">{copy.home.aboutEyebrow}</span><h2>{copy.home.aboutTitle}</h2></div>
+        <div><p>{copy.home.aboutText}</p><a class="text-link" href="/en/about">Learn about my approach <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="closing-section">
+      <div class="container-shell closing-inner">
+        <div><span class="eyebrow">NEXT STEP</span><h2>{copy.home.closingTitle}</h2><p>{copy.home.closingText}</p></div>
+        <a class="button-primary" href="/en/contact">{copy.home.primaryCta}<span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+<style>
+  .hero { overflow:hidden; padding-top:clamp(62px,8vw,110px); }
+  .hero-grid { display:grid; grid-template-columns:minmax(0,1.12fr) minmax(330px,.88fr); align-items:center; gap:clamp(35px,7vw,95px); }
+  .hero-copy { padding-bottom:22px; }
+  .hero-description { max-width:640px; margin-top:25px; }
+  .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+  .hero-trust { display:flex; align-items:center; gap:10px; margin-top:28px; color:var(--muted); font-size:12px; line-height:1.6; }
+  .hero-trust span { color:var(--green); font-size:9px; }
+  .hero-aside { position:relative; min-height:460px; overflow:hidden; border:1px solid #dbe3dc; border-radius:28px; background:#eef2eb; }
+  .aside-top,.aside-bottom { position:absolute; z-index:2; right:24px; left:24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .aside-top { top:24px; color:#6b7d73; font-size:9px; font-weight:800; letter-spacing:.14em; }
+  .aside-bottom { bottom:24px; align-items:flex-end; }
+  .aside-bottom div { display:grid; gap:8px; }
+  .aside-bottom div span { color:#718278; font-size:9px; font-weight:800; letter-spacing:.14em; }
+  .aside-bottom strong { max-width:230px; font-size:15px; font-weight:650; letter-spacing:-.03em; }
+  .availability { display:flex; align-items:center; gap:7px; color:#50665a; font-size:10px; white-space:nowrap; }
+  .availability i { width:7px; height:7px; border-radius:50%; background:#498b6b; }
+  .orbit { position:absolute; inset:70px 0 80px; display:grid; place-items:center; }
+  .orbit-ring { position:absolute; border:1px solid rgba(31,107,85,.19); border-radius:50%; }
+  .ring-one { width:240px; height:240px; }
+  .ring-two { width:340px; height:340px; border-style:dashed; }
+  .orbit-core { display:grid; width:112px; height:112px; place-items:center; border-radius:31px; background:var(--green); box-shadow:0 20px 60px rgba(31,107,85,.22); color:white; font-size:34px; font-weight:800; letter-spacing:-.08em; transform:rotate(-7deg); }
+  .orbit-core span { color:var(--lime); }
+  .orbit-dot { position:absolute; z-index:1; width:12px; height:12px; border:3px solid #eef2eb; border-radius:50%; background:var(--green); box-shadow:0 0 0 1px #8eafa0; }
+  .dot-one { top:19%; left:36%; }
+  .dot-two { top:48%; right:15%; background:#c5de69; }
+  .dot-three { bottom:19%; left:28%; width:8px; height:8px; }
+  .hero-bottom { display:flex; flex-wrap:wrap; justify-content:space-between; gap:15px; margin-top:64px; padding-block:22px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); color:#67766e; font-size:10px; font-weight:800; letter-spacing:.14em; }
+  .section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:40px; margin-bottom:38px; }
+  .section-heading h2,.about-grid h2 { max-width:650px; margin:17px 0 0; font-size:clamp(30px,4.2vw,49px); font-weight:620; letter-spacing:-.06em; line-height:1.08; }
+  .section-heading > p { max-width:360px; margin:0 0 3px; color:var(--muted); font-size:14px; line-height:1.8; }
+  .services-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  .work-section { background:#f0f3ee; }
+  .projects-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .work-note { display:flex; align-items:center; gap:16px; margin-top:24px; border-top:1px solid #d7e0d8; padding-top:23px; }
+  .note-mark { display:grid; width:35px; height:35px; flex:0 0 auto; place-items:center; border:1px solid #c7d4c9; border-radius:50%; color:var(--green); }
+  .work-note p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
+  .work-note a,.text-link { margin-left:auto; color:var(--green); font-size:12px; font-weight:800; white-space:nowrap; }
+  .about-band { background:#e8ede6; }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .about-grid > div:last-child { padding-top:9px; }
+  .about-grid p { max-width:560px; margin:0; color:#52645b; font-size:17px; line-height:1.85; }
+  .text-link { display:inline-flex; gap:8px; margin:24px 0 0; }
+  .closing-section { padding-block:clamp(68px,8vw,106px); background:var(--green-dark); color:white; }
+  .closing-inner { display:flex; align-items:center; justify-content:space-between; gap:50px; }
+  .closing-inner > div { max-width:760px; }
+  .closing-inner .eyebrow { color:var(--lime); }
+  .closing-inner h2 { margin:19px 0 14px; font-size:clamp(31px,4.5vw,54px); font-weight:600; letter-spacing:-.055em; line-height:1.08; }
+  .closing-inner p { max-width:650px; margin:0; color:#d2dfd7; font-size:14px; line-height:1.8; }
+  .closing-inner .button-primary { flex:0 0 auto; border-color:var(--lime); background:var(--lime); color:var(--ink); }
+  .closing-inner .button-primary:hover { background:#e1f7a3; }
+  @media(max-width:900px) { .hero-grid { grid-template-columns:1fr; } .hero-aside { min-height:380px; } .aside-bottom { align-items:flex-end; } .services-grid { grid-template-columns:1fr; } .section-heading { align-items:flex-start; flex-direction:column; gap:12px; } .section-heading > p { max-width:600px; } }
+  @media(max-width:650px) { .hero-aside { min-height:350px; } .ring-one { width:200px; height:200px; } .ring-two { width:280px; height:280px; } .projects-grid,.about-grid { grid-template-columns:1fr; } .about-grid { gap:28px; } .work-note { flex-wrap:wrap; } .work-note p { flex:1 1 calc(100% - 55px); } .work-note a { margin-left:51px; } .closing-inner { align-items:flex-start; flex-direction:column; gap:26px; } }
+</style>
