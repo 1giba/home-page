@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { content } from '../../data/content'
+const lang = 'en'
+const copy = content[lang]
+---
+<BaseLayout title="About Code Happy" description="Learn about Code Happy's approach to technology leadership, software architecture, and applied AI." lang={lang}>
+  <main id="main">
+    <section class="page-hero"><div class="container-shell"><span class="eyebrow">{copy.about.eyebrow}</span><h1 class="display-title">{copy.about.title}</h1><p class="lead">More than two decades in software engineering, focused on pragmatic technology decisions and sustainable outcomes.</p></div></section>
+    <section class="section-space"><div class="container-shell about-content"><div class="about-label"><span>SINCE 2004</span><strong>Hands-on<br />technology experience.</strong></div><div class="about-copy"><p>{copy.about.p1}</p><p>{copy.about.p2}</p><p>Today, Code Happy focuses on helping companies develop a clear technology direction — including responsible AI adoption — without losing sight of business goals, people, and operations.</p></div></div></section>
+    <section class="principles section-space"><div class="container-shell"><span class="eyebrow">{copy.about.principlesTitle}</span><div class="principles-grid">{copy.about.principles.map((item, index) => <article><span>0{index + 1}</span><h2>{item.title}</h2><p>{item.description}</p></article>)}</div></div></section>
+    <section class="closing-section"><div class="container-shell closing-inner"><div><span class="eyebrow">LET’S TALK</span><h2>Good technical decisions start with the right question.</h2><p>Let’s understand your context and find where an experienced outside perspective can help.</p></div><a class="button-primary" href="/en/contact">Get in touch <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+</BaseLayout>
+<style>
+.page-hero { padding-block:clamp(70px,9vw,120px) 48px; }
+.page-hero h1 { max-width:900px; }
+.page-hero p { max-width:720px; margin-top:24px; }
+.about-content { display:grid; grid-template-columns:.6fr 1.4fr; gap:70px; border-top:1px solid var(--line); padding-top:45px; }
+.about-label { align-self:start; display:grid; gap:14px; border-left:2px solid var(--green); padding:5px 0 5px 18px; }
+.about-label span { color:var(--green); font-size:10px; font-weight:800; letter-spacing:.15em; }
+.about-label strong { font-size:21px; font-weight:650; letter-spacing:-.04em; line-height:1.3; }
+.about-copy p { margin:0 0 20px; color:var(--muted); font-size:16px; line-height:1.9; }
+.principles { background:#e8ede6; }
+.principles-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:28px; }
+.principles-grid article { padding:26px; border:1px solid #d5ded4; border-radius:18px; background:rgba(255,255,255,.62); }
+.principles-grid article > span { color:var(--green); font-size:11px; font-weight:800; }
+.principles-grid h2 { margin:26px 0 10px; font-size:20px; letter-spacing:-.04em; }
+.principles-grid p { margin:0; color:var(--muted); font-size:13px; line-height:1.8; }
+.closing-section { padding-block:clamp(68px,8vw,106px); background:var(--green-dark); color:white; }
+.closing-inner { display:flex; align-items:center; justify-content:space-between; gap:50px; }
+.closing-inner > div { max-width:760px; }
+.closing-inner .eyebrow { color:var(--lime); }
+.closing-inner h2 { margin:19px 0 14px; font-size:clamp(31px,4.5vw,54px); font-weight:600; letter-spacing:-.055em; line-height:1.08; }
+.closing-inner p { max-width:650px; margin:0; color:#d2dfd7; font-size:14px; line-height:1.8; }
+.closing-inner .button-primary { flex:0 0 auto; border-color:var(--lime); background:var(--lime); color:var(--ink); }
+@media(max-width:800px) { .about-content { grid-template-columns:1fr; gap:30px; } .principles-grid { grid-template-columns:1fr; } .closing-inner { align-items:flex-start; flex-direction:column; gap:26px; } }
+</style>
