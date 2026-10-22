@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { content } from '../../data/content'
+import { legalContent } from '../../data/legal'
 const lang = 'en'
-const legal = content[lang].legal
+const legal = legalContent[lang].privacy
 ---
-<BaseLayout title={legal.privacyTitle} description="Privacy policy and handling of information submitted to Code Happy." lang={lang}>
-  <main id="main"><section class="legal-hero"><div class="container-shell"><span class="eyebrow">LEGAL</span><h1 class="display-title">{legal.privacyTitle}</h1><p class="lead">{legal.privacyIntro}</p><span class="updated">{legal.updated}</span></div></section>
-  <section class="section-space"><div class="container-shell legal-layout"><aside>CODE HAPPY<br />TECNOLOGIA LTDA</aside><div class="legal-body">{legal.privacySections.map((section) => <article><h2>{section.title}</h2><p>{section.body}</p></article>)}<p>Privacy questions: <a href="mailto:contato@codehappy.com.br">contato@codehappy.com.br</a>.</p></div></div></section></main>
+<BaseLayout title={legal.title} description="Privacy policy and handling of information submitted to Code Happy." lang={lang}>
+  <main id="main"><section class="legal-hero"><div class="container-shell"><span class="eyebrow">LEGAL</span><h1 class="display-title">{legal.privacyTitle}</h1><p class="lead">{legal.subtitle}</p><span class="updated">{legal.lastUpdated}</span></div></section>
+  <section class="section-space"><div class="container-shell legal-layout"><aside>CODE HAPPY<br />TECNOLOGIA LTDA</aside><div class="legal-body">{legal.sections.map((section) => <article><h2>{section.title}</h2><p>{section.content}</p></article>)}<p>Privacy questions: <a href="mailto:contato@codehappy.com.br">contato@codehappy.com.br</a>.</p></div></div></section></main>
 </BaseLayout>
 <style>
 .legal-hero { padding-block:clamp(70px,9vw,110px) 38px; }
