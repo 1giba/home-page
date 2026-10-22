@@ -1,0 +1,49 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  lang?: 'pt-BR' | 'en'
+}
+const { title, description, lang = 'pt-BR' } = Astro.props
+const siteUrl = 'https://www.codehappy.com.br'
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString()
+const alternatePath = lang === 'en'
+  ? (Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/')
+  : `/en${Astro.url.pathname === '/' ? '/' : Astro.url.pathname}`
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f7f8f5" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(lang === 'en' ? alternatePath : Astro.url.pathname, siteUrl)} />
+    <link rel="alternate" hreflang="en" href={new URL(lang === 'en' ? Astro.url.pathname : alternatePath, siteUrl)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(lang === 'en' ? alternatePath : Astro.url.pathname, siteUrl)} />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Code Happy" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <title>{title} | Code Happy</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <Header lang={lang} />
+    <slot />
+    <Footer lang={lang} />
+  </body>
+</html>
+<style>
+  .skip-link { position:absolute; left:16px; top:-80px; z-index:100; border-radius:8px; background:#fff; padding:12px 16px; color:#14211f; }
+  .skip-link:focus { top:16px; }
+</style>
