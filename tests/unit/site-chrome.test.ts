@@ -72,16 +72,20 @@ describe('header navigation (SPEC §6.1)', () => {
       )
       expect(ctas.length, locale).toBeGreaterThan(0)
       for (const cta of ctas) {
-        expect(cta.text.trim()).toBe(label)
+        // Visible label first; the screen-reader external-site hint is checked separately below.
+        expect(cta.text.replace(/\s+/g, ' ').trim().startsWith(label)).toBe(true)
         expect(cta.getAttribute('target')).toBeUndefined()
       }
     }
   })
 
-  it('repeats the nav, switcher and CTA inside a no-JS <details> mobile menu', async () => {
-    const details = (await at('pt-br', '/pt-br/about/')).querySelector('header details')
-    expect(details?.querySelector('summary')?.text.trim()).toBe('Menu')
-    expect(hrefs(details)).toEqual(
+  it('repeats the nav, switcher and CTA in a mobile panel toggled by a no-JS <details>', async () => {
+    const header = (await at('pt-br', '/pt-br/about/')).querySelector('header')
+    const summary = header?.querySelector('details[data-menu] > summary')
+    expect(summary?.text.trim()).toBe('Menu')
+    const panel = header?.querySelector('[data-mobile-panel]')
+    expect(summary?.getAttribute('aria-controls')).toBe(panel?.getAttribute('id'))
+    expect(hrefs(panel)).toEqual(
       [
         '/pt-br/services/',
         '/pt-br/about/',
@@ -93,6 +97,22 @@ describe('header navigation (SPEC §6.1)', () => {
         .filter((v, i, all) => all.indexOf(v) === i)
         .sort()
     )
+  })
+})
+
+describe('external links (SPEC §7.3: identifiable)', () => {
+  it('marks the off-site booking CTA visually and for screen readers, in the page language', async () => {
+    for (const [locale, hint] of [
+      ['pt-br', '(site externo)'],
+      ['en', '(external site)'],
+    ] as const) {
+      const ctas = (await at(locale, `/${locale}/`)).querySelectorAll(`a[href="${CALENDLY_URL}"]`)
+      expect(ctas.length, locale).toBeGreaterThan(0)
+      for (const cta of ctas) {
+        expect(cta.querySelector('svg[aria-hidden="true"]'), locale).not.toBeNull()
+        expect(cta.querySelector('.sr-only')?.text.trim(), locale).toBe(hint)
+      }
+    }
   })
 })
 

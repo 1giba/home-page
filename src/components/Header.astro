@@ -1,7 +1,10 @@
 ---
 // Static (non-sticky) header, so it can never cover a focused element (WCAG 2.2 SC 2.4.11).
-// Desktop (≥ lg): inline nav, language switcher and booking CTA. Below lg: <MobileNav>.
+// Desktop (≥ lg): inline nav, language switcher and booking CTA. Below lg: a <details> toggle in
+// the bar and the menu panel as a full-width row beneath it (in normal flow, so opening it pushes
+// the page down instead of covering it). The bar wraps rather than overflowing at large text sizes.
 import Container from '@/components/ui/Container.astro'
+import Icon from '@/components/ui/Icon.astro'
 import LinkButton from '@/components/ui/LinkButton.astro'
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
 import MobileNav from '@/components/MobileNav.astro'
@@ -20,18 +23,18 @@ const t = useTranslations(locale)
 const items = mainNav(locale, showWork)
 ---
 
-<header class="relative border-t-[3px] border-b border-t-accent border-b-border bg-bg">
-  <Container class="flex h-16 items-center justify-between gap-6">
+<header class="border-t-[3px] border-b border-t-accent border-b-border bg-bg">
+  <Container class="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2">
     <a
       href={localizedPath(locale, '/')}
-      class="text-lg font-semibold tracking-tight text-text no-underline hover:text-text"
+      class="text-lg font-semibold tracking-tight whitespace-nowrap text-text no-underline hover:text-text"
     >
       Code Happy
     </a>
 
-    <div data-desktop-nav class="hidden items-center gap-6 lg:flex">
+    <div data-desktop-nav class="hidden flex-wrap items-center justify-end gap-x-6 gap-y-2 lg:flex">
       <nav aria-label={t('nav.label')}>
-        <ul class="flex items-center gap-1">
+        <ul class="flex flex-wrap items-center gap-1">
           {items.map((item) => {
             const current = ariaCurrent(Astro.url.pathname, item.href)
             return (
@@ -52,11 +55,31 @@ const items = mainNav(locale, showWork)
         </ul>
       </nav>
       <LanguageSwitcher locale={locale} />
-      <LinkButton href={CALENDLY_URL} variant="primary">
+      <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
         {t('cta.book')}
       </LinkButton>
     </div>
 
-    <MobileNav locale={locale} items={items} class="lg:hidden" />
+    <details data-menu class="lg:hidden">
+      <summary
+        aria-controls="mobile-menu"
+        class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-base border border-border px-3 text-sm font-medium [&::-webkit-details-marker]:hidden"
+      >
+        <Icon name="menu" />
+        {t('nav.menu')}
+      </summary>
+    </details>
   </Container>
+
+  <div id="mobile-menu" data-mobile-panel class="border-t border-border lg:hidden">
+    <MobileNav locale={locale} items={items} />
+  </div>
 </header>
+
+<style>
+  /* No-JS disclosure: the panel follows the <details> state. Browsers without :has() leave the
+     panel visible, so the navigation is never unreachable. */
+  header:has(details[data-menu]:not([open])) [data-mobile-panel] {
+    display: none;
+  }
+</style>

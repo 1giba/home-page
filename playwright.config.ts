@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const PORT = 4321
+// Not 4321: that is `astro dev`'s default, and tests must never run against a dev server.
+const PORT = 4322
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${PORT}`
 
 export default defineConfig({
@@ -18,6 +19,7 @@ export default defineConfig({
         // `preview` when it detects an AI agent, which leaves an orphan on the port.
         command: `npx astro preview --port ${PORT} --ignore-lock`,
         url: `http://localhost:${PORT}/`,
-        reuseExistingServer: !process.env.CI,
+        // Always start our own server on the built dist/; fail loudly if the port is taken.
+        reuseExistingServer: false,
       },
 })

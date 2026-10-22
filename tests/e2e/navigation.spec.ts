@@ -10,7 +10,13 @@ const DESKTOP = { width: 1280, height: 900 }
 
 /** Tabs through the page and returns a description of every element that receives focus. */
 async function tabThrough(page: Page, max = 40) {
-  const seen: { label: string; outlineWidth: number; outlineStyle: string; visible: boolean }[] = []
+  const seen: {
+    label: string
+    outlineWidth: number
+    outlineStyle: string
+    visible: boolean
+    unobscured: boolean
+  }[] = []
   for (let i = 0; i < max; i++) {
     await page.keyboard.press('Tab')
     const info = await page.evaluate(() => {
@@ -18,11 +24,14 @@ async function tabThrough(page: Page, max = 40) {
       if (!el || el === document.body) return null
       const s = getComputedStyle(el)
       const r = el.getBoundingClientRect()
+      // WCAG 2.2 SC 2.4.11: the focused element must not be hidden by other content.
+      const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
       return {
         label: `${el.tagName.toLowerCase()} "${(el.textContent ?? '').trim() || el.getAttribute('aria-label')}"`,
         outlineWidth: parseFloat(s.outlineWidth),
         outlineStyle: s.outlineStyle,
         visible: r.width > 0 && r.height > 0,
+        unobscured: !!top && (el === top || el.contains(top)),
       }
     })
     // Stop when focus leaves the document or wraps around to the first stop.
@@ -61,10 +70,74 @@ test.describe('keyboard', () => {
       expect(stops.length).toBeGreaterThan(5)
       for (const stop of stops) {
         expect(stop.visible, stop.label).toBe(true)
+        expect(stop.unobscured, stop.label).toBe(true)
         expect(stop.outlineStyle, stop.label).toBe('solid')
         expect(stop.outlineWidth, stop.label).toBeGreaterThanOrEqual(2)
       }
     })
+  }
+})
+
+test('with the mobile menu open, no later Tab stop is hidden under it (WCAG 2.2 SC 2.4.11)', async ({
+  page,
+}) => {
+  await page.setViewportSize(MOBILE)
+  await page.goto(URL)
+  // Stand-in for real page content (pages arrive in F4): focusable elements at the top of main.
+  await page.evaluate(() => {
+    document
+      .querySelector('main')
+      ?.insertAdjacentHTML(
+        'afterbegin',
+        '<p><a href="#a">probe one</a> <a href="#b">probe two</a></p>'
+      )
+  })
+  await page.locator('header details > summary').click()
+  const stops = await tabThrough(page)
+  expect(stops.map((s) => s.label)).toContain('a "probe one"')
+  for (const stop of stops) expect(stop.unobscured, stop.label).toBe(true)
+})
+
+test.describe('large text (SPEC §12.2: 200% text without loss of content, WCAG 1.4.4)', () => {
+  for (const width of [375, 1024, 1280]) {
+    for (const lang of ['pt-br', 'en'] as const) {
+      test(`header stays within the page at ${width}px with 200% text (${lang} copy)`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 900 })
+        await page.goto(URL)
+        if (lang === 'en') {
+          // Swap in the longer English CTA copy so both languages are exercised on the one page.
+          await page.evaluate(() =>
+            document
+              .querySelectorAll('[data-cta="primary"]')
+              .forEach((el) => (el.textContent = 'Book an intro call'))
+          )
+        }
+        await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
+        const summary = page.locator('header details > summary')
+        for (const open of [false, true]) {
+          if (open && (await summary.isVisible())) await summary.click()
+          const problems = await page.evaluate(() => {
+            const out: string[] = []
+            const overflow = document.documentElement.scrollWidth - window.innerWidth
+            if (overflow > 0) out.push(`page scrolls horizontally by ${overflow}px`)
+            for (const el of document.querySelectorAll<HTMLElement>('header a, header summary')) {
+              if (el.getClientRects().length === 0) continue
+              const r = el.getBoundingClientRect()
+              const name = (el.textContent ?? '').trim() || el.getAttribute('aria-label')
+              if (r.top < 0 || r.left < 0 || r.right > window.innerWidth + 0.5) {
+                out.push(
+                  `${name} at ${Math.round(r.left)},${Math.round(r.top)}–${Math.round(r.right)}`
+                )
+              }
+            }
+            return out
+          })
+          expect(problems, open ? 'menu open' : 'menu closed').toEqual([])
+        }
+      })
+    }
   }
 })
 
@@ -74,13 +147,13 @@ test.describe('mobile menu without JavaScript (SPEC §6.1)', () => {
   test('opens and closes from the keyboard and contains the navigation', async ({ page }) => {
     await page.goto(URL)
     const summary = page.locator('header details > summary')
-    const menuLink = page.locator('header details a[href="/pt-br/about/"]')
+    const menuLink = page.locator('header [data-mobile-panel] a[href="/pt-br/about/"]')
     await expect(summary).toBeVisible()
     await expect(menuLink).toBeHidden()
     await summary.focus()
     await page.keyboard.press('Enter')
     await expect(menuLink).toBeVisible()
-    await expect(page.locator('header details [data-lang-switch] a')).toHaveCount(2)
+    await expect(page.locator('header [data-mobile-panel] [data-lang-switch] a')).toHaveCount(2)
     await page.keyboard.press('Enter')
     await expect(menuLink).toBeHidden()
     await page.keyboard.press('Space')
