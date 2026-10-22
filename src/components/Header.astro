@@ -77,9 +77,16 @@ const items = mainNav(locale, showWork)
 </header>
 
 <style>
-  /* No-JS disclosure: the panel follows the <details> state. Browsers without :has() leave the
-     panel visible, so the navigation is never unreachable. */
+  /* No-JS disclosure: the panel follows the <details> state. */
   header:has(details[data-menu]:not([open])) [data-mobile-panel] {
     display: none;
+  }
+
+  /* Without :has() the panel cannot be hidden, so it stays visible as plain navigation and the
+     toggle is removed; otherwise it would announce "collapsed" while the menu is shown. */
+  @supports not selector(:has(*)) {
+    details[data-menu] {
+      display: none;
+    }
   }
 </style>

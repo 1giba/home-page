@@ -99,7 +99,7 @@ test('with the mobile menu open, no later Tab stop is hidden under it (WCAG 2.2 
 })
 
 test.describe('large text (SPEC §12.2: 200% text without loss of content, WCAG 1.4.4)', () => {
-  for (const width of [375, 1024, 1280]) {
+  for (const width of [320, 375, 1024, 1280]) {
     for (const lang of ['pt-br', 'en'] as const) {
       test(`header stays within the page at ${width}px with 200% text (${lang} copy)`, async ({
         page,

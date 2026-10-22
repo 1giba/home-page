@@ -16,7 +16,7 @@ const t = useTranslations(locale)
 <ul
   data-lang-switch
   aria-label={t('lang.label')}
-  class:list={['flex items-center gap-1 text-sm', className]}
+  class:list={['flex flex-wrap items-center gap-1 text-sm', className]}
 >
   {LOCALES.map((target) => (
     <li>

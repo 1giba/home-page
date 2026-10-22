@@ -17,5 +17,9 @@ export default defineConfig({
     // Root and legacy redirects come from src/config/redirects.ts (F2-03), not from i18n routing.
     routing: { prefixDefaultLocale: true, redirectToDefaultLocale: false },
   },
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    // Fail instead of silently moving to another port, so tests never hit the wrong server.
+    preview: { strictPort: true },
+  },
 })
