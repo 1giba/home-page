@@ -1,47 +1,24 @@
 ---
-description: Core Developer Agent
+description: Core Developer Workflow
 ---
 
-## 🧠 Task
+## Task
 
-Implement a [feature/component/fix], following the guidelines below.
+Implement a change using the project's current Astro architecture.
 
-## ⚙️ Context
+## Context
 
-- The stack includes Vue 3, Vite, TypeScript, Tailwind CSS v4, vue-i18n, Vue Router, and Headless UI.
-- The codebase follows the official Vue Style Guide.
-- Project architecture is modular and component-driven.
-- i18n messages are stored in JSON files under `src/i18n/`.
+- Astro 5, TypeScript, Tailwind CSS v4
+- Static rendering by default
+- Bilingual content is in `src/data/content.ts`
+- Shared components are in `src/components/`
+- Shared page shell and metadata are in `src/layouts/BaseLayout.astro`
 
-## 🎨 UX & UI Guidelines
+## Requirements
 
-- Apply **modern, minimalistic, and accessible UI design** using Tailwind CSS utilities.
-- Ensure **keyboard accessibility** and proper **ARIA attributes** for interactive elements.
-- Respect responsive behavior for mobile, tablet, and desktop using Tailwind breakpoints.
-- Use **semantic HTML** and avoid generic `<div>`s when more appropriate elements exist.
-- Visual hierarchy should be clear: headings, spacing, typography, and contrast must follow best practices.
-- Prefer UI patterns inspired by **design systems like Radix, Headless UI, or Apple/Human Interface**.
-- Use Tailwind classes for consistent spacing (`gap`, `padding`, `margin`) and fluid layout.
-
-## 🧑‍💻 Implementation Requirements
-
-- Follow the Vue Style Guide and clean architecture
-- Follow mobile-first design principles using Tailwind’s responsive utility classes
-- Use only necessary abstractions and readable logic
-- Ensure accessibility (ARIA, keyboard support)
-- Keep components isolated and reusable
-- Add comments only where logic clarity is needed
-- No hardcode in texts, use i18n
-
-## ✅ Acceptance Criteria
-
-- The code must reside in the appropriate directory (`components/`, `layout/`, or `composables/`).
-- Written in Vue 3 Composition API with `<script setup lang="ts">` and type-safe logic.
-- Must be ESLint-compliant and Prettier-formatted.
-- No logic leaks or tight coupling to route/view state.
-- All textual content must be pulled from `vue-i18n`.
-- Components must be reusable and isolated from layout logic when possible.
-
-## 🎯 Goal
-
-The goal is to...
+- Use semantic HTML and mobile-first responsive design.
+- Preserve Portuguese default routes and matching English routes under `/en`.
+- Keep interactivity minimal; do not add a frontend framework without a concrete requirement.
+- Do not introduce unsupported claims into portfolio case studies.
+- Ensure accessible focus states, keyboard navigation, and reduced-motion support.
+- Run `npm run check` and `npm run build` before merging.
