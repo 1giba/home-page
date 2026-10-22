@@ -1,0 +1,54 @@
+---
+import type { Locale } from '../data/content'
+import { content } from '../data/content'
+const { lang } = Astro.props as { lang: Locale }
+const copy = content[lang]
+const prefix = lang === 'en' ? '/en' : ''
+const pathname = Astro.url.pathname
+const languageUrl = lang === 'en'
+  ? (pathname.replace(/^\/en(?=\/|$)/, '') || '/')
+  : `/en${pathname === '/' ? '/' : pathname}`
+const links = [
+  { href: prefix || '/', label: copy.nav.home },
+  { href: `${prefix}/services`, label: copy.nav.services },
+  { href: `${prefix}/work`, label: copy.nav.work },
+  { href: `${prefix}/about`, label: copy.nav.about },
+]
+---
+<header class="site-header">
+  <div class="container-shell header-inner">
+    <a href={prefix || '/'} class="brand" aria-label="Code Happy home">
+      <span class="brand-mark" aria-hidden="true">ch<span>.</span></span>
+      <span class="brand-name">code happy</span>
+    </a>
+    <nav class="desktop-nav" aria-label={lang === 'en' ? 'Main navigation' : 'Navegação principal'}>
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <a class="locale-switch" href={languageUrl} lang={lang === 'en' ? 'pt-BR' : 'en'}>{copy.nav.language}</a>
+      <a class="header-contact" href={`${prefix}/contact`}>{copy.nav.contact}<span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</header>
+<style>
+  .site-header { position:relative; z-index:10; border-bottom:1px solid rgba(223,229,223,.85); background:rgba(247,248,245,.92); }
+  .header-inner { display:flex; min-height:82px; align-items:center; justify-content:space-between; gap:24px; }
+  .brand { display:flex; align-items:center; gap:9px; white-space:nowrap; }
+  .brand-mark { display:grid; width:38px; height:38px; place-items:center; border-radius:12px; background:var(--green); color:white; font-size:16px; font-weight:800; letter-spacing:-.09em; }
+  .brand-mark span { color:var(--lime); }
+  .brand-name { font-size:16px; font-weight:750; letter-spacing:-.05em; }
+  .desktop-nav,.header-actions { display:flex; align-items:center; gap:clamp(12px,2vw,28px); }
+  .desktop-nav a,.locale-switch { color:var(--muted); font-size:13px; font-weight:600; transition:color .2s ease; }
+  .desktop-nav a:hover,.locale-switch:hover { color:var(--green); }
+  .header-actions { gap:16px; }
+  .header-contact { display:flex; min-height:42px; align-items:center; gap:11px; border-radius:999px; background:var(--ink); padding:0 17px; color:white; font-size:13px; font-weight:650; }
+  .header-contact span { color:var(--lime); }
+  @media (max-width: 760px) {
+    .header-inner { min-height:auto; flex-wrap:wrap; padding-block:14px; gap:13px; }
+    .desktop-nav { order:3; width:100%; justify-content:space-between; gap:10px; padding-top:9px; border-top:1px solid var(--line); }
+    .desktop-nav a { font-size:12px; }
+    .header-actions { gap:11px; margin-left:auto; }
+    .header-contact { min-height:38px; padding-inline:13px; font-size:12px; }
+    .locale-switch { font-size:12px; }
+  }
+</style>
