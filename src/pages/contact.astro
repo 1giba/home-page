@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { content } from '../data/content'
+const lang = 'pt-BR'
+const copy = content[lang]
+---
+<BaseLayout title="Contato" description="Entre em contato com a Code Happy para conversar sobre Fractional CTO, consultoria tecnológica e engenharia de IA." lang={lang}>
+  <main id="main">
+    <section class="page-hero"><div class="container-shell"><span class="eyebrow">{copy.contact.eyebrow}</span><h1 class="display-title">{copy.contact.title}</h1><p class="lead">{copy.contact.intro}</p></div></section>
+    <section class="section-space contact-section"><div class="container-shell contact-grid">
+      <div class="contact-aside"><span class="contact-mark">ch<span>.</span></span><h2>Uma conversa objetiva.<br /><em>Sem apresentação genérica.</em></h2><p>O melhor ponto de partida é entender o contexto, o impacto do problema e as decisões que precisam ser tomadas.</p><a href="mailto:contato@codehappy.com.br">contato@codehappy.com.br <span aria-hidden="true">↗</span></a><div class="contact-points"><span>Fractional CTO</span><span>AI Strategy</span><span>Technology Advisory</span></div></div>
+      <form class="contact-form" action="https://formsubmit.co/contato@codehappy.com.br" method="POST">
+        <input type="hidden" name="_subject" value="New consulting inquiry — Code Happy" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="honey" />
+        <div class="form-row"><label for="name">{copy.contact.name}<input id="name" name="name" type="text" required minlength="2" autocomplete="name" placeholder={copy.contact.namePlaceholder} /></label><label for="email">{copy.contact.email}<input id="email" name="email" type="email" required autocomplete="email" placeholder={copy.contact.emailPlaceholder} /></label></div>
+        <label for="company">{copy.contact.company}<input id="company" name="company" type="text" autocomplete="organization" placeholder={copy.contact.companyPlaceholder} /></label>
+        <label for="subject">{copy.contact.subject}<input id="subject" name="subject" type="text" required minlength="3" placeholder={copy.contact.subjectPlaceholder} /></label>
+        <label for="message">{copy.contact.message}<textarea id="message" name="message" required minlength="10" rows="5" placeholder={copy.contact.messagePlaceholder}></textarea></label>
+        <button class="button-primary" type="submit">{copy.contact.submit}<span aria-hidden="true">↗</span></button>
+        <p class="form-note">{copy.contact.privacyNote} <a href="/privacy">Política de privacidade</a>.</p>
+      </form>
+    </div></section>
+  </main>
+</BaseLayout>
+<style>
+.page-hero { padding-block:clamp(70px,9vw,120px) 48px; }
+.page-hero h1 { max-width:850px; }
+.page-hero p { max-width:680px; margin-top:24px; }
+.contact-section { padding-top:40px; }
+.contact-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(35px,7vw,90px); align-items:start; }
+.contact-aside { position:sticky; top:25px; }
+.contact-mark { display:grid; width:54px; height:54px; place-items:center; border-radius:17px; background:var(--green); color:#fff; font-size:22px; font-weight:800; letter-spacing:-.08em; }
+.contact-mark span { color:var(--lime); }
+.contact-aside h2 { margin:30px 0 16px; font-size:clamp(29px,3.3vw,41px); line-height:1.12; letter-spacing:-.06em; }
+.contact-aside h2 em { color:var(--green); font-family:Georgia,serif; font-weight:400; }
+.contact-aside p { color:var(--muted); font-size:14px; line-height:1.8; }
+.contact-aside > a { display:inline-flex; gap:10px; margin-top:16px; color:var(--green); font-size:13px; font-weight:750; }
+.contact-points { display:flex; flex-wrap:wrap; gap:8px; margin-top:34px; }
+.contact-points span { padding:8px 11px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:10px; }
+.contact-form { display:grid; gap:19px; padding:30px; border:1px solid var(--line); border-radius:22px; background:#fff; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.contact-form label { display:grid; gap:9px; color:#314139; font-size:12px; font-weight:750; }
+.contact-form input,.contact-form textarea { width:100%; min-width:0; border:1px solid #d9e0da; border-radius:10px; outline:none; background:#fbfcfa; padding:13px 14px; color:var(--ink); font:inherit; font-size:13px; font-weight:400; transition:border-color .2s ease,box-shadow .2s ease; }
+.contact-form textarea { resize:vertical; min-height:140px; }
+.contact-form input:focus,.contact-form textarea:focus { border-color:#73a88f; box-shadow:0 0 0 3px rgba(31,107,85,.1); }
+.contact-form .button-primary { justify-self:start; cursor:pointer; }
+.form-note { margin:0; color:var(--muted); font-size:10px; line-height:1.7; }
+.form-note a { color:var(--green); text-decoration:underline; text-underline-offset:3px; }
+.honey { position:absolute!important; width:1px!important; height:1px!important; overflow:hidden!important; clip-path:inset(50%)!important; white-space:nowrap!important; }
+@media(max-width:800px) { .contact-grid { grid-template-columns:1fr; } .contact-aside { position:static; } }
+@media(max-width:580px) { .contact-form { padding:20px; } .form-row { grid-template-columns:1fr; } }
+</style>
