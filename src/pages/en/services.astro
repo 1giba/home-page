@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ServiceCard from '../../components/ServiceCard.astro'
+import { content } from '../../data/content'
+const lang = 'en'
+const copy = content[lang]
+---
+<BaseLayout title="Technical Leadership & AI Consulting" description="Fractional CTO, AI strategy, and technology advisory for growing companies." lang={lang}>
+  <main id="main">
+    <section class="page-hero"><div class="container-shell"><span class="eyebrow">SERVICES</span><h1 class="display-title">The right expertise for <em>hard decisions.</em></h1><p class="lead">I help companies set priorities, reduce technical risk, and take technology and AI initiatives from idea to production.</p></div></section>
+    <section class="section-space"><div class="container-shell"><div class="services-grid">{copy.services.map((service) => <ServiceCard service={service} />)}</div></div></section>
+    <section class="process-band section-space"><div class="container-shell process-grid"><div><span class="eyebrow">HOW I WORK</span><h2>Clarity, focus, and execution.</h2></div><div class="process-steps"><article><span>01</span><div><h3>Understand</h3><p>Align on business goals, technical context, constraints, and risk.</p></div></article><article><span>02</span><div><h3>Prioritize</h3><p>Choose the decisions and initiatives that create the most value without unnecessary complexity.</p></div></article><article><span>03</span><div><h3>Move forward</h3><p>Turn direction into an executable plan and follow through on outcomes.</p></div></article></div></div></section>
+    <section class="closing-section"><div class="container-shell closing-inner"><div><span class="eyebrow">NEXT STEP</span><h2>Let’s understand your challenge.</h2><p>An initial conversation to assess context, priorities, and the right way to work together.</p></div><a class="button-primary" href="/en/contact">Start a conversation <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+</BaseLayout>
+<style>
+.page-hero { padding-block:clamp(70px,9vw,120px) 48px; }
+.page-hero h1 { max-width:850px; }
+.page-hero p { max-width:680px; margin-top:24px; }
+.services-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.process-band { background:#e8ede6; }
+.process-grid { display:grid; grid-template-columns:1fr 1.1fr; gap:70px; }
+.process-grid h2 { max-width:470px; margin:17px 0 0; font-size:clamp(34px,4.5vw,52px); letter-spacing:-.06em; line-height:1.08; }
+.process-steps { display:grid; gap:25px; }
+.process-steps article { display:grid; grid-template-columns:34px 1fr; gap:16px; padding-bottom:24px; border-bottom:1px solid #d1ddd2; }
+.process-steps article > span { color:var(--green); font-size:12px; font-weight:800; }
+.process-steps h3 { margin:0 0 6px; font-size:18px; letter-spacing:-.03em; }
+.process-steps p { margin:0; color:var(--muted); font-size:13px; line-height:1.75; }
+.closing-section { padding-block:clamp(68px,8vw,106px); background:var(--green-dark); color:white; }
+.closing-inner { display:flex; align-items:center; justify-content:space-between; gap:50px; }
+.closing-inner > div { max-width:760px; }
+.closing-inner .eyebrow { color:var(--lime); }
+.closing-inner h2 { margin:19px 0 14px; font-size:clamp(31px,4.5vw,54px); font-weight:600; letter-spacing:-.055em; line-height:1.08; }
+.closing-inner p { max-width:650px; margin:0; color:#d2dfd7; font-size:14px; line-height:1.8; }
+.closing-inner .button-primary { flex:0 0 auto; border-color:var(--lime); background:var(--lime); color:var(--ink); }
+@media(max-width:850px) { .services-grid { grid-template-columns:1fr; } .process-grid { grid-template-columns:1fr; gap:35px; } .closing-inner { align-items:flex-start; flex-direction:column; gap:26px; } }
+</style>
