@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { HTMLElement } from 'node-html-parser'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import Header from '@/components/Header.astro'
 import { CALENDLY_URL, CONTACT_EMAIL, LEGAL_NAME, SOCIAL } from '@/config/site'
 import { render } from './render'
 
@@ -36,11 +37,26 @@ describe('header navigation (SPEC §6.1)', () => {
     ])
   })
 
-  it('hides Work until a case study is published, and shows it when asked (SPEC §4.5)', async () => {
+  it('BaseLayout decides the Work link itself and ignores a page-supplied showWork (plan F1-03)', async () => {
+    // No case study is published yet (SPEC §4.5), so no layout render may show Work.
     const without = await at('en', '/en/')
     expect(without.querySelectorAll('a[href="/en/work/"]')).toHaveLength(0)
-    const withWork = await at('en', '/en/', { showWork: true })
-    expect(withWork.querySelector('header nav a[href="/en/work/"]')?.text.trim()).toBe('Work')
+    const overridden = await at('en', '/en/', { showWork: true })
+    expect(overridden.querySelectorAll('a[href="/en/work/"]')).toHaveLength(0)
+  })
+
+  it('the Header shows Work when told a case study is published', async () => {
+    const header = await render(
+      Header,
+      { locale: 'en', showWork: true, showLanguageSwitcher: true },
+      'https://codehappy.com.br/en/'
+    )
+    expect(header.querySelector('nav a[href="/en/work/"]')?.text.trim()).toBe('Work')
+  })
+
+  it('omits the language switcher when a page has no language alternates (404)', async () => {
+    const doc = await at('pt-br', '/404.html', { alternatesAvailable: false })
+    expect(doc.querySelectorAll('[data-lang-switch]')).toHaveLength(0)
   })
 
   it('marks the current page with aria-current="page" and its section with "true"', async () => {
@@ -189,7 +205,7 @@ describe('footer (SPEC §6.1, §13.1)', () => {
 
 describe('whole layout', () => {
   it('opens no link in a new tab and ships no script (SPEC §6.2, §9.3)', async () => {
-    const doc = await at('en', '/en/about/', { showWork: true })
+    const doc = await at('en', '/en/about/')
     expect(doc.querySelectorAll('a[target]')).toHaveLength(0)
     expect(doc.querySelectorAll('script')).toHaveLength(0)
   })

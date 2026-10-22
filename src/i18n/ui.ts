@@ -21,6 +21,19 @@ const ptBR = {
   'footer.privacy': 'Política de Privacidade',
   'footer.terms': 'Termos de Uso',
   'footer.rights': 'Todos os direitos reservados.',
+  'page.home': 'Code Happy',
+  'page.services': 'Serviços',
+  'service.fractional-cto': 'CTO fracionado e liderança de tecnologia',
+  'service.ai': 'Estratégia e engenharia de IA',
+  'service.advisory': 'Consultoria em tecnologia',
+  'page.about': 'Sobre',
+  'page.contact': 'Contato',
+  'page.thanks': 'Mensagem enviada',
+  'page.privacy': 'Política de Privacidade',
+  'page.terms': 'Termos de Uso',
+  'notFound.title': 'Página não encontrada',
+  'notFound.body': 'O endereço pode ter mudado ou não existir.',
+  'notFound.home': 'Ir para a página inicial',
 } as const
 
 export type UiKey = keyof typeof ptBR
@@ -42,6 +55,19 @@ const en: Record<UiKey, string> = {
   'footer.privacy': 'Privacy Policy',
   'footer.terms': 'Terms of Use',
   'footer.rights': 'All rights reserved.',
+  'page.home': 'Code Happy',
+  'page.services': 'Services',
+  'service.fractional-cto': 'Fractional CTO & Technology Leadership',
+  'service.ai': 'AI Strategy & Engineering',
+  'service.advisory': 'Technology Advisory',
+  'page.about': 'About',
+  'page.contact': 'Contact',
+  'page.thanks': 'Message sent',
+  'page.privacy': 'Privacy Policy',
+  'page.terms': 'Terms of Use',
+  'notFound.title': 'Page not found',
+  'notFound.body': 'The address may have changed or may never have existed.',
+  'notFound.home': 'Go to the home page',
 }
 
 export const ui: Record<Locale, Record<UiKey, string>> = { 'pt-br': ptBR, en }

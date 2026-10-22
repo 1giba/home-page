@@ -1,0 +1,40 @@
+---
+// One static 404 for the whole site, in both languages (SPEC §5.2). It has no language
+// alternates, so the header shows no switcher; the two home links below serve that purpose.
+import Container from '@/components/ui/Container.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { localizedPath } from '@/i18n/paths'
+import { ui } from '@/i18n/ui'
+
+const pt = ui['pt-br']
+const en = ui.en
+---
+
+<BaseLayout
+  locale="pt-br"
+  title={`${pt['notFound.title']} · ${en['notFound.title']}`}
+  alternatesAvailable={false}
+>
+  <Container class="flex flex-col gap-10 py-16">
+    <section aria-labelledby="not-found-pt">
+      <h1 id="not-found-pt" class="text-3xl font-semibold tracking-tight">
+        {pt['notFound.title']}
+      </h1>
+      <p class="mt-3 text-muted">{pt['notFound.body']}</p>
+      <p class="mt-4">
+        <a href={localizedPath('pt-br', '/')}>{pt['notFound.home']}</a>
+      </p>
+    </section>
+    <section lang="en" aria-labelledby="not-found-en">
+      <h2 id="not-found-en" class="text-2xl font-semibold tracking-tight">
+        {en['notFound.title']}
+      </h2>
+      <p class="mt-3 text-muted">{en['notFound.body']}</p>
+      <p class="mt-4">
+        <a href={localizedPath('en', '/')} hreflang="en">
+          {en['notFound.home']}
+        </a>
+      </p>
+    </section>
+  </Container>
+</BaseLayout>

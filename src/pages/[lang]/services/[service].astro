@@ -1,0 +1,23 @@
+---
+import PlaceholderPage from '@/components/PlaceholderPage.astro'
+import { LOCALES, type Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { SERVICE_IDS, type ServiceId } from '@/lib/routes'
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    SERVICE_IDS.map((service) => ({
+      params: { lang, service },
+      props: { locale: lang, service },
+    }))
+  )
+}
+
+interface Props {
+  locale: Locale
+  service: ServiceId
+}
+const { locale, service } = Astro.props
+---
+
+<PlaceholderPage locale={locale} heading={useTranslations(locale)(`service.${service}`)} />

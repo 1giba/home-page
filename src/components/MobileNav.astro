@@ -11,8 +11,9 @@ import { ariaCurrent, type NavItem } from '@/lib/navigation'
 export interface Props {
   locale: Locale
   items: NavItem[]
+  showLanguageSwitcher: boolean
 }
-const { locale, items } = Astro.props
+const { locale, items, showLanguageSwitcher } = Astro.props
 const t = useTranslations(locale)
 ---
 
@@ -38,7 +39,7 @@ const t = useTranslations(locale)
       })}
     </ul>
   </nav>
-  <LanguageSwitcher locale={locale} class="-mx-2" />
+  {showLanguageSwitcher && <LanguageSwitcher locale={locale} class="-mx-2" />}
   <LinkButton
     href={CALENDLY_URL}
     variant="primary"

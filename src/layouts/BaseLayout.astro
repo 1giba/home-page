@@ -8,12 +8,16 @@ import { useTranslations } from '@/i18n/ui'
 export interface Props {
   locale: Locale
   title: string
-  /** Shows the Work nav item; F3 passes whether a case study is published (SPEC §4.5). */
-  showWork?: boolean
+  /** False on pages with no equivalent in the other language (the 404): no language switcher. */
+  alternatesAvailable?: boolean
 }
 
-const { locale, title, showWork = false } = Astro.props
+const { locale, title, alternatesAvailable = true } = Astro.props
 const t = useTranslations(locale)
+
+// The Work link appears only once a case study is published (SPEC §4.5). The layout decides this,
+// never the page; F3-02 replaces the constant with `await hasPublishedWork()`.
+const showWork = false
 ---
 
 <!doctype html>
@@ -31,7 +35,7 @@ const t = useTranslations(locale)
     >
       {t('skip')}
     </a>
-    <Header locale={locale} showWork={showWork} />
+    <Header locale={locale} showWork={showWork} showLanguageSwitcher={alternatesAvailable} />
     <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>

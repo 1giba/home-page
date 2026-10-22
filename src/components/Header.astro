@@ -17,8 +17,9 @@ import { ariaCurrent, mainNav } from '@/lib/navigation'
 export interface Props {
   locale: Locale
   showWork: boolean
+  showLanguageSwitcher: boolean
 }
-const { locale, showWork } = Astro.props
+const { locale, showWork, showLanguageSwitcher } = Astro.props
 const t = useTranslations(locale)
 const items = mainNav(locale, showWork)
 ---
@@ -54,7 +55,7 @@ const items = mainNav(locale, showWork)
           })}
         </ul>
       </nav>
-      <LanguageSwitcher locale={locale} />
+      {showLanguageSwitcher && <LanguageSwitcher locale={locale} />}
       <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
         {t('cta.book')}
       </LinkButton>
@@ -72,7 +73,7 @@ const items = mainNav(locale, showWork)
   </Container>
 
   <div id="mobile-menu" data-mobile-panel class="border-t border-border lg:hidden">
-    <MobileNav locale={locale} items={items} />
+    <MobileNav locale={locale} items={items} showLanguageSwitcher={showLanguageSwitcher} />
   </div>
 </header>
 
