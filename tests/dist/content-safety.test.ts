@@ -38,6 +38,10 @@ describe('unpublished case studies stay out of the build', () => {
     }
   })
 
+  it('never contains fictional test fixtures (no stale content from a fixture build)', () => {
+    expect(builtText()).not.toMatch(/Fixture|SECRET-(SOURCE|NOTE)|fictício|fictional/i)
+  })
+
   it('builds no Work pages and links to none while nothing is published (SPEC §4.5)', () => {
     if (publishedProjectIdsFromSource().length > 0) return
     expect(exists('pt-br/work/index.html')).toBe(false)

@@ -34,6 +34,19 @@ const ptBR = {
   'notFound.title': 'Página não encontrada',
   'notFound.body': 'O endereço pode ter mudado ou não existir.',
   'notFound.home': 'Ir para a página inicial',
+  'work.title': 'Trabalhos selecionados',
+  'case.summary': 'Resumo do projeto',
+  'case.client': 'Cliente',
+  'case.role': 'Papel',
+  'case.period': 'Período',
+  'case.services': 'Serviços',
+  'case.context': 'Contexto e problema',
+  'case.challenges': 'Desafios',
+  'case.approach': 'Abordagem e decisões',
+  'case.delivered': 'O que foi entregue',
+  'case.outcomes': 'Resultados',
+  'case.technologies': 'Tecnologias',
+  'case.cta': 'Enfrentando algo parecido?',
   // <title> (pages get " | Code Happy" appended; home is complete) and meta description.
   'meta.home.title': 'Code Happy — CTO fracionado e engenharia de IA',
   'meta.home.description':
@@ -56,6 +69,9 @@ const ptBR = {
   'meta.contact.title': 'Contato',
   'meta.contact.description':
     'Agende uma conversa inicial ou envie uma mensagem para a Code Happy. Conte qual é o desafio técnico e o que seria um bom resultado para você.',
+  'meta.work.title': 'Trabalhos selecionados',
+  'meta.work.description':
+    'Estudos de caso da Code Happy: o contexto de cada projeto, os desafios técnicos, as decisões tomadas e o que foi entregue, publicados apenas com informações confirmadas.',
   'meta.thanks.title': 'Mensagem enviada',
   'meta.thanks.description': 'Recebemos sua mensagem. A Code Happy responde em até 48 horas.',
   'meta.privacy.title': 'Política de Privacidade',
@@ -98,6 +114,19 @@ const en: Record<UiKey, string> = {
   'notFound.title': 'Page not found',
   'notFound.body': 'The address may have changed or may never have existed.',
   'notFound.home': 'Go to the home page',
+  'work.title': 'Selected work',
+  'case.summary': 'Project summary',
+  'case.client': 'Client',
+  'case.role': 'Role',
+  'case.period': 'Period',
+  'case.services': 'Services',
+  'case.context': 'Context and problem',
+  'case.challenges': 'Challenges',
+  'case.approach': 'Approach and decisions',
+  'case.delivered': 'What was delivered',
+  'case.outcomes': 'Outcomes',
+  'case.technologies': 'Technologies',
+  'case.cta': 'Facing something similar?',
   'meta.home.title': 'Code Happy — Fractional CTO and AI Engineering',
   'meta.home.description':
     'Senior technology leadership without hiring a full-time CTO: sound technical decisions, AI applied where it pays off, and delivery back under control.',
@@ -119,6 +148,9 @@ const en: Record<UiKey, string> = {
   'meta.contact.title': 'Contact',
   'meta.contact.description':
     'Book an intro call or send Code Happy a message. Tell us about the technical challenge and what a good outcome would look like for you.',
+  'meta.work.title': 'Selected work',
+  'meta.work.description':
+    "Code Happy case studies: each project's context, the technical challenges, the decisions taken and what was delivered, published only with confirmed information.",
   'meta.thanks.title': 'Message sent',
   'meta.thanks.description': 'We received your message. Code Happy replies within 48 hours.',
   'meta.privacy.title': 'Privacy Policy',
@@ -144,4 +176,21 @@ export function formatDate(locale: Locale, date: Date): string {
   return new Intl.DateTimeFormat(LANG_TAG[locale], { dateStyle: 'long', timeZone: 'UTC' }).format(
     date
   )
+}
+
+/** `YYYY` stays as is; `YYYY-MM` becomes the localized month and year (in UTC, like formatDate). */
+function formatYearMonth(locale: Locale, value: string): string {
+  const [year, month] = value.split('-').map(Number)
+  if (!month) return String(year)
+  return new Intl.DateTimeFormat(LANG_TAG[locale], {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, 1)))
+}
+
+/** A project period such as "março de 2024 – 2025" / "March 2024 – 2025" (SPEC §8.4). */
+export function formatPeriod(locale: Locale, period: { start: string; end?: string }): string {
+  const start = formatYearMonth(locale, period.start)
+  return period.end ? `${start} – ${formatYearMonth(locale, period.end)}` : start
 }

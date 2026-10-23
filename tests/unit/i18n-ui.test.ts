@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { LOCALES } from '@/i18n/locales'
-import { formatDate, ui, useTranslations } from '@/i18n/ui'
+import { formatDate, formatPeriod, ui, useTranslations } from '@/i18n/ui'
 
 describe('ui dictionaries', () => {
   it('have identical key sets in every locale (SPEC §8.4)', () => {
@@ -45,5 +45,28 @@ describe('formatDate', () => {
     process.env.TZ = 'America/Sao_Paulo'
     expect(formatDate('pt-br', new Date('2025-07-24'))).toBe('24 de julho de 2025')
     expect(formatDate('en', new Date('2025-07-24'))).toBe('July 24, 2025')
+  })
+})
+
+describe('formatPeriod (SPEC §8.4: locale-aware case-study periods)', () => {
+  it('formats year-month and year values per locale, joined by an en dash', () => {
+    expect(formatPeriod('pt-br', { start: '2024-03', end: '2025' })).toBe('março de 2024 – 2025')
+    expect(formatPeriod('en', { start: '2024-03', end: '2025' })).toBe('March 2024 – 2025')
+  })
+
+  it('shows a single value when there is no end', () => {
+    expect(formatPeriod('en', { start: '2023' })).toBe('2023')
+    expect(formatPeriod('pt-br', { start: '2023-11' })).toBe('novembro de 2023')
+  })
+
+  it('does not shift months in a UTC-3 environment', () => {
+    const originalTz = process.env.TZ
+    process.env.TZ = 'America/Sao_Paulo'
+    try {
+      expect(formatPeriod('en', { start: '2024-01' })).toBe('January 2024')
+    } finally {
+      if (originalTz === undefined) delete process.env.TZ
+      else process.env.TZ = originalTz
+    }
   })
 })

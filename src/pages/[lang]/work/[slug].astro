@@ -1,0 +1,36 @@
+---
+// One page per published case study and locale; none while nothing is published (SPEC §4.5).
+import type { CollectionEntry } from 'astro:content'
+import CaseStudy from '@/components/CaseStudy.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { LOCALES, type Locale } from '@/i18n/locales'
+import { getPublishedProjects } from '@/lib/content'
+
+export async function getStaticPaths() {
+  const paths = await Promise.all(
+    LOCALES.map(async (lang) =>
+      (await getPublishedProjects(lang)).map(({ id, entry }) => ({
+        params: { lang, slug: id },
+        props: { locale: lang, id, entry },
+      }))
+    )
+  )
+  return paths.flat()
+}
+
+interface Props {
+  locale: Locale
+  id: string
+  entry: CollectionEntry<'projects'>
+}
+const { locale, id, entry } = Astro.props
+---
+
+<BaseLayout
+  locale={locale}
+  path={`/work/${id}/`}
+  title={entry.data.title}
+  description={entry.data.summary ?? entry.data.title}
+>
+  <CaseStudy locale={locale} entry={entry} />
+</BaseLayout>

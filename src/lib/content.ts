@@ -39,10 +39,12 @@ async function inLocale<C extends Collection>(collection: C, locale: Locale) {
   return (await validated(collection)).filter((e) => e.lang === locale)
 }
 
+/** Published projects in `locale` as `{ id, entry }`; `entry` is Astro's entry, ready for render(). */
 export async function getPublishedProjects(locale: Locale) {
   return (await inLocale('projects', locale))
     .filter(({ entry }) => entry.data.status === 'published')
-    .map(({ id, entry }) => ({ ...entry, id }))
+    .map(({ id, entry }) => ({ id, entry }))
+    .sort((a, b) => a.entry.data.title.localeCompare(b.entry.data.title, locale))
 }
 
 /** Whether any case study is published; drives the Work nav link and routes (SPEC §4.5). */
@@ -52,12 +54,12 @@ export async function hasPublishedWork(): Promise<boolean> {
 
 export async function getServices(locale: Locale) {
   return (await inLocale('services', locale))
-    .map(({ id, entry }) => ({ ...entry, id: id as ServiceId }))
-    .sort((a, b) => a.data.order - b.data.order)
+    .map(({ id, entry }) => ({ id: id as ServiceId, entry }))
+    .sort((a, b) => a.entry.data.order - b.entry.data.order)
 }
 
 export async function getService(id: ServiceId, locale: Locale) {
-  return (await getServices(locale)).find((s) => s.id === id)
+  return (await getServices(locale)).find((s) => s.id === id)?.entry
 }
 
 export async function getLegal(id: 'privacy' | 'terms', locale: Locale) {

@@ -14,12 +14,13 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "lint": "eslint .",
-    "test": "vitest run tests/unit",
-    "test:dist": "vitest run tests/dist",
+    "test": "vitest run tests/unit/",
+    "test:dist": "vitest run tests/dist/",
     "test:e2e": "playwright test",
-    "verify": "npm run check && npm run lint && npm run check-format && npm run build && npm run test && npm run test:dist && npm run test:build",
+    "verify": "npm run check && npm run lint && npm run check-format && npm run build && npm run test && npm run test:dist && npm run test:build && npm run test:dist:fixtures",
     "verify:full": "npm run verify && npm run test:e2e",
-    "test:build": "vitest run tests/build"
+    "test:build": "vitest run tests/build/",
+    "test:dist:fixtures": "CONTENT_FIXTURES=1 astro build --outDir dist-fixtures && vitest run tests/dist-fixtures/"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
