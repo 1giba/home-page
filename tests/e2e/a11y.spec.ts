@@ -4,7 +4,7 @@ import { PAGES } from './fixtures'
 
 // Plan F7-02 / SPEC §12.2, §15: axe (WCAG 2.2 AA tags) finds no serious or critical issue on any
 // page, including with the mobile menu open and with the contact form showing its errors; and no
-// page logs a console error (plan F7-03 "Console", automated here).
+// page logs a console error or warning (plan F7-03 "Console", automated here).
 const URLS = [...PAGES.flatMap(({ pt, en }) => [pt, en]), '/404.html']
 const MOBILE = { width: 375, height: 800 }
 const DESKTOP = { width: 1280, height: 900 }
@@ -18,11 +18,11 @@ async function scan(page: Page) {
     .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)
 }
 
-/** Opens `url`, failing the test on any console error or uncaught page error. */
+/** Opens `url`; collects console errors and warnings and uncaught page errors (plan F7-03). */
 async function open(page: Page, url: string) {
   const errors: string[] = []
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(m.text())
+    if (m.type() === 'error' || m.type() === 'warning') errors.push(`${m.type()}: ${m.text()}`)
   })
   page.on('pageerror', (e) => errors.push(e.message))
   await page.goto(url)

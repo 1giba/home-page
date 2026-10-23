@@ -77,13 +77,17 @@ describe('internal links (SPEC §15)', () => {
     expect(checked).toBeGreaterThan(0) // at least the skip links
   })
 
-  it('no page in the sitemap is orphaned: each is linked from another page (SPEC §11.9)', () => {
+  it('no sitemap page is orphaned: each is linked from another page of its locale (§11.9)', () => {
     const locs = [...readRaw('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, l]) => l)
     expect(locs.length).toBeGreaterThan(0)
     for (const loc of locs) {
       const path = loc.slice(SITE_URL.length)
+      // The other-language twin (switcher) and redirect stubs do not count: a visitor must be
+      // able to reach the page while browsing in its own language.
+      const locale = path.split('/')[1]
       const linkedFrom = pages.filter(
         (file) =>
+          file.startsWith(`${locale}/`) &&
           urlPathFor(file) !== path &&
           readHtml(file)
             .querySelectorAll('a[href]')

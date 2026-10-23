@@ -42,21 +42,23 @@ for (const url of URLS) {
     await page.setViewportSize({ width: 320, height: 900 })
     await page.goto(url)
     await page.locator('header details > summary').click()
-    const small = await page.evaluate(() =>
-      [
+    const { small, checked, primary } = await page.evaluate(() => {
+      const targets = [
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, summary, input, select, textarea'
         ),
       ]
         .filter((el) => el.getClientRects().length > 0 && !el.classList.contains('sr-only'))
         .filter((el) => !(el instanceof HTMLInputElement && el.type === 'hidden'))
-        // WCAG 2.5.8 exempts links inline in a sentence; links that are a paragraph's only
-        // content or a list item's only content are standalone targets.
+        // WCAG 2.5.8 exempts only links inline in a sentence: rendered `display: inline` and
+        // sharing their block with other text. CTAs (data-cta) and styled links never qualify.
         .filter((el) => {
-          if (el.tagName !== 'A') return true
-          const parent = el.parentElement
-          return !parent || parent.textContent?.trim() === el.textContent?.trim()
+          if (el.tagName !== 'A' || el.dataset.cta) return true
+          if (getComputedStyle(el).display !== 'inline') return true
+          const block = el.closest('p, li, dd, td')
+          return !block || block.textContent?.trim() === el.textContent?.trim()
         })
+      const small = targets
         .map((el) => {
           const r = el.getBoundingClientRect()
           const min = el.dataset.cta === 'primary' ? 44 : 24
@@ -67,7 +69,12 @@ for (const url of URLS) {
             : null
         })
         .filter(Boolean)
-    )
+      const primary = targets.filter((el) => el.dataset.cta === 'primary').length
+      return { small, checked: targets.length, primary }
+    })
     expect(small).toEqual([])
+    // Never pass on nothing: the header alone has the menu button, links and the primary CTA.
+    expect(checked).toBeGreaterThan(5)
+    expect(primary).toBeGreaterThanOrEqual(1)
   })
 }

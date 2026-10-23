@@ -19,7 +19,22 @@ function visibleText(doc: HTMLElement): string {
   const attrs = doc
     .querySelectorAll('[aria-label], [alt], [title], meta[name="description"]')
     .flatMap((el) => ['aria-label', 'alt', 'title', 'content'].map((a) => el.getAttribute(a) ?? ''))
-  return [doc.querySelector('title')?.text ?? '', doc.querySelector('body')?.text ?? '', ...attrs]
+  // Copy handed to scripts (the contact form's validation messages), shown on demand.
+  const strings = (value: unknown): string[] =>
+    typeof value === 'string'
+      ? [value]
+      : value && typeof value === 'object'
+        ? Object.values(value).flatMap(strings)
+        : []
+  const scriptCopy = doc
+    .querySelectorAll('[data-options]')
+    .flatMap((el) => strings(JSON.parse(el.getAttribute('data-options') ?? '{}')))
+  return [
+    doc.querySelector('title')?.text ?? '',
+    doc.querySelector('body')?.text ?? '',
+    ...attrs,
+    ...scriptCopy,
+  ]
     .join(' ')
     .replace(/\s+/g, ' ')
 }
