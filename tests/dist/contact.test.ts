@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CALENDLY_URL, FORMSUBMIT_ACTION } from '../../src/config/site'
-import { readHtml } from './helpers'
+import { listHtmlFiles, readHtml } from './helpers'
 
 // Plan F5-01 / SPEC §13.2–§13.4: the contact form markup, over the built HTML.
 const LOCALES = ['pt-br', 'en'] as const
@@ -123,6 +123,47 @@ describe('thanks page (SPEC §5.2, B6)', () => {
       expect(main().text).toContain(locale === 'pt-br' ? '48 horas' : '48 hours')
       expect(main().querySelector(`a[href="${CALENDLY_URL}"]`)).not.toBeNull()
       expect(main().querySelector(`a[href="/${locale}/"]`)).not.toBeNull()
+    })
+  }
+})
+
+describe('typography', () => {
+  // Astro drops a line break between an expression and an element, so text written on its own
+  // line before a link renders glued to it ("escreva para:contato@…"). Includes <template>s.
+  it('no inline link is glued to the text before or after it', () => {
+    for (const file of listHtmlFiles()) {
+      const main = readHtml(file).querySelector('main')?.innerHTML ?? ''
+      expect(main, file).not.toMatch(/[\p{L}\d:;,]<a\s/u)
+      expect(main, file).not.toMatch(/<\/a>[\p{L}\d]/u)
+    }
+  })
+})
+
+describe('contact page composition (plan F5-03, SPEC §5.2)', () => {
+  for (const locale of LOCALES) {
+    const main = () => readHtml(`${locale}/contact/index.html`).querySelector('main')!
+
+    it(`${locale}: sections in order — intro, call, message, email, FAQ`, () => {
+      const sections = main()
+        .querySelectorAll('[data-section]')
+        .map((s) => s.getAttribute('data-section'))
+      expect(sections).toEqual(['call', 'message', 'email', 'faq'])
+      expect(main().querySelectorAll('h1')).toHaveLength(1)
+      // "What happens next", right under the H1.
+      expect(main().querySelector('h1 + p')?.text.trim().length).toBeGreaterThan(20)
+    })
+
+    it(`${locale}: the call is labeled with its confirmed 30-minute duration (B6)`, () => {
+      const call = main().querySelector('[data-section="call"]')!
+      expect(call.text).toMatch(/30 minutos|30-minute/)
+      expect(call.querySelector(`a[href="${CALENDLY_URL}"]`)).not.toBeNull()
+    })
+
+    it(`${locale}: the FAQ answers only the budget question; no legacy timelines`, () => {
+      const faq = main().querySelector('[data-section="faq"]')!
+      expect(faq.querySelectorAll('h3')).toHaveLength(1)
+      expect(faq.text).toMatch(locale === 'pt-br' ? /proposta por escrito/ : /written proposal/)
+      expect(main().text).not.toMatch(/semanas|meses|weeks|months/i)
     })
   }
 })

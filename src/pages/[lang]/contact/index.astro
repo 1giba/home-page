@@ -1,6 +1,10 @@
 ---
+// Contact (SPEC §5.2, plan F5-03): the intro call first (primary CTA, Q-11 default), then the
+// form, direct email and the one confirmed FAQ answer. No "available for projects" indicator.
 import ContactForm from '@/components/ContactForm.astro'
 import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import { CALENDLY_URL, CONTACT_EMAIL } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import type { Locale } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
@@ -13,6 +17,7 @@ interface Props {
 }
 const { locale } = Astro.props
 const t = useTranslations(locale)
+const h2 = 'text-2xl font-semibold tracking-tight'
 ---
 
 <BaseLayout
@@ -22,9 +27,54 @@ const t = useTranslations(locale)
   description={t('meta.contact.description')}
 >
   <Container class="py-16">
-    <h1 class="text-3xl font-semibold tracking-tight">{t('page.contact')}</h1>
-    <div class="mt-10">
-      <ContactForm locale={locale} />
+    <h1 class="text-3xl font-semibold tracking-tight">{t('contact.title')}</h1>
+    <p class="mt-4 max-w-prose text-lg text-muted">{t('contact.lead')}</p>
+
+    <div class="mt-12 flex max-w-prose flex-col gap-16">
+      <section data-section="call" aria-labelledby="call">
+        <h2 id="call" class={h2}>
+          {t('contact.call')}
+        </h2>
+        <p class="mt-3">{t('contact.callText')}</p>
+        <LinkButton
+          href={CALENDLY_URL}
+          variant="primary"
+          externalLabel={t('a11y.external')}
+          class="mt-5"
+        >
+          {t('cta.book')}
+        </LinkButton>
+      </section>
+
+      <section data-section="message" aria-labelledby="message-heading">
+        <h2 id="message-heading" class={h2}>
+          {t('cta.message')}
+        </h2>
+        <p class="mt-3">{t('contact.messageText')}</p>
+        <div class="mt-6">
+          <ContactForm locale={locale} />
+        </div>
+      </section>
+
+      <section data-section="email" aria-labelledby="email-heading">
+        <h2 id="email-heading" class={h2}>
+          {t('contact.email')}
+        </h2>
+        <p class="mt-3">{t('contact.emailText')}</p>
+        <p class="mt-2">
+          <a href={`mailto:${CONTACT_EMAIL}`} class="inline-block max-w-full py-1 wrap-anywhere">
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+      </section>
+
+      <section data-section="faq" aria-labelledby="faq">
+        <h2 id="faq" class={h2}>
+          {t('contact.faq')}
+        </h2>
+        <h3 class="mt-6 font-semibold">{t('contact.faq.budget')}</h3>
+        <p class="mt-2">{t('contact.faq.budgetAnswer')}</p>
+      </section>
     </div>
   </Container>
 </BaseLayout>

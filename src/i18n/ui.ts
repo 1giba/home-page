@@ -139,10 +139,24 @@ const ptBR = {
   'form.error.email': 'Informe um e-mail válido, como nome@empresa.com.',
   'form.error.minlength': 'Escreva pelo menos {n} caracteres.',
   'form.error.maxlength': 'Use no máximo {n} caracteres.',
-  'form.failure': 'Não foi possível enviar a mensagem. Tente de novo ou escreva diretamente para',
+  'form.failure': 'Não foi possível enviar a mensagem. Tente de novo ou escreva diretamente para:',
   'thanks.text': 'Obrigado pelo contato. A Code Happy responde em até 48 horas.',
   'thanks.call': 'Se preferir, agende já uma conversa de 30 minutos.',
   'thanks.home': 'Voltar para a página inicial',
+  // Contact page (SPEC §5.2; call duration and reply time B6; budget answer plan F5-03).
+  'contact.title': 'Fale com a Code Happy',
+  'contact.lead':
+    'Agende uma conversa inicial ou envie uma mensagem. A partir daí, definimos juntos o escopo e você recebe uma proposta por escrito.',
+  'contact.call': 'Agendar uma conversa',
+  'contact.callText':
+    'Uma conversa de 30 minutos, agendada pelo Calendly, para entender o seu contexto.',
+  'contact.messageText': 'A resposta chega em até 48 horas.',
+  'contact.email': 'E-mail',
+  'contact.emailText': 'Se preferir, escreva diretamente para:',
+  'contact.faq': 'Perguntas frequentes',
+  'contact.faq.budget': 'Quanto custa?',
+  'contact.faq.budgetAnswer':
+    'Depois da conversa inicial, enviamos uma proposta por escrito com o escopo e as condições do trabalho.',
   'meta.about.title': 'Sobre',
   'meta.contact.title': 'Contato',
   'meta.contact.description':
@@ -295,10 +309,22 @@ const en: Record<UiKey, string> = {
   'form.error.email': 'Enter a valid email address, such as name@company.com.',
   'form.error.minlength': 'Write at least {n} characters.',
   'form.error.maxlength': 'Use at most {n} characters.',
-  'form.failure': 'The message could not be sent. Please try again, or email us directly at',
+  'form.failure': 'The message could not be sent. Please try again, or email us directly at:',
   'thanks.text': 'Thank you for getting in touch. Code Happy replies within 48 hours.',
   'thanks.call': 'If you prefer, book a 30-minute call now.',
   'thanks.home': 'Back to the home page',
+  'contact.title': 'Talk to Code Happy',
+  'contact.lead':
+    'Book an intro call or send a message. From there, we define the scope together and you receive a written proposal.',
+  'contact.call': 'Book a call',
+  'contact.callText': 'A 30-minute conversation, booked on Calendly, to understand your situation.',
+  'contact.messageText': 'You will get a reply within 48 hours.',
+  'contact.email': 'Email',
+  'contact.emailText': 'If you prefer, write directly to:',
+  'contact.faq': 'Questions',
+  'contact.faq.budget': 'How much does it cost?',
+  'contact.faq.budgetAnswer':
+    'After an intro call, we send a written proposal with the scope and terms of the work.',
   'meta.about.title': 'About',
   'meta.contact.title': 'Contact',
   'meta.contact.description':

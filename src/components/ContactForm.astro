@@ -180,7 +180,10 @@ const options = {
 
   <template data-failure>
     <p class="text-error">
-      {t('form.failure')} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      {t('form.failure')}{' '}
+      <a href={`mailto:${CONTACT_EMAIL}`} class="wrap-anywhere">
+        {CONTACT_EMAIL}
+      </a>
     </p>
   </template>
 </div>

@@ -1,5 +1,5 @@
 import { expect, test, type Page, type Route } from '@playwright/test'
-import { CONTACT_EMAIL, FORMSUBMIT_AJAX } from '../../src/config/site'
+import { CALENDLY_URL, CONTACT_EMAIL, FORMSUBMIT_AJAX } from '../../src/config/site'
 
 // Plan F5-02 / SPEC §13.2, §13.4, Review Focus 2: with JavaScript the form submits through
 // FormSubmit's AJAX endpoint and reports success only on a confirmed positive response.
@@ -168,5 +168,18 @@ for (const lang of ['pt-br', 'en'] as const) {
   test(`/${lang}/contact/?service=bogus is ignored`, async ({ page }) => {
     await page.goto(`/${lang}/contact/?service=bogus`)
     await expect(page.locator('#service')).toHaveValue('other')
+  })
+}
+
+// Plan F5-03 / SPEC §5.2: the intro call is the primary path, email is always offered, and the
+// legacy "Available for projects" pulsing indicator is gone (SPEC §2.10).
+for (const lang of ['pt-br', 'en'] as const) {
+  test(`/${lang}/contact/ leads with the Calendly call, offers email, has no pulse`, async ({
+    page,
+  }) => {
+    await page.goto(`/${lang}/contact/`)
+    await expect(page.locator('main a').first()).toHaveAttribute('href', CALENDLY_URL)
+    await expect(page.locator(`main a[href="mailto:${CONTACT_EMAIL}"]`)).toBeVisible()
+    await expect(page.locator('.animate-pulse')).toHaveCount(0)
   })
 }
