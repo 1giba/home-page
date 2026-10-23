@@ -7,6 +7,7 @@ import {
   listHtmlFiles,
   projectSources,
   readHtml,
+  readRaw,
   urlPathFor,
 } from './helpers'
 
@@ -128,6 +129,57 @@ describe('SEO head on indexable localized pages (SPEC §11)', () => {
       if (isHome) expect(title.startsWith('Code Happy'), f).toBe(true)
       else expect(title.endsWith(' | Code Happy'), f).toBe(true)
     }
+  })
+})
+
+describe('sitemap.xml and robots.txt (plan F6-01, SPEC §11.4)', () => {
+  const sitemap = () => readRaw('sitemap.xml')
+  /** Each <url> entry: its <loc> and its xhtml:link alternates as [hreflang, href]. */
+  const entries = () =>
+    [...sitemap().matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, body]) => ({
+      loc: /<loc>([^<]+)<\/loc>/.exec(body)?.[1] ?? '',
+      alternates: [
+        ...body.matchAll(/<xhtml:link rel="alternate" hreflang="([^"]+)" href="([^"]+)"\s*\/>/g),
+      ].map(([, lang, href]) => [lang, href] as [string, string]),
+    }))
+
+  it('is a sitemap urlset declaring the xhtml namespace', () => {
+    expect(sitemap()).toMatch(/^<\?xml version="1\.0" encoding="UTF-8"\?>/)
+    expect(sitemap()).toContain('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"')
+    expect(sitemap()).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"')
+  })
+
+  it('lists exactly the canonical URLs of the indexable localized pages, once each', () => {
+    const locs = entries().map((e) => e.loc)
+    expect(new Set(locs).size).toBe(locs.length)
+    expect([...locs].sort()).toEqual(
+      indexable()
+        .map((f) => SITE + urlPathFor(f))
+        .sort()
+    )
+  })
+
+  it('gives every URL the same pt-BR, en and x-default alternates as its page head', () => {
+    for (const { loc, alternates } of entries()) {
+      const file = `${loc.slice(SITE.length + 1)}index.html`
+      expect([...alternates].sort(), loc).toEqual([...hreflangLinks(readHtml(file))].sort())
+      expect(alternates, loc).toHaveLength(3)
+    }
+  })
+
+  it('excludes the thanks pages, the 404 and, while nothing is published, Work', () => {
+    const locs = entries().map((e) => e.loc)
+    expect(locs.filter((l) => /\/thanks\/|404/.test(l))).toEqual([])
+    if (!projectSources().some((p) => p.published))
+      expect(locs.filter((l) => l.includes('/work/'))).toEqual([])
+  })
+
+  it('robots.txt allows everything and points to the sitemap', () => {
+    const lines = readRaw('robots.txt').trim().split('\n')
+    expect(lines).toContain('User-agent: *')
+    expect(lines).toContain('Allow: /')
+    expect(lines).toContain(`Sitemap: ${SITE}/sitemap.xml`)
+    expect(lines.filter((l) => /^Disallow:/i.test(l) && l.trim() !== 'Disallow:')).toEqual([])
   })
 })
 
