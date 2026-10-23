@@ -5,6 +5,7 @@ import {
   isLocalized,
   isRedirectStub,
   listHtmlFiles,
+  projectSources,
   readHtml,
   urlPathFor,
 } from './helpers'
@@ -41,8 +42,11 @@ const indexable = () => pages().filter((f) => isLocalized(f) && !isNoindex(readH
 describe('SEO head on indexable localized pages (SPEC §11)', () => {
   it('covers the expected pages', () => {
     assertDistBuilt()
-    // 9 indexable pages per locale: home, services, 3 services, about, contact, privacy, terms.
-    expect(indexable()).toHaveLength(18)
+    // Per locale: home, services, 3 services, about, contact, privacy, terms (9), plus the Work
+    // index and one page per published case study once anything is published (SPEC §4.5).
+    const published = projectSources().filter((p) => p.published).length
+    const perLocale = 9 + (published > 0 ? 1 + published : 0)
+    expect(indexable()).toHaveLength(2 * perLocale)
   })
 
   it('has exactly one <title> in <head> per page, unique across the site', () => {

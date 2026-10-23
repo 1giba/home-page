@@ -1,11 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import { parityProblems, projectProblems, splitEntryId, type ProjectData } from '@/lib/publication'
+import {
+  parityProblems,
+  periodProblems,
+  projectProblems,
+  splitEntryId,
+  type ProjectData,
+} from '@/lib/publication'
 
 // Obviously fictional values; never placed in src/content (plan F3-01).
 const validPublished: ProjectData = {
   status: 'published',
   title: 'Fixture',
-  summary: 'A fictional project used only by tests.',
+  summary: 'A fictional project used only by the unit tests of the publication rules.',
   client: { display: 'Fixture Client', attribution: 'anonymized' },
   services: ['advisory'],
   role: 'Fixture role',
@@ -102,6 +108,82 @@ describe('projectProblems (SPEC §4.4, §10.3)', () => {
       expect(problems).toContainEqual(expect.stringContaining(field))
     }
     expect(problems).toContainEqual(expect.stringContaining('permissionRecordedOn'))
+  })
+})
+
+describe('projectProblems — review hardening (F3 review)', () => {
+  it('requires a published summary of at least 50 characters (it is the meta description, §11.1)', () => {
+    expect(projectProblems({ ...validPublished, summary: 'Short.' }, BODY)).toContainEqual(
+      expect.stringContaining('summary')
+    )
+  })
+
+  it('treats an approach made only of HTML comments or whitespace as missing', () => {
+    expect(projectProblems(validPublished, '<!-- nothing here -->\n  ')).toContainEqual(
+      expect.stringContaining('approach')
+    )
+  })
+
+  it('rejects # and ## headings in the approach: it sits under the page h2 (§11.2)', () => {
+    for (const body of [
+      '# A body H1\n\ntext',
+      'text\n\n## A body H2\n',
+      '<h1>x</h1>',
+      '<h2 id="a">x</h2>',
+    ]) {
+      expect(projectProblems(validPublished, body), body).toContainEqual(
+        expect.stringContaining('###')
+      )
+    }
+    expect(projectProblems(validPublished, '### Fine heading\n\ntext')).toEqual([])
+  })
+
+  it('rejects blank list entries and a blank client name on published entries', () => {
+    expect(projectProblems({ ...validPublished, challenges: ['x', '   '] }, BODY)).toContainEqual(
+      expect.stringContaining('challenges')
+    )
+    expect(projectProblems({ ...validPublished, delivered: ['   '] }, BODY)).toContainEqual(
+      expect.stringContaining('delivered')
+    )
+    expect(
+      projectProblems({ ...validPublished, outcomes: [{ text: '  ', source: 's' }] }, BODY)
+    ).toContainEqual(expect.stringContaining('outcomes'))
+    expect(
+      projectProblems(
+        { ...validPublished, client: { display: '   ', attribution: 'anonymized' } },
+        BODY
+      )
+    ).toContainEqual(expect.stringContaining('client'))
+  })
+
+  it('refuses images on unpublished projects: Astro would copy them into the public build', () => {
+    const draft: ProjectData = { status: 'draft', title: 'X' }
+    expect(projectProblems({ ...draft, cover: {} }, '')).toContainEqual(
+      expect.stringContaining('image')
+    )
+    for (const body of ['![logo](./client-logo.png)', '<img src="./shot.png" alt="">']) {
+      expect(projectProblems(draft, body), body).toContainEqual(expect.stringContaining('image'))
+    }
+    expect(projectProblems({ ...draft, status: 'review', cover: {} })).toContainEqual(
+      expect.stringContaining('image')
+    )
+    // Remote images are not copied into the build.
+    expect(projectProblems(draft, '![x](https://example.com/x.png)')).toEqual([])
+  })
+})
+
+describe('periodProblems', () => {
+  it('accepts valid year and year-month periods in order', () => {
+    expect(periodProblems({ start: '2024-03', end: '2025' })).toEqual([])
+    expect(periodProblems({ start: '2025-06', end: '2025' })).toEqual([])
+    expect(periodProblems({ start: '2023' })).toEqual([])
+  })
+
+  it('rejects impossible months and periods that end before they start', () => {
+    expect(periodProblems({ start: '2024-13' })).not.toEqual([])
+    expect(periodProblems({ start: '2024-00' })).not.toEqual([])
+    expect(periodProblems({ start: '2024-03', end: '2020' })).not.toEqual([])
+    expect(periodProblems({ start: '2024-05', end: '2024-02' })).not.toEqual([])
   })
 })
 

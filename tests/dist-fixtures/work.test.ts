@@ -47,6 +47,19 @@ describe('Work routes with a published project (SPEC §4.5, §5.2)', () => {
     expect(link?.text).toContain('Projeto Fixture')
   })
 
+  for (const [locale, intro] of [
+    ['pt-br', 'Projetos em que a Code Happy atuou'],
+    ['en', 'Projects Code Happy has worked on'],
+  ] as const) {
+    it(`gives the Work index an intro and the primary CTA (SPEC §5.2, ${locale})`, () => {
+      const main = html(`${locale}/work/index.html`).querySelector('main')!
+      expect(main.querySelector('h1 + p')?.text).toContain(intro)
+      const cta = main.querySelector('a[data-cta="primary"]')
+      expect(cta?.getAttribute('href')).toBe('https://calendly.com/1giba')
+      expect(cta?.querySelector('.sr-only')).not.toBeNull()
+    })
+  }
+
   it('never renders outcome sources or confidentiality notes anywhere', () => {
     for (const f of allHtml()) {
       expect(read(f), f).not.toMatch(/SECRET-SOURCE|SECRET-NOTE/)

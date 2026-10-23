@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "CONTENT_FIXTURES= astro check && CONTENT_FIXTURES= astro build",
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier --write .",
@@ -20,7 +20,7 @@
     "verify": "npm run check && npm run lint && npm run check-format && npm run build && npm run test && npm run test:dist && npm run test:build && npm run test:dist:fixtures",
     "verify:full": "npm run verify && npm run test:e2e",
     "test:build": "vitest run tests/build/",
-    "test:dist:fixtures": "CONTENT_FIXTURES=1 astro build --outDir dist-fixtures && vitest run tests/dist-fixtures/"
+    "test:dist:fixtures": "CONTENT_FIXTURES=1 astro build --outDir dist-fixtures && vitest run tests/dist-fixtures/ && DIST_DIR=dist-fixtures PROJECTS_DIR=tests/fixtures/projects vitest run tests/dist/seo.test.ts tests/dist/content-safety.test.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

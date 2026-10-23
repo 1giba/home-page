@@ -35,6 +35,8 @@ const ptBR = {
   'notFound.body': 'O endereço pode ter mudado ou não existir.',
   'notFound.home': 'Ir para a página inicial',
   'work.title': 'Trabalhos selecionados',
+  'work.intro':
+    'Projetos em que a Code Happy atuou, com o contexto de cada um, as decisões tomadas e o que foi entregue.',
   'case.summary': 'Resumo do projeto',
   'case.client': 'Cliente',
   'case.role': 'Papel',
@@ -115,6 +117,8 @@ const en: Record<UiKey, string> = {
   'notFound.body': 'The address may have changed or may never have existed.',
   'notFound.home': 'Go to the home page',
   'work.title': 'Selected work',
+  'work.intro':
+    'Projects Code Happy has worked on, with the context of each one, the decisions taken and what was delivered.',
   'case.summary': 'Project summary',
   'case.client': 'Client',
   'case.role': 'Role',

@@ -3,7 +3,7 @@
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
-import { projectProblems } from './lib/publication'
+import { periodProblems, projectProblems } from './lib/publication'
 import { SERVICE_IDS } from './lib/routes'
 
 const markdownIn = (collection: string, base = `./src/content/${collection}`) =>
@@ -69,6 +69,9 @@ const projects = defineCollection({
       .superRefine((data, ctx) => {
         // Frontmatter rules here; the loader re-checks with the approach body (src/lib/content.ts).
         for (const message of projectProblems(data)) ctx.addIssue({ code: 'custom', message })
+        for (const message of data.period ? periodProblems(data.period) : []) {
+          ctx.addIssue({ code: 'custom', message })
+        }
         if (data.cover && !data.coverAlt) {
           ctx.addIssue({ code: 'custom', message: 'coverAlt is required with cover (SPEC §11.11)' })
         }

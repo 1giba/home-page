@@ -2,7 +2,10 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { parse, type HTMLElement } from 'node-html-parser'
 
-export const distDir = join(process.cwd(), 'dist')
+// DIST_DIR / PROJECTS_DIR let the same checks run against the fixture build (a published project).
+export const distDir = join(process.cwd(), process.env.DIST_DIR ?? 'dist')
+export const projectsDir = join(process.cwd(), process.env.PROJECTS_DIR ?? 'src/content/projects')
+export const isFixtureBuild = process.env.DIST_DIR !== undefined
 
 /** Fails loudly when the build output is missing, instead of letting checks pass on nothing. */
 export function assertDistBuilt(): void {
@@ -20,6 +23,40 @@ export function listHtmlFiles(dir: string = distDir): string[] {
     if (entry.isDirectory()) return listHtmlFiles(full)
     return entry.name.endsWith('.html') ? [relative(distDir, full)] : []
   })
+}
+
+/** Every file under dist/ (any type), relative to dist/. */
+export function listAllFiles(dir: string = distDir): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = join(dir, entry.name)
+    return entry.isDirectory() ? listAllFiles(full) : [relative(distDir, full)]
+  })
+}
+
+/** Frontmatter of a Markdown file as raw text (the block between the first two `---` lines). */
+const frontmatter = (path: string) =>
+  /^---\r?\n([\s\S]*?)\r?\n---/.exec(readFileSync(path, 'utf8'))?.[1] ?? ''
+
+export interface ProjectSource {
+  id: string
+  title: string
+  published: boolean
+}
+
+/** Projects as written in the content sources: one per folder, published if any locale is. */
+export function projectSources(): ProjectSource[] {
+  if (!existsSync(projectsDir)) return []
+  return readdirSync(projectsDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map(({ name: id }) => {
+      const files = readdirSync(join(projectsDir, id)).filter((f) => f.endsWith('.md'))
+      const fms = files.map((f) => frontmatter(join(projectsDir, id, f)))
+      return {
+        id,
+        title: /^title:\s*['"]?(.+?)['"]?\s*$/m.exec(fms[0] ?? '')?.[1] ?? id,
+        published: fms.some((fm) => /^status:\s*['"]?published['"]?\s*$/m.test(fm)),
+      }
+    })
 }
 
 export function readRaw(rel: string): string {

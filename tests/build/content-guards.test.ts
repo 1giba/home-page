@@ -40,6 +40,19 @@ describe('content publication guards (build-time)', () => {
     }
   })
 
+  // Astro copies collection images into the public build whatever the entry's status (F3 review).
+  it('fails the build for an unpublished project with a cover image', () => {
+    const { status, output } = build('projects-draft-cover')
+    expect(status).not.toBe(0)
+    expect(output).toContain('images are only allowed on published projects')
+  })
+
+  it('fails the build for an unpublished project with a local image in its body', () => {
+    const { status, output } = build('projects-draft-body-image')
+    expect(status).not.toBe(0)
+    expect(output).toContain('images are only allowed on published projects')
+  })
+
   it('builds normally when every published project is complete (control)', () => {
     const { status, output } = build('projects')
     expect(output).not.toMatch(/not fit to publish|is required/)
