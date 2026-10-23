@@ -30,3 +30,6 @@ playwright-report/
 .env*
 /dist-guards
 /dist-fixtures
+
+# Lighthouse output (plan F7-03)
+lh-*.json
