@@ -1,6 +1,7 @@
 ---
 // One static 404 for the whole site, in both languages (SPEC §5.2). It has no language
 // alternates, so the header shows no switcher; the two home links below serve that purpose.
+// It passes no `path`: it has no URL of its own, so no canonical or hreflang.
 import Container from '@/components/ui/Container.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { localizedPath } from '@/i18n/paths'
@@ -10,7 +11,6 @@ const pt = ui['pt-br']
 const en = ui.en
 ---
 
-<!-- No `path`: the 404 has no URL of its own, so no canonical or hreflang (plan F2-04). -->
 <BaseLayout
   locale="pt-br"
   title={`${pt['notFound.title']} · ${en['notFound.title']}`}

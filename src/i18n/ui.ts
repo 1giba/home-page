@@ -52,7 +52,7 @@ const ptBR = {
     'Avaliações técnicas independentes e com escopo definido: revisão de arquitetura, due diligence e diagnóstico de código, com recomendações priorizadas.',
   'meta.about.title': 'Sobre',
   'meta.about.description':
-    'Conheça a Code Happy, consultoria brasileira de tecnologia liderada pessoalmente pelo fundador, que trabalha com desenvolvimento de software desde 2004.',
+    'Conheça a Code Happy, consultoria brasileira de tecnologia. Seu fundador desenvolve software profissionalmente desde 2004 e lidera pessoalmente os projetos.',
   'meta.contact.title': 'Contato',
   'meta.contact.description':
     'Agende uma conversa inicial ou envie uma mensagem para a Code Happy. Conte qual é o desafio técnico e o que seria um bom resultado para você.',

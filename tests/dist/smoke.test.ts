@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { assertDistBuilt, isRedirectStub, listHtmlFiles, readHtml, urlPathFor } from './helpers'
+import {
+  assertDistBuilt,
+  isRedirectStub,
+  listHtmlFiles,
+  readHtml,
+  readRaw,
+  urlPathFor,
+} from './helpers'
 
 describe('build output', () => {
   it('exists', () => {
@@ -16,6 +23,13 @@ describe('build output', () => {
       expect(html.querySelector('html')?.getAttribute('lang'), page).toMatch(/^(pt-BR|en)$/)
       expect(html.querySelector('body')?.text.trim(), page).not.toBe('')
     }
+  })
+})
+
+describe('published HTML', () => {
+  it('contains no HTML comments, so developer notes never ship', () => {
+    const withComments = listHtmlFiles().filter((f) => readRaw(f).includes('<!--'))
+    expect(withComments).toEqual([])
   })
 })
 

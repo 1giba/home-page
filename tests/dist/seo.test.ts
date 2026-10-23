@@ -11,18 +11,29 @@ import {
 
 const SITE = 'https://codehappy.com.br'
 
-const meta = (doc: HTMLElement, attr: 'name' | 'property', key: string) =>
-  doc.querySelector(`meta[${attr}="${key}"]`)?.getAttribute('content')
+const head = (doc: HTMLElement) => doc.querySelector('head') ?? doc
 
-const isNoindex = (doc: HTMLElement) => meta(doc, 'name', 'robots')?.includes('noindex') ?? false
-
-function alternatesOf(doc: HTMLElement): Record<string, string> {
-  return Object.fromEntries(
-    doc
-      .querySelectorAll('link[rel="alternate"][hreflang]')
-      .map((l) => [l.getAttribute('hreflang')!, l.getAttribute('href')!])
-  )
+/** The one element in <head> matching `selector`; fails when it is missing or duplicated. */
+function only(doc: HTMLElement, selector: string, file: string): HTMLElement {
+  const all = head(doc).querySelectorAll(selector)
+  expect(all, `${file}: expected exactly one ${selector}`).toHaveLength(1)
+  return all[0]
 }
+
+const content = (doc: HTMLElement, selector: string, file: string) =>
+  only(doc, selector, file).getAttribute('content')
+
+// Search engines apply the most restrictive robots directive, so look at every robots meta.
+const isNoindex = (doc: HTMLElement) =>
+  head(doc)
+    .querySelectorAll('meta[name="robots"]')
+    .some((m) => (m.getAttribute('content') ?? '').toLowerCase().includes('noindex'))
+
+/** hreflang links as [label, href] pairs, in document order, duplicates kept. */
+const hreflangLinks = (doc: HTMLElement): [string, string][] =>
+  head(doc)
+    .querySelectorAll('link[rel="alternate"][hreflang]')
+    .map((l) => [l.getAttribute('hreflang') ?? '', l.getAttribute('href') ?? ''])
 
 const pages = () => listHtmlFiles().filter((f) => !isRedirectStub(f))
 const indexable = () => pages().filter((f) => isLocalized(f) && !isNoindex(readHtml(f)))
@@ -34,18 +45,21 @@ describe('SEO head on indexable localized pages (SPEC §11)', () => {
     expect(indexable()).toHaveLength(18)
   })
 
-  it('has exactly one <title> per page, unique across the site', () => {
-    const titles = indexable().map((f) => {
-      const all = readHtml(f).querySelectorAll('title')
-      expect(all, f).toHaveLength(1)
-      return all[0].text.trim()
-    })
+  it('has exactly one <title> in <head> per page, unique across the site', () => {
+    // Scoped to <head>: an accessible <svg><title> in the body is not a document title.
+    const titles = indexable().map((f) => only(readHtml(f), 'title', f).text.trim())
     expect(new Set(titles).size).toBe(titles.length)
   })
 
-  it('has a unique meta description of 50–170 characters', () => {
+  it('carries no robots directive at all, so nothing can make it noindex', () => {
+    for (const f of indexable()) {
+      expect(head(readHtml(f)).querySelectorAll('meta[name="robots"]'), f).toHaveLength(0)
+    }
+  })
+
+  it('has exactly one meta description, unique and 50–170 characters long', () => {
     const descriptions = indexable().map((f) => {
-      const d = meta(readHtml(f), 'name', 'description') ?? ''
+      const d = content(readHtml(f), 'meta[name="description"]', f) ?? ''
       expect(d.length, `${f}: "${d}"`).toBeGreaterThanOrEqual(50)
       expect(d.length, `${f}: "${d}"`).toBeLessThanOrEqual(170)
       return d
@@ -53,47 +67,59 @@ describe('SEO head on indexable localized pages (SPEC §11)', () => {
     expect(new Set(descriptions).size).toBe(descriptions.length)
   })
 
-  it('has an absolute self-referencing canonical (SPEC §11.3)', () => {
+  it('has one absolute self-referencing canonical (SPEC §11.3)', () => {
     for (const f of indexable()) {
-      const canonicals = readHtml(f).querySelectorAll('link[rel="canonical"]')
-      expect(canonicals, f).toHaveLength(1)
-      expect(canonicals[0].getAttribute('href'), f).toBe(SITE + urlPathFor(f))
+      expect(only(readHtml(f), 'link[rel="canonical"]', f).getAttribute('href'), f).toBe(
+        SITE + urlPathFor(f)
+      )
     }
   })
 
-  it('lists pt-BR, en and x-default (= en) alternates, absolute and reciprocal (SPEC §8.4)', () => {
+  it('lists exactly one pt-BR, en and x-default alternate, each in its own language (SPEC §8.4)', () => {
     for (const f of indexable()) {
-      const alts = alternatesOf(readHtml(f))
-      expect(Object.keys(alts).sort(), f).toEqual(['en', 'pt-BR', 'x-default'])
-      for (const href of Object.values(alts)) expect(href.startsWith(`${SITE}/`), f).toBe(true)
+      const links = hreflangLinks(readHtml(f))
+      // Exactly three links with three distinct labels: no duplicates, nothing missing.
+      expect(links.map(([label]) => label).sort(), f).toEqual(['en', 'pt-BR', 'x-default'])
+      const alts = Object.fromEntries(links)
+      // Each label points into its own language's tree; x-default is the English page.
+      expect(alts['pt-BR'].startsWith(`${SITE}/pt-br/`), `${f}: pt-BR → ${alts['pt-BR']}`).toBe(
+        true
+      )
+      expect(alts.en.startsWith(`${SITE}/en/`), `${f}: en → ${alts.en}`).toBe(true)
       expect(alts['x-default'], f).toBe(alts.en)
-      expect(Object.values(alts), f).toContain(SITE + urlPathFor(f))
-      // Reciprocity: the page in the other language declares the same set.
+      // The page lists itself under its own language.
+      expect(alts[f.startsWith('pt-br/') ? 'pt-BR' : 'en'], f).toBe(SITE + urlPathFor(f))
+      // Reciprocity: the page in the other language declares the identical set.
       const other = f.startsWith('pt-br/') ? alts.en : alts['pt-BR']
       const otherFile = `${other.slice(SITE.length + 1)}index.html`
-      expect(alternatesOf(readHtml(otherFile)), `${f} ↔ ${otherFile}`).toEqual(alts)
+      expect(otherFile, f).not.toBe(f)
+      const otherLinks = hreflangLinks(readHtml(otherFile))
+      expect([...otherLinks].sort(), `${f} ↔ ${otherFile}`).toEqual([...links].sort())
     }
   })
 
-  it('sets Open Graph fields that match the page (SPEC §11.7)', () => {
+  it('sets one of each Open Graph field, matching the page (SPEC §11.7)', () => {
     for (const f of indexable()) {
       const doc = readHtml(f)
       const locale = f.startsWith('pt-br/') ? 'pt_BR' : 'en_US'
-      expect(meta(doc, 'property', 'og:locale'), f).toBe(locale)
-      expect(meta(doc, 'property', 'og:locale:alternate'), f).toBe(
+      expect(content(doc, 'meta[property="og:locale"]', f)).toBe(locale)
+      expect(content(doc, 'meta[property="og:locale:alternate"]', f)).toBe(
         locale === 'pt_BR' ? 'en_US' : 'pt_BR'
       )
-      expect(meta(doc, 'property', 'og:type'), f).toBe('website')
-      expect(meta(doc, 'property', 'og:url'), f).toBe(SITE + urlPathFor(f))
-      expect(meta(doc, 'property', 'og:title'), f).toBe(doc.querySelector('title')?.text.trim())
-      expect(meta(doc, 'property', 'og:description'), f).toBe(meta(doc, 'name', 'description'))
-      expect(meta(doc, 'name', 'twitter:card'), f).toMatch(/^summary(_large_image)?$/)
+      expect(content(doc, 'meta[property="og:type"]', f)).toBe('website')
+      expect(content(doc, 'meta[property="og:url"]', f)).toBe(SITE + urlPathFor(f))
+      expect(content(doc, 'meta[property="og:title"]', f)).toBe(only(doc, 'title', f).text.trim())
+      expect(content(doc, 'meta[property="og:description"]', f)).toBe(
+        content(doc, 'meta[name="description"]', f)
+      )
+      // summary until the default OG image exists (plan F6-02 tightens this to summary_large_image).
+      expect(content(doc, 'meta[name="twitter:card"]', f)).toMatch(/^summary(_large_image)?$/)
     }
   })
 
   it('brands every title, and gives the home page its own full title (SPEC §11.1)', () => {
     for (const f of indexable()) {
-      const title = readHtml(f).querySelector('title')?.text.trim() ?? ''
+      const title = only(readHtml(f), 'title', f).text.trim()
       const isHome = f === 'pt-br/index.html' || f === 'en/index.html'
       if (isHome) expect(title.startsWith('Code Happy'), f).toBe(true)
       else expect(title.endsWith(' | Code Happy'), f).toBe(true)
@@ -121,13 +147,13 @@ describe('headings (SPEC §11.2)', () => {
 })
 
 describe('non-indexable pages', () => {
-  it('marks the contact confirmation and the 404 noindex', () => {
+  it('marks the contact confirmation and the 404 with a single noindex robots tag', () => {
     for (const f of [
       'pt-br/contact/thanks/index.html',
       'en/contact/thanks/index.html',
       '404.html',
     ]) {
-      expect(isNoindex(readHtml(f)), f).toBe(true)
+      expect(content(readHtml(f), 'meta[name="robots"]', f), f).toBe('noindex')
     }
   })
 
