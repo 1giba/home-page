@@ -7,7 +7,7 @@ principles:
   - title: Recomendações por escrito, com os trade-offs explícitos.
     text: Cada recomendação vem com custos, riscos e alternativas, para que a decisão seja sua e bem informada.
   - title: Quem aconselha também lê o código e constrói.
-    text: As opiniões técnicas vêm de quem continua desenvolvendo software no dia a dia.
+    text: As opiniões técnicas vêm de quem continua desenvolvendo software hoje.
   - title: Código legível e testado desde o início.
     text: Para que o sistema possa ser modificado e evoluir com segurança, por qualquer pessoa do time.
   - title: Arquitetura proporcional ao problema.

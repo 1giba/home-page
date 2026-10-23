@@ -19,7 +19,10 @@ describe('service pages (SPEC §5.2)', () => {
 
       it(`${locale}/${id} lists audience, at least 3 problems, scope and value items`, () => {
         const main = page(locale, id).querySelector('main')!
-        expect(main.querySelectorAll('[data-section="fit"] li').length).toBeGreaterThanOrEqual(3)
+        const fitLists = main.querySelectorAll('[data-section="fit"] ul')
+        expect(fitLists).toHaveLength(2)
+        expect(fitLists[0].querySelectorAll('li').length).toBeGreaterThanOrEqual(1)
+        expect(fitLists[1].querySelectorAll('li').length).toBeGreaterThanOrEqual(3)
         expect(main.querySelectorAll('[data-section="scope"] li').length).toBeGreaterThanOrEqual(3)
         expect(main.querySelectorAll('[data-section="value"] li').length).toBeGreaterThanOrEqual(1)
       })

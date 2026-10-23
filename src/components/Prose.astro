@@ -1,10 +1,20 @@
 ---
-// Typography for rendered Markdown (About, legal pages), in the design tokens.
+// Typography for rendered Markdown (About, legal pages), in the design tokens. External links in
+// the content are marked like the components' (SPEC §7.3).
+import type { Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { markExternalLinks } from '@/lib/external-links'
+
+export interface Props {
+  locale: Locale
+}
+const html = markExternalLinks(
+  await Astro.slots.render('default'),
+  useTranslations(Astro.props.locale)('a11y.external')
+)
 ---
 
-<div class="prose max-w-prose">
-  <slot />
-</div>
+<div class="prose max-w-prose" set:html={html} />
 
 <style>
   .prose :global(p),

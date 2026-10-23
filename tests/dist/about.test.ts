@@ -18,11 +18,24 @@ const EXPECTED = {
 } as const
 
 describe('founder references stay gender-neutral (pronouns not stated)', () => {
-  it('no built page uses gendered pronouns or fundador/fundadora', () => {
+  it('no built page uses gendered pronouns or fundador/fundadora (body, title, meta)', () => {
     for (const file of listHtmlFiles()) {
-      const text = readHtml(file).querySelector('main')?.text ?? ''
-      expect(text, file).not.toMatch(/\b(he|him|his|she|her|hers)\b|\bfundador(a)?\b/i)
+      const html = readHtml(file)
+      const text = [
+        html.querySelector('main')?.text ?? '',
+        html.querySelector('title')?.text ?? '',
+        ...html.querySelectorAll('meta[content]').map((m) => m.getAttribute('content')),
+      ].join(' ')
+      expect(text, file).not.toMatch(
+        /\b(he|him|his|she|her|hers|ele|dele|nele|fundador|fundadora)\b/i
+      )
     }
+  })
+
+  it('founder claims stay within B5 and match across locales (review F4 I2)', () => {
+    // B5 supports current hands-on work, not a daily-coding intensifier.
+    expect(main('en').text).not.toMatch(/every day/i)
+    expect(main('pt-br').text).not.toMatch(/dia a dia|todos os dias/i)
   })
 })
 
