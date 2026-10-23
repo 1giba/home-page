@@ -2,17 +2,15 @@
 import '@/styles/global.css'
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
-import { LANG_TAG, type Locale } from '@/i18n/locales'
+import SeoHead, { type Props as SeoHeadProps } from '@/components/SeoHead.astro'
+import { LANG_TAG } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
 
-export interface Props {
-  locale: Locale
-  title: string
-  /** False on pages with no equivalent in the other language (the 404): no language switcher. */
-  alternatesAvailable?: boolean
-}
+/** SeoHead props (plan §3). `alternatesAvailable: false` (the 404) also removes the switcher. */
+export type Props = SeoHeadProps
 
-const { locale, title, alternatesAvailable = true } = Astro.props
+const props = Astro.props
+const { locale, alternatesAvailable = true } = props
 const t = useTranslations(locale)
 
 // The Work link appears only once a case study is published (SPEC §4.5). The layout decides this,
@@ -26,7 +24,7 @@ const showWork = false
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <title>{title}</title>
+    <SeoHead {...props} />
   </head>
   <body class="flex min-h-screen flex-col">
     <a

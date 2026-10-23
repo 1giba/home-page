@@ -10,9 +10,12 @@ const pt = ui['pt-br']
 const en = ui.en
 ---
 
+<!-- No `path`: the 404 has no URL of its own, so no canonical or hreflang (plan F2-04). -->
 <BaseLayout
   locale="pt-br"
   title={`${pt['notFound.title']} · ${en['notFound.title']}`}
+  description={`${pt['notFound.body']} ${en['notFound.body']}`}
+  noindex
   alternatesAvailable={false}
 >
   <Container class="flex flex-col gap-10 py-16">

@@ -10,6 +10,15 @@ interface Props {
   locale: Locale
 }
 const { locale } = Astro.props
+const t = useTranslations(locale)
 ---
 
-<PlaceholderPage locale={locale} heading={useTranslations(locale)('page.thanks')} />
+<!-- Confirmation after a form submission: not for search results (SPEC §5.2). -->
+<PlaceholderPage
+  locale={locale}
+  path="/contact/thanks/"
+  noindex
+  heading={t('page.thanks')}
+  title={t('meta.thanks.title')}
+  description={t('meta.thanks.description')}
+/>

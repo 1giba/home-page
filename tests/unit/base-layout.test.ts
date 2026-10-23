@@ -2,10 +2,13 @@ import { describe, expect, it } from 'vitest'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { focusables, render } from './render'
 
-const page = (locale: 'pt-br' | 'en', path = '/') =>
-  render(BaseLayout, { locale, title: 'Test page' }, `https://codehappy.com.br/${locale}${path}`, {
-    default: '<h1>Body</h1>',
-  })
+const page = (locale: 'pt-br' | 'en', path = '/about/') =>
+  render(
+    BaseLayout,
+    { locale, path, title: 'Test page', description: 'A test page description.' },
+    `https://codehappy.com.br/${locale}${path}`,
+    { default: '<h1>Body</h1>' }
+  )
 
 describe('BaseLayout', () => {
   it('sets the document language from the locale (SPEC §8.4)', async () => {
@@ -13,9 +16,11 @@ describe('BaseLayout', () => {
     expect((await page('en')).querySelector('html')?.getAttribute('lang')).toBe('en')
   })
 
-  it('renders the title, charset and viewport', async () => {
+  it('renders the branded title, charset and viewport (SPEC §11.1)', async () => {
     const doc = await page('en')
-    expect(doc.querySelector('title')?.text).toBe('Test page')
+    expect(doc.querySelector('title')?.text).toBe('Test page | Code Happy')
+    // The home page supplies its complete title, unbranded by the layout.
+    expect((await page('en', '/')).querySelector('title')?.text).toBe('Test page')
     expect(doc.querySelector('meta[charset]')?.getAttribute('charset')?.toLowerCase()).toBe('utf-8')
     expect(doc.querySelector('meta[name="viewport"]')?.getAttribute('content')).toBe(
       'width=device-width, initial-scale=1'

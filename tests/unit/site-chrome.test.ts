@@ -6,9 +6,14 @@ import { CALENDLY_URL, CONTACT_EMAIL, LEGAL_NAME, SOCIAL } from '@/config/site'
 import { render } from './render'
 
 const at = (locale: 'pt-br' | 'en', url: string, props: Record<string, unknown> = {}) =>
-  render(BaseLayout, { locale, title: 't', ...props }, `https://codehappy.com.br${url}`, {
-    default: '<h1>x</h1>',
-  })
+  render(
+    BaseLayout,
+    { locale, title: 't', description: 'd', ...props },
+    `https://codehappy.com.br${url}`,
+    {
+      default: '<h1>x</h1>',
+    }
+  )
 
 const hrefs = (root: HTMLElement | null | undefined) =>
   [...new Set((root?.querySelectorAll('a') ?? []).map((a) => a.getAttribute('href')))].sort()

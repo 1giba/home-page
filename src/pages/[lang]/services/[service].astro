@@ -18,6 +18,13 @@ interface Props {
   service: ServiceId
 }
 const { locale, service } = Astro.props
+const t = useTranslations(locale)
 ---
 
-<PlaceholderPage locale={locale} heading={useTranslations(locale)(`service.${service}`)} />
+<PlaceholderPage
+  locale={locale}
+  path={`/services/${service}/`}
+  heading={t(`service.${service}`)}
+  title={t(`meta.service.${service}.title`)}
+  description={t(`meta.service.${service}.description`)}
+/>

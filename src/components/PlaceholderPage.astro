@@ -1,18 +1,15 @@
 ---
-// Temporary page body for the F2 route skeleton: layout plus the page's H1. F4 replaces each use
-// with real content; delete this component when the last page stops using it.
+// Temporary page body for the F2 route skeleton: layout, SEO head and the page's H1. F4 replaces
+// each use with real content; delete this component when the last page stops using it.
 import Container from '@/components/ui/Container.astro'
-import BaseLayout from '@/layouts/BaseLayout.astro'
-import type { Locale } from '@/i18n/locales'
+import BaseLayout, { type Props as BaseLayoutProps } from '@/layouts/BaseLayout.astro'
 
-export interface Props {
-  locale: Locale
-  heading: string
-}
-const { locale, heading } = Astro.props
+export type Props = BaseLayoutProps & { heading: string }
+
+const { heading, ...layout } = Astro.props
 ---
 
-<BaseLayout locale={locale} title={heading}>
+<BaseLayout {...layout}>
   <Container class="py-16">
     <h1 class="text-3xl font-semibold tracking-tight">{heading}</h1>
   </Container>

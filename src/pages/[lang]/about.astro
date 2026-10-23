@@ -10,6 +10,13 @@ interface Props {
   locale: Locale
 }
 const { locale } = Astro.props
+const t = useTranslations(locale)
 ---
 
-<PlaceholderPage locale={locale} heading={useTranslations(locale)('page.about')} />
+<PlaceholderPage
+  locale={locale}
+  path="/about/"
+  heading={t('page.about')}
+  title={t('meta.about.title')}
+  description={t('meta.about.description')}
+/>

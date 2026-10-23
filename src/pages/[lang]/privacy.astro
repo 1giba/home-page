@@ -10,6 +10,13 @@ interface Props {
   locale: Locale
 }
 const { locale } = Astro.props
+const t = useTranslations(locale)
 ---
 
-<PlaceholderPage locale={locale} heading={useTranslations(locale)('page.privacy')} />
+<PlaceholderPage
+  locale={locale}
+  path="/privacy/"
+  heading={t('page.privacy')}
+  title={t('meta.privacy.title')}
+  description={t('meta.privacy.description')}
+/>
