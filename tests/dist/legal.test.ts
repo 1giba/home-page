@@ -6,11 +6,14 @@ import { readHtml } from './helpers'
 // legacy structure, but §1–§3 are rewritten to describe what the site actually does and a
 // third-party section is added. The final text needs the owner's approval (E2).
 type Sections = Record<string, { title: string; content: string }>
+// The legacy text, kept verbatim in a fixture since the legacy sources were removed (F7-04).
 const legacy = (file: 'pt-BR' | 'en') =>
-  JSON.parse(readFileSync(`legacy/vue-src/i18n/${file}.json`, 'utf8')) as {
-    terms: { sections: Sections }
-    privacy: { sections: Sections }
-  }
+  (
+    JSON.parse(readFileSync('tests/fixtures/legacy-legal.json', 'utf8')) as Record<
+      'pt-BR' | 'en',
+      { terms: { sections: Sections }; privacy: { sections: Sections } }
+    >
+  )[file]
 const clean = (s: string) =>
   s
     .replace(/\{'@'\}/g, '@')

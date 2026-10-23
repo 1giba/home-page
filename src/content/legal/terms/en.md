@@ -1,6 +1,7 @@
 ---
-# Ported verbatim from the legacy site (legacy/vue-src/i18n/en.json, terms.*), per the Q-5
-# default. Pending review and approval by the owner (E2): `approved` stays unset until then.
+# Ported verbatim from the legacy Vue site (en.json terms.*, kept in
+# tests/fixtures/legacy-legal.json), per the Q-5 default. Pending review and approval by the owner
+# (E2): `approved` stays unset until then.
 title: Terms of Use
 subtitle: Terms and conditions for Code Happy Tecnologia Ltda services
 updated: 2025-07-24

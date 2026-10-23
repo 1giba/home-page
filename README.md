@@ -57,7 +57,6 @@ tests/
   dist-fixtures/     Assertions over dist-fixtures/ (a build with a fictional published project)
   fixtures/          Fictional content used only by tests
   e2e/               Playwright browser tests
-legacy/              Previous Vue 3 SPA, kept read-only until each part is replaced, then deleted
 ```
 
 ## Content

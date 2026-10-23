@@ -1,9 +1,9 @@
 ---
-# Legacy structure (legacy/vue-src/i18n/pt-BR.json, privacy.*). Sections 1–3 rewritten and
-# section 4 added per SPEC §13.5 (what the site actually does; third parties); sections 5–8 are
-# legacy sections 4–7 unchanged. DRAFT pending owner/legal approval (E2): no claim about LGPD
-# sufficiency; hosting wording to be finalized once the host is chosen (E1); the email provider is
-# not named until confirmed (E2).
+# Legacy structure (legacy Vue site, pt-BR.json privacy.*, kept in
+# tests/fixtures/legacy-legal.json). Sections 1–3 rewritten and section 4 added per SPEC §13.5 (what
+# the site actually does; third parties); sections 5–8 are legacy sections 4–7 unchanged. DRAFT
+# pending owner/legal approval (E2): no claim about LGPD sufficiency; hosting wording to be
+# finalized once the host is chosen (E1); the email provider is not named until confirmed (E2).
 title: Política de Privacidade
 subtitle: Como coletamos, usamos e protegemos suas informações pessoais
 updated: 2026-10-23
