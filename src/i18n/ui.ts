@@ -56,15 +56,30 @@ const ptBR = {
   'meta.services.title': 'Serviços',
   'meta.services.description':
     'Três formas de trabalhar com a Code Happy: CTO fracionado, estratégia e engenharia de IA, e consultoria em tecnologia. Veja qual se encaixa no seu momento.',
-  'meta.service.fractional-cto.title': 'CTO fracionado',
-  'meta.service.fractional-cto.description':
-    'Liderança técnica sênior em tempo parcial para empresas sem CTO: roadmap, decisões de arquitetura, gestão de fornecedores e contratação de engenheiros.',
-  'meta.service.ai.title': 'Estratégia e engenharia de IA',
-  'meta.service.ai.description':
-    'Descubra onde a IA compensa no seu produto ou operação e leve esses casos de uso à produção com custo, qualidade e riscos sob controle.',
-  'meta.service.advisory.title': 'Consultoria em tecnologia',
-  'meta.service.advisory.description':
-    'Avaliações técnicas independentes e com escopo definido: revisão de arquitetura, due diligence e diagnóstico de código, com recomendações priorizadas.',
+  'cta.message': 'Enviar uma mensagem',
+  'cta.services': 'Conhecer os serviços',
+  'steps.call.title': 'Conversa inicial',
+  'steps.call.text':
+    'Uma conversa de 30 minutos para entender o seu contexto e ver se faz sentido trabalharmos juntos.',
+  'steps.scope.title': 'Definição do escopo',
+  'steps.scope.text':
+    'Definimos juntos o problema, o que entra no trabalho e o que seria um bom resultado.',
+  'steps.proposal.title': 'Proposta',
+  'steps.proposal.text': 'Você recebe uma proposta por escrito com o escopo do trabalho.',
+  'services.intro':
+    'Três formas de trabalhar com a Code Happy, definidas pela situação em que a sua empresa está.',
+  'services.for': 'Para quem é',
+  'services.unsure': 'Não sabe qual se encaixa?',
+  'services.unsureText':
+    'Conte o seu contexto em uma conversa inicial e indicamos o caminho mais adequado.',
+  'service.fit': 'Para quem é',
+  'service.situations': 'Situações comuns',
+  'service.scope': 'O que o trabalho cobre',
+  'service.how': 'Como funciona',
+  'service.value': 'O que você ganha',
+  'service.related': 'Trabalhos relacionados',
+  'service.cta': 'Vamos conversar sobre o seu contexto?',
+  'service.other': 'Outros serviços',
   'meta.about.title': 'Sobre',
   'meta.about.description':
     'Conheça a Code Happy, consultoria brasileira de tecnologia. Seu fundador desenvolve software profissionalmente desde 2004 e lidera pessoalmente os projetos.',
@@ -137,15 +152,30 @@ const en: Record<UiKey, string> = {
   'meta.services.title': 'Services',
   'meta.services.description':
     'Three ways to work with Code Happy: fractional CTO, AI strategy and engineering, and technology advisory. See which one fits where your company is now.',
-  'meta.service.fractional-cto.title': 'Fractional CTO',
-  'meta.service.fractional-cto.description':
-    'Part-time senior technology leadership for companies without a CTO: roadmap, architecture decisions, vendor oversight and engineering hiring.',
-  'meta.service.ai.title': 'AI Strategy & Engineering',
-  'meta.service.ai.description':
-    'Find where AI pays off in your product or operations, then take those use cases to production with cost, quality and risk under control.',
-  'meta.service.advisory.title': 'Technology Advisory',
-  'meta.service.advisory.description':
-    'Independent, fixed-scope technical assessments: architecture review, technical due diligence and codebase diagnosis, with prioritized recommendations.',
+  'cta.message': 'Send a message',
+  'cta.services': 'Explore services',
+  'steps.call.title': 'Intro call',
+  'steps.call.text':
+    'A 30-minute conversation to understand your situation and see whether working together makes sense.',
+  'steps.scope.title': 'Scoping',
+  'steps.scope.text':
+    'Together we define the problem, what is in scope and what a good outcome would look like.',
+  'steps.proposal.title': 'Proposal',
+  'steps.proposal.text': 'You receive a written proposal with the scope of the work.',
+  'services.intro':
+    'Three ways to work with Code Happy, defined by the situation your company is in.',
+  'services.for': 'Who it is for',
+  'services.unsure': 'Not sure which one fits?',
+  'services.unsureText':
+    'Tell us about your situation in an intro call and we will point you to the right one.',
+  'service.fit': 'Is this for you?',
+  'service.situations': 'Common situations',
+  'service.scope': 'What the engagement covers',
+  'service.how': 'How it works',
+  'service.value': 'What you get',
+  'service.related': 'Related work',
+  'service.cta': 'Want to talk about your situation?',
+  'service.other': 'Other services',
   'meta.about.title': 'About',
   'meta.about.description':
     'Meet Code Happy, a Brazilian technology consultancy led personally by its founder, who has been building software professionally since 2004.',

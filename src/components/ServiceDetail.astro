@@ -1,0 +1,126 @@
+---
+// A service page body (SPEC §5.2): fit → scope → how it works → value → related work (only when a
+// published case uses this service) → CTA → other services. No FAQ until answers are confirmed.
+import type { CollectionEntry } from 'astro:content'
+import CaseCard from '@/components/CaseCard.astro'
+import EngagementSteps from '@/components/EngagementSteps.astro'
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+import { SERVICE_IDS, type ServiceId } from '@/lib/routes'
+
+export interface Props {
+  locale: Locale
+  id: ServiceId
+  service: CollectionEntry<'services'>['data']
+  related: { id: string; entry: CollectionEntry<'projects'> }[]
+}
+const { locale, id, service, related } = Astro.props
+const t = useTranslations(locale)
+
+const h2 = 'text-2xl font-semibold tracking-tight'
+const list = 'mt-4 list-disc space-y-2 pl-5'
+---
+
+<Container class="py-16">
+  <h1 class="text-3xl font-semibold tracking-tight">{service.title}</h1>
+  <p class="mt-4 max-w-prose text-lg text-muted">{service.summary}</p>
+
+  <div class="mt-12 flex max-w-prose flex-col gap-12">
+    <section data-section="fit" aria-labelledby="fit">
+      <h2 id="fit" class={h2}>
+        {t('service.fit')}
+      </h2>
+      <ul class={list}>
+        {service.audience.map((a) => (
+          <li>{a}</li>
+        ))}
+      </ul>
+      <h3 class="mt-6 font-semibold">{t('service.situations')}</h3>
+      <ul class={list}>
+        {service.problems.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section data-section="scope" aria-labelledby="scope">
+      <h2 id="scope" class={h2}>
+        {t('service.scope')}
+      </h2>
+      <ul class={list}>
+        {service.scope.map((s) => (
+          <li>{s}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section data-section="how" aria-labelledby="how">
+      <h2 id="how" class={h2}>
+        {t('service.how')}
+      </h2>
+      <div class="mt-4">
+        <EngagementSteps locale={locale} />
+      </div>
+      {service.implementation && (
+        <p data-implementation class="mt-6">
+          {service.implementation}
+        </p>
+      )}
+    </section>
+
+    <section data-section="value" aria-labelledby="value">
+      <h2 id="value" class={h2}>
+        {t('service.value')}
+      </h2>
+      <ul class={list}>
+        {service.value.map((v) => (
+          <li>{v}</li>
+        ))}
+      </ul>
+    </section>
+
+    {related.length > 0 && (
+      <section data-section="related" data-related-work aria-labelledby="related">
+        <h2 id="related" class={h2}>
+          {t('service.related')}
+        </h2>
+        <div class="mt-4 grid gap-6">
+          {related.map((p) => (
+            <CaseCard locale={locale} id={p.id} project={p.entry.data} headingLevel="h3" />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section data-section="cta" aria-labelledby="cta">
+      <h2 id="cta" class={h2}>
+        {t('service.cta')}
+      </h2>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
+          {t('cta.book')}
+        </LinkButton>
+        <LinkButton href={localizedPath(locale, `/contact/?service=${id}`)} variant="secondary">
+          {t('cta.message')}
+        </LinkButton>
+      </div>
+    </section>
+
+    <section data-section="other" aria-labelledby="other">
+      <h2 id="other" class={h2}>
+        {t('service.other')}
+      </h2>
+      <ul class="mt-4 space-y-2">
+        {SERVICE_IDS.filter((s) => s !== id).map((s) => (
+          <li>
+            <a href={localizedPath(locale, `/services/${s}/`)}>{t(`service.${s}`)}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Container>

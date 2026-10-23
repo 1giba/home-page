@@ -9,17 +9,19 @@ export interface Props {
   locale: Locale
   id: string
   project: CollectionEntry<'projects'>['data']
+  /** h2 in a page's list; h3 when nested under a section heading (e.g. related work). */
+  headingLevel?: 'h2' | 'h3'
 }
-const { locale, id, project } = Astro.props
+const { locale, id, project, headingLevel: Heading = 'h2' } = Astro.props
 const t = useTranslations(locale)
 ---
 
 <article class="rounded-base border border-border p-6">
-  <h2 class="text-xl font-semibold tracking-tight">
+  <Heading class="text-xl font-semibold tracking-tight">
     <a href={localizedPath(locale, `/work/${id}/`)} class="text-text no-underline hover:underline">
       {project.title}
     </a>
-  </h2>
+  </Heading>
   {project.client && <p class="mt-1 text-sm text-muted">{project.client.display}</p>}
   {project.summary && <p class="mt-3">{project.summary}</p>}
   {project.services?.length ? (

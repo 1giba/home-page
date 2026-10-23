@@ -60,6 +60,24 @@ describe('Work routes with a published project (SPEC §4.5, §5.2)', () => {
     })
   }
 
+  it('lists the case under "related work" on the services it is tagged with, and only there', () => {
+    for (const locale of ['pt-br', 'en']) {
+      for (const [service, expected] of [
+        ['advisory', true],
+        ['ai', true],
+        ['fractional-cto', false],
+      ] as const) {
+        const related = html(`${locale}/services/${service}/index.html`).querySelector(
+          '[data-related-work]'
+        )
+        expect(related !== null, `${locale}/${service}`).toBe(expected)
+        if (expected) {
+          expect(related?.querySelector(`a[href="/${locale}/work/fixture/"]`)).not.toBeNull()
+        }
+      }
+    }
+  })
+
   it('never renders outcome sources or confidentiality notes anywhere', () => {
     for (const f of allHtml()) {
       expect(read(f), f).not.toMatch(/SECRET-SOURCE|SECRET-NOTE/)

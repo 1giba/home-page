@@ -1,7 +1,8 @@
 ---
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+import ServiceDetail from '@/components/ServiceDetail.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import { LOCALES, type Locale } from '@/i18n/locales'
-import { useTranslations } from '@/i18n/ui'
+import { getPublishedProjects, getService } from '@/lib/content'
 import { SERVICE_IDS, type ServiceId } from '@/lib/routes'
 
 export function getStaticPaths() {
@@ -17,14 +18,21 @@ interface Props {
   locale: Locale
   service: ServiceId
 }
-const { locale, service } = Astro.props
-const t = useTranslations(locale)
+const { locale, service: id } = Astro.props
+const service = await getService(id, locale)
+if (!service) throw new Error(`Missing content: src/content/services/${id}/${locale}.md`)
+
+// Related work: published case studies tagged with this service (omitted when none, SPEC §5.2).
+const related = (await getPublishedProjects(locale)).filter((p) =>
+  p.entry.data.services?.includes(id)
+)
 ---
 
-<PlaceholderPage
+<BaseLayout
   locale={locale}
-  path={`/services/${service}/`}
-  heading={t(`service.${service}`)}
-  title={t(`meta.service.${service}.title`)}
-  description={t(`meta.service.${service}.description`)}
-/>
+  path={`/services/${id}/`}
+  title={service.data.metaTitle}
+  description={service.data.metaDescription}
+>
+  <ServiceDetail locale={locale} id={id} service={service.data} related={related} />
+</BaseLayout>

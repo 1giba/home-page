@@ -26,9 +26,14 @@ const services = defineCollection({
     summary: z.string().min(1).max(160),
     metaTitle: z.string().min(1),
     metaDescription: z.string().min(1),
-    audience: z.array(z.string().min(1)).min(1),
-    problems: z.array(z.string().min(1)).min(3).max(6),
-    scope: z.array(z.string().min(1)).min(1),
+    audience: z.array(z.string().trim().min(1)).min(1),
+    problems: z.array(z.string().trim().min(1)).min(3).max(6),
+    scope: z.array(z.string().trim().min(1)).min(1),
+    // SPEC §3.7 "Expected business value", stated as intent, never as a guarantee.
+    value: z.array(z.string().trim().min(1)).min(1),
+    // SPEC §3.7.4: software engineering appears as part of an engagement, not as a service.
+    implementation: z.string().trim().min(1).optional(),
+    // Open question Q-2: unset until engagement formats are confirmed.
     format: z.string().min(1).optional(),
     faq: z.array(z.object({ q: z.string().min(1), a: z.string().min(1) })).optional(),
     order: z.number().int(),

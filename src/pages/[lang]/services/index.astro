@@ -1,7 +1,14 @@
 ---
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+// Services overview (SPEC §5.2): intro, the three services by the situation they fit, and a
+// "not sure which fits?" CTA. Typical formats stay out until confirmed (Q-2).
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { CALENDLY_URL } from '@/config/site'
 import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
+import { getServices } from '@/lib/content'
 import { localeStaticPaths } from '@/lib/routes'
 
 export const getStaticPaths = localeStaticPaths
@@ -11,12 +18,52 @@ interface Props {
 }
 const { locale } = Astro.props
 const t = useTranslations(locale)
+const services = await getServices(locale)
 ---
 
-<PlaceholderPage
+<BaseLayout
   locale={locale}
   path="/services/"
-  heading={t('page.services')}
   title={t('meta.services.title')}
   description={t('meta.services.description')}
-/>
+>
+  <Container class="py-16">
+    <h1 class="text-3xl font-semibold tracking-tight">{t('page.services')}</h1>
+    <p class="mt-4 max-w-prose text-lg text-muted">{t('services.intro')}</p>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {services.map(({ id, entry: { data } }) => (
+        <article data-service-summary class="flex flex-col rounded-base border border-border p-6">
+          <h2 class="text-xl font-semibold tracking-tight">
+            <a href={localizedPath(locale, `/services/${id}/`)} class="text-text">
+              {data.title}
+            </a>
+          </h2>
+          <p class="mt-3">{data.summary}</p>
+          <h3 class="mt-5 text-sm font-semibold text-muted">{t('services.for')}</h3>
+          <p class="mt-1">{data.audience[0]}</p>
+          <ul class="mt-4 list-disc space-y-1 pl-5 text-muted">
+            {data.problems.slice(0, 3).map((p) => (
+              <li>{p}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <section data-section="unsure" class="mt-16 max-w-prose" aria-labelledby="unsure">
+      <h2 id="unsure" class="text-2xl font-semibold tracking-tight">
+        {t('services.unsure')}
+      </h2>
+      <p class="mt-3">{t('services.unsureText')}</p>
+      <LinkButton
+        href={CALENDLY_URL}
+        variant="primary"
+        externalLabel={t('a11y.external')}
+        class="mt-5"
+      >
+        {t('cta.book')}
+      </LinkButton>
+    </section>
+  </Container>
+</BaseLayout>
