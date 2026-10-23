@@ -70,6 +70,15 @@ describe('localized routes', () => {
     const hrefs = page.querySelectorAll('main a').map((a) => a.getAttribute('href'))
     expect(hrefs).toEqual(expect.arrayContaining(['/pt-br/', '/en/']))
   })
+
+  it('says "not found" in both languages and is noindex (plan F4-04)', () => {
+    const page = readHtml('404.html')
+    const text = page.querySelector('main')!.text
+    expect(text).toContain('Página não encontrada')
+    expect(text).toContain('Page not found')
+    expect(page.querySelector('[lang="en"]')?.text).toContain('Page not found')
+    expect(page.querySelector('meta[name="robots"]')?.getAttribute('content')).toBe('noindex')
+  })
 })
 
 describe('hrefToFile', () => {
