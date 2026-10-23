@@ -18,5 +18,13 @@ export const SOCIAL = {
 /** Native (no-JS) form target. */
 export const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`
 
-/** AJAX endpoint; the URL format and response shape are verified against FormSubmit docs in plan F5-02. */
+/**
+ * AJAX endpoint. Verified 2026-10-23 against https://formsubmit.co/ajax-documentation: the URL is
+ * `https://formsubmit.co/ajax/<email>`, and the documented examples POST a JSON body with
+ * `Content-Type: application/json` and `Accept: application/json`. The page does NOT document the
+ * response body (unverified: the expected shape is `{ "success": "true" | "false", "message" }`),
+ * so success is accepted only on an OK status with `success` true or "true", and anything else is
+ * a failure the visitor sees (plan F5-02). The real response and delivery are confirmed only by
+ * the pre-launch test submission (plan F8-04, E4).
+ */
 export const FORMSUBMIT_AJAX = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`
