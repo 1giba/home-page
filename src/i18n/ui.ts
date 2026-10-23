@@ -73,7 +73,7 @@ const ptBR = {
     'Precisamos de uma opinião independente antes de uma grande decisão: reescrever, mudar de plataforma, contratar, investir ou adquirir.',
   'home.services': 'Como podemos ajudar',
   'home.evidence': 'Quem conduz o trabalho',
-  'home.evidence.lead': 'Cada trabalho da Code Happy é conduzido pessoalmente pelo seu fundador.',
+  'home.evidence.lead': 'Cada trabalho da Code Happy é conduzido pessoalmente por quem a fundou.',
   'home.evidence.more': 'Mais sobre a Code Happy',
   'home.work': 'Trabalhos selecionados',
   'home.steps': 'Como um trabalho começa',
@@ -89,6 +89,8 @@ const ptBR = {
   'founder.2022': 'Projeto freelance em Londres, para uma plataforma SaaS de cunho social.',
   'founder.now.label': 'Hoje',
   'founder.now': 'Desenvolve funcionalidades de IA para uma empresa de SaaS dos Estados Unidos.',
+  'about.linkedin': 'Giba no LinkedIn',
+  'about.how': 'Como trabalhamos',
   'cta.message': 'Enviar uma mensagem',
   'cta.services': 'Conhecer os serviços',
   'steps.call.title': 'Conversa inicial',
@@ -114,8 +116,6 @@ const ptBR = {
   'service.cta': 'Vamos conversar sobre o seu contexto?',
   'service.other': 'Outros serviços',
   'meta.about.title': 'Sobre',
-  'meta.about.description':
-    'Conheça a Code Happy, consultoria brasileira de tecnologia. Seu fundador desenvolve software profissionalmente desde 2004 e lidera pessoalmente os projetos.',
   'meta.contact.title': 'Contato',
   'meta.contact.description':
     'Agende uma conversa inicial ou envie uma mensagem para a Code Happy. Conte qual é o desafio técnico e o que seria um bom resultado para você.',
@@ -218,6 +218,8 @@ const en: Record<UiKey, string> = {
   'founder.2022': 'A freelance project in London, for a social SaaS platform.',
   'founder.now.label': 'Today',
   'founder.now': 'Builds AI features for a US SaaS company.',
+  'about.linkedin': 'Giba on LinkedIn',
+  'about.how': 'How we work',
   'cta.message': 'Send a message',
   'cta.services': 'Explore services',
   'steps.call.title': 'Intro call',
@@ -243,8 +245,6 @@ const en: Record<UiKey, string> = {
   'service.cta': 'Want to talk about your situation?',
   'service.other': 'Other services',
   'meta.about.title': 'About',
-  'meta.about.description':
-    'Meet Code Happy, a Brazilian technology consultancy led personally by its founder, who has been building software professionally since 2004.',
   'meta.contact.title': 'Contact',
   'meta.contact.description':
     'Book an intro call or send Code Happy a message. Tell us about the technical challenge and what a good outcome would look like for you.',

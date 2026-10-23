@@ -5,6 +5,7 @@ export const PAGES: { pt: string; en: string }[] = [
   { pt: '/pt-br/services/fractional-cto/', en: '/en/services/fractional-cto/' },
   { pt: '/pt-br/services/ai/', en: '/en/services/ai/' },
   { pt: '/pt-br/services/advisory/', en: '/en/services/advisory/' },
+  { pt: '/pt-br/about/', en: '/en/about/' },
   { pt: '/pt-br/contact/thanks/', en: '/en/contact/thanks/' },
 ]
 

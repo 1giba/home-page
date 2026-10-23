@@ -99,6 +99,12 @@ const pages = defineCollection({
   schema: z.object({
     title: z.string().min(1),
     description: z.string().min(1),
+    // About: "how we work" as behaviors, not slogans (SPEC §5.2).
+    principles: z
+      .array(z.object({ title: z.string().trim().min(1), text: z.string().trim().min(1) }))
+      .min(3)
+      .max(4)
+      .optional(),
   }),
 })
 

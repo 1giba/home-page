@@ -1,7 +1,16 @@
 ---
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+// About (SPEC §5.2, §3.5): the company, who leads the work (Giba, confirmed background B5),
+// how we work as behaviors, and the booking CTA. No CV timeline, no tag clouds.
+import { render } from 'astro:content'
+import Prose from '@/components/Prose.astro'
+import Container from '@/components/ui/Container.astro'
+import Icon from '@/components/ui/Icon.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { CALENDLY_URL, SOCIAL } from '@/config/site'
 import type { Locale } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
+import { getPage } from '@/lib/content'
 import { localeStaticPaths } from '@/lib/routes'
 
 export const getStaticPaths = localeStaticPaths
@@ -11,12 +20,61 @@ interface Props {
 }
 const { locale } = Astro.props
 const t = useTranslations(locale)
+const page = await getPage('about', locale)
+if (!page) throw new Error(`Missing content: src/content/pages/about/${locale}.md`)
+const { Content } = await render(page)
+const h2 = 'text-2xl font-semibold tracking-tight'
 ---
 
-<PlaceholderPage
+<BaseLayout
   locale={locale}
   path="/about/"
-  heading={t('page.about')}
   title={t('meta.about.title')}
-  description={t('meta.about.description')}
-/>
+  description={page.data.description}
+>
+  <Container class="py-16">
+    <h1 class="text-3xl font-semibold tracking-tight">{page.data.title}</h1>
+    <div class="mt-6">
+      <Prose>
+        <Content />
+      </Prose>
+    </div>
+    <p class="mt-6">
+      <a href={SOCIAL.linkedin} class="inline-flex items-center gap-1 py-1">
+        {t('about.linkedin')}
+        <Icon name="external" class="size-4" />
+        <span class="sr-only">{t('a11y.external')}</span>
+      </a>
+    </p>
+
+    {page.data.principles && (
+      <section data-section="how" aria-labelledby="how" class="mt-16 max-w-prose">
+        <h2 id="how" class={h2}>
+          {t('about.how')}
+        </h2>
+        <ul class="mt-6 space-y-6">
+          {page.data.principles.map((p) => (
+            <li class="border-l-2 border-accent pl-4">
+              <p class="font-semibold">{p.title}</p>
+              <p class="mt-1 text-muted">{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section data-section="cta" aria-labelledby="cta" class="mt-16 max-w-prose">
+      <h2 id="cta" class={h2}>
+        {t('service.cta')}
+      </h2>
+      <LinkButton
+        href={CALENDLY_URL}
+        variant="primary"
+        externalLabel={t('a11y.external')}
+        class="mt-4"
+      >
+        {t('cta.book')}
+      </LinkButton>
+    </section>
+  </Container>
+</BaseLayout>
