@@ -209,10 +209,13 @@ describe('structured data (plan F6-02, SPEC §11.8)', () => {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'Code Happy',
+        '@id': `${SITE}/#organization`,
         legalName: 'Code Happy Tecnologia Ltda.',
         url: SITE,
         email: 'contato@codehappy.com.br',
       })
+      // Q-8: the founder's personal profiles are not the company's (no corporate account known).
+      expect(org, f).not.toHaveProperty('sameAs')
     }
   })
 
@@ -223,7 +226,7 @@ describe('structured data (plan F6-02, SPEC §11.8)', () => {
       expect(person).toMatchObject({
         '@type': 'Person',
         name: 'Giba',
-        worksFor: { '@type': 'Organization', name: 'Code Happy' },
+        worksFor: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'Code Happy' },
       })
     }
   })

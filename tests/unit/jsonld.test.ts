@@ -7,27 +7,33 @@ import { organizationLd, personLd } from '@/lib/jsonld'
 
 // Plan F6-02 / SPEC §11.8: Organization on Home, the founder as a Person on About, confirmed
 // details only, and never Review, AggregateRating or priced offers.
+// Q-8 (owner instruction, F8 handoff): personal profiles are not the company's. The Organization
+// lists no `sameAs` until a corporate account is confirmed; the Person keeps only the profile the
+// site itself attributes to the founder ("Giba on LinkedIn", About page).
+const ORG_ID = `${SITE_URL}/#organization`
+
 describe('organizationLd', () => {
-  it('names the company and its public contact points', () => {
+  it('names the company and its public contact points, with no personal profiles', () => {
     expect(organizationLd()).toEqual({
       '@context': 'https://schema.org',
       '@type': 'Organization',
+      '@id': ORG_ID,
       name: 'Code Happy',
       legalName: LEGAL_NAME,
       url: SITE_URL,
       email: CONTACT_EMAIL,
-      sameAs: [SOCIAL.linkedin, SOCIAL.github, SOCIAL.x],
     })
+    expect(JSON.stringify(organizationLd())).not.toMatch(/linkedin|github|x\.com/)
   })
 })
 
 describe('personLd', () => {
-  it('the founder, working for Code Happy, with LinkedIn only', () => {
+  it('the founder, working for the same Organization entity, with LinkedIn only', () => {
     expect(personLd()).toEqual({
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Giba',
-      worksFor: { '@type': 'Organization', name: 'Code Happy', url: SITE_URL },
+      worksFor: { '@type': 'Organization', '@id': ORG_ID, name: 'Code Happy', url: SITE_URL },
       sameAs: [SOCIAL.linkedin],
     })
   })
