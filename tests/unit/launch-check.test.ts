@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -13,6 +13,7 @@ afterEach(() => dirs.splice(0).forEach((d) => rmSync(d, { recursive: true, force
 function fixture(legal: Record<string, string>, confirmed: boolean) {
   const root = mkdtempSync(join(tmpdir(), 'launch-check-'))
   dirs.push(root)
+  mkdirSync(join(root, 'legal'))
   for (const [rel, frontmatter] of Object.entries(legal)) {
     mkdirSync(join(root, 'legal', rel, '..'), { recursive: true })
     writeFileSync(join(root, 'legal', rel), `---\ntitle: T\n${frontmatter}---\n\nText.\n`)
@@ -51,6 +52,49 @@ describe('launchProblems', () => {
         file
       ).toBe(true)
     expect(problems.some((p) => p.includes('SITE_URL_CONFIRMED'))).toBe(true)
+  })
+
+  it('reports a present but malformed date as such, and rejects impossible dates', () => {
+    const opts = fixture(
+      {
+        'a.md': 'approved:\n  by: Owner\n  on: 2026-11-01T10:00:00Z\n',
+        'b.md': 'approved:\n  by: Owner\n  on: 2026-02-30\n',
+        'c.md': 'approved:\n  by: Owner\n  on: 2026-11-01 # signed copy on file\n',
+      },
+      true
+    )
+    const problems: string[] = launchProblems(opts)
+    expect(problems).toHaveLength(2)
+    expect(problems.find((p) => p.includes('a.md'))).toMatch(
+      /approved\.on is not a YYYY-MM-DD date/
+    )
+    expect(problems.find((p) => p.includes('b.md'))).toMatch(
+      /approved\.on is not a YYYY-MM-DD date/
+    )
+  })
+
+  it('accepts a typed SITE_URL_CONFIRMED declaration and ignores commented-out ones', () => {
+    const typed = fixture({}, true)
+    writeFileSync(typed.siteFile, 'export const SITE_URL_CONFIRMED: boolean = true\n')
+    expect(launchProblems(typed)).toEqual([])
+    const commented = fixture({}, false)
+    writeFileSync(
+      commented.siteFile,
+      '/*\nexport const SITE_URL_CONFIRMED = true\n*/\nexport const SITE_URL_CONFIRMED = false\n'
+    )
+    expect(launchProblems(commented)).toHaveLength(1)
+  })
+
+  // Review F6: a launch gate must never fail open. Through a symlinked path the main-module check
+  // used to see two different paths and skip the check entirely (exit 0, no output).
+  it('runs the check when invoked through a symlinked path', () => {
+    const link = join(mkdtempSync(join(tmpdir(), 'launch-link-')), 'scripts')
+    dirs.push(join(link, '..'))
+    symlinkSync(join(process.cwd(), 'scripts'), link)
+    const problems: string[] = launchProblems()
+    const run = spawnSync('node', [join(link, 'launch-check.mjs')], { encoding: 'utf8' })
+    expect(run.status).toBe(problems.length > 0 ? 1 : 0)
+    expect((run.stdout + run.stderr).trim().length).toBeGreaterThan(0)
   })
 
   // Whatever the repository's state (it changes at E2 and F8-01), the CLI reports it faithfully.

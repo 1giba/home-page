@@ -1,13 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <!-- Default OG image (plan F6-02, SPEC §11.7): typographic, design-token colors only, the
-       positioning line (home.h1) in both languages. Render with `node scripts/build-og.mjs`. -->
+       positioning line (home.h1) in both languages, kept equal to the dictionary by a unit test.
+       After any change, run `node scripts/build-og.mjs` and commit the PNG and rendered.json. -->
   <rect width="1200" height="630" fill="#ffffff"/>
   <rect x="0" y="0" width="16" height="630" fill="#1d4ed8"/>
   <g font-family="'Helvetica Neue', Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif">
     <text x="96" y="190" font-size="96" font-weight="700" fill="#0f172a">Code Happy</text>
-    <text x="96" y="310" font-size="44" font-weight="600" fill="#0f172a">Liderança sênior de tecnologia,</text>
-    <text x="96" y="366" font-size="44" font-weight="600" fill="#0f172a">sem contratar um CTO em tempo integral.</text>
-    <text x="96" y="470" font-size="40" fill="#475569">Senior technology leadership,</text>
-    <text x="96" y="522" font-size="40" fill="#475569">without hiring a full-time CTO.</text>
+    <text data-lang="pt-br" x="96" y="310" font-size="44" font-weight="600" fill="#0f172a">Liderança sênior de tecnologia,</text>
+    <text data-lang="pt-br" x="96" y="366" font-size="44" font-weight="600" fill="#0f172a">sem contratar um CTO em tempo integral.</text>
+    <text data-lang="en" x="96" y="470" font-size="40" fill="#475569">Senior technology leadership,</text>
+    <text data-lang="en" x="96" y="522" font-size="40" fill="#475569">without hiring a full-time CTO.</text>
   </g>
 </svg>
