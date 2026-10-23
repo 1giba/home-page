@@ -11,6 +11,9 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
   redirects: { ...LEGACY_REDIRECTS },
+  // Render Markdown text exactly as written: legal text is ported verbatim and later approved
+  // as-is (E2), so the renderer must not rewrite quotes or dashes.
+  markdown: { smartypants: false },
   i18n: {
     // Plain path strings: Astro 7.4.1 types `defaultLocale` as a locale *code* for object locales,
     // while its runtime validator requires the *path*. BCP 47 tags (pt-BR, en) live in LANG_TAG.

@@ -1,7 +1,6 @@
 ---
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+import LegalPage from '@/components/LegalPage.astro'
 import type { Locale } from '@/i18n/locales'
-import { useTranslations } from '@/i18n/ui'
 import { localeStaticPaths } from '@/lib/routes'
 
 export const getStaticPaths = localeStaticPaths
@@ -10,13 +9,6 @@ interface Props {
   locale: Locale
 }
 const { locale } = Astro.props
-const t = useTranslations(locale)
 ---
 
-<PlaceholderPage
-  locale={locale}
-  path="/terms/"
-  heading={t('page.terms')}
-  title={t('meta.terms.title')}
-  description={t('meta.terms.description')}
-/>
+<LegalPage locale={locale} id="terms" />
