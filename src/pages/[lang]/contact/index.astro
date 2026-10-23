@@ -1,5 +1,7 @@
 ---
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+import ContactForm from '@/components/ContactForm.astro'
+import Container from '@/components/ui/Container.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import type { Locale } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
 import { localeStaticPaths } from '@/lib/routes'
@@ -13,10 +15,16 @@ const { locale } = Astro.props
 const t = useTranslations(locale)
 ---
 
-<PlaceholderPage
+<BaseLayout
   locale={locale}
   path="/contact/"
-  heading={t('page.contact')}
   title={t('meta.contact.title')}
   description={t('meta.contact.description')}
-/>
+>
+  <Container class="py-16">
+    <h1 class="text-3xl font-semibold tracking-tight">{t('page.contact')}</h1>
+    <div class="mt-10">
+      <ContactForm locale={locale} />
+    </div>
+  </Container>
+</BaseLayout>

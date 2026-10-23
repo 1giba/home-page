@@ -1,7 +1,12 @@
 ---
-// Confirmation after a form submission: not for search results (SPEC §5.2), hence noindex.
-import PlaceholderPage from '@/components/PlaceholderPage.astro'
+// Confirmation after a no-JS form submission (SPEC §5.2): not for search results, hence noindex.
+// States the confirmed reply time (B6) and offers the intro call and a way back home.
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import { CALENDLY_URL } from '@/config/site'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
 import { localeStaticPaths } from '@/lib/routes'
 
@@ -14,11 +19,31 @@ const { locale } = Astro.props
 const t = useTranslations(locale)
 ---
 
-<PlaceholderPage
+<BaseLayout
   locale={locale}
   path="/contact/thanks/"
   noindex
-  heading={t('page.thanks')}
   title={t('meta.thanks.title')}
   description={t('meta.thanks.description')}
-/>
+>
+  <Container class="py-16">
+    <div class="max-w-prose">
+      <h1 class="text-3xl font-semibold tracking-tight">{t('page.thanks')}</h1>
+      <p class="mt-4 text-lg">{t('thanks.text')}</p>
+      <p class="mt-8">{t('thanks.call')}</p>
+      <LinkButton
+        href={CALENDLY_URL}
+        variant="primary"
+        externalLabel={t('a11y.external')}
+        class="mt-4"
+      >
+        {t('cta.book')}
+      </LinkButton>
+      <p class="mt-10">
+        <a href={localizedPath(locale, '/')} class="inline-block py-1">
+          {t('thanks.home')}
+        </a>
+      </p>
+    </div>
+  </Container>
+</BaseLayout>
