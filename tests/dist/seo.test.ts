@@ -228,6 +228,8 @@ describe('structured data (plan F6-02, SPEC §11.8)', () => {
         name: 'Giba',
         worksFor: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'Code Happy' },
       })
+      // Q-8: only the profile the site attributes to the founder (About: "Giba on LinkedIn").
+      expect(person.sameAs, f).toEqual(['https://linkedin.com/in/1giba'])
     }
   })
 
