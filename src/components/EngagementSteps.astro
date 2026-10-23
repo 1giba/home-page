@@ -15,7 +15,7 @@ const steps = ['call', 'scope', 'proposal'] as const
 
 <ol class="grid gap-6 md:grid-cols-3">
   {steps.map((step, i) => (
-    <li class="rounded-base border border-border p-5">
+    <li class="min-w-0 rounded-base border border-border p-5">
       <Heading class="font-semibold">
         <span class="mr-2 font-mono text-sm text-muted" aria-hidden="true">
           {String(i + 1).padStart(2, '0')}

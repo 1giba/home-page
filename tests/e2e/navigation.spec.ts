@@ -26,8 +26,10 @@ async function tabThrough(page: Page, max = 40) {
       if (!el || el === document.body) return null
       const s = getComputedStyle(el)
       const r = el.getBoundingClientRect()
-      // WCAG 2.2 SC 2.4.11: the focused element must not be hidden by other content.
-      const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+      // WCAG 2.2 SC 2.4.11: the focused element must not be hidden by other content. Probe the
+      // first line box: the centre of a link wrapped over two lines can fall between its lines.
+      const box = el.getClientRects()[0] ?? r
+      const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)
       return {
         label: `${el.tagName.toLowerCase()} "${(el.textContent ?? '').trim() || el.getAttribute('aria-label')}"`,
         outlineWidth: parseFloat(s.outlineWidth),
@@ -208,6 +210,44 @@ test('footer social links point to the exact destinations (SPEC §13.1)', async 
     SOCIAL.linkedin
   )
   await expect(page.locator('footer a[aria-label="X"]')).toHaveAttribute('href', SOCIAL.x)
+})
+
+test.describe('every page at 320px (SPEC §6.3, §12.2)', () => {
+  for (const url of PAGES.flatMap(({ pt, en }) => [pt, en])) {
+    test(`${url}: no horizontal scroll at 100% and 200% text`, async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 900 })
+      await page.goto(url)
+      const overflow = () =>
+        page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+      expect(await overflow(), '100% text').toBeLessThanOrEqual(0)
+      await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
+      expect(await overflow(), '200% text').toBeLessThanOrEqual(0)
+    })
+
+    test(`${url}: targets are at least 24×24 (primary CTAs 44×44)`, async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 900 })
+      await page.goto(url)
+      const small = await page.evaluate(() =>
+        [...document.querySelectorAll<HTMLElement>('a[href], button, summary')]
+          .filter((el) => el.getClientRects().length > 0 && !el.classList.contains('sr-only'))
+          // WCAG 2.5.8 exempts links inline in a sentence; links that are a paragraph's only
+          // content or a list item's only content are standalone targets.
+          .filter((el) => {
+            const parent = el.parentElement
+            return !parent || parent.textContent?.trim() === el.textContent?.trim()
+          })
+          .map((el) => {
+            const r = el.getBoundingClientRect()
+            const min = el.dataset.cta === 'primary' ? 44 : 24
+            return Math.min(r.width, r.height) < min
+              ? `${(el.textContent ?? '').trim() || el.getAttribute('aria-label')} ${Math.round(r.width)}x${Math.round(r.height)}`
+              : null
+          })
+          .filter(Boolean)
+      )
+      expect(small).toEqual([])
+    })
+  }
 })
 
 test.describe('responsive layout (SPEC §6.3, §12.2)', () => {

@@ -56,6 +56,39 @@ const ptBR = {
   'meta.services.title': 'Serviços',
   'meta.services.description':
     'Três formas de trabalhar com a Code Happy: CTO fracionado, estratégia e engenharia de IA, e consultoria em tecnologia. Veja qual se encaixa no seu momento.',
+  // Home (SPEC §3.2, §3.3, §5.2; founder facts B5, B3; reply time B6). Provisional (E3).
+  'home.h1': 'Liderança sênior de tecnologia, sem contratar um CTO em tempo integral.',
+  'home.lead':
+    'A Code Happy ajuda empresas a tomar decisões técnicas sólidas, a usar IA onde ela realmente compensa e a colocar as entregas de software de volta sob controle.',
+  'home.problems': 'Problemas que resolvemos',
+  'home.problem.1':
+    'Estamos construindo um produto e ninguém no time consegue tomar, ou defender, as grandes decisões técnicas.',
+  'home.problem.2':
+    'Nossos desenvolvedores ou a agência entregam, mas não sabemos se está bom, nem por que sai lento e caro.',
+  'home.problem.3':
+    'Queremos usar IA, mas não sabemos quais ideias são viáveis, quanto vão custar para rodar ou como levá-las à produção com segurança.',
+  'home.problem.4':
+    'Construímos algo rápido, muitas vezes com ferramentas de IA, e agora o sistema está frágil e ninguém entende como funciona.',
+  'home.problem.5':
+    'Precisamos de uma opinião independente antes de uma grande decisão: reescrever, mudar de plataforma, contratar, investir ou adquirir.',
+  'home.services': 'Como podemos ajudar',
+  'home.evidence': 'Quem conduz o trabalho',
+  'home.evidence.lead': 'Cada trabalho da Code Happy é conduzido pessoalmente pelo seu fundador.',
+  'home.evidence.more': 'Mais sobre a Code Happy',
+  'home.work': 'Trabalhos selecionados',
+  'home.steps': 'Como um trabalho começa',
+  'home.closing': 'Prefere escrever primeiro?',
+  'home.closing.text': 'Conte o seu contexto em uma mensagem. A resposta chega em até 48 horas.',
+  'founder.2004.label': '2004',
+  'founder.2004': 'Começa a trabalhar com desenvolvimento de software.',
+  'founder.2010.label': '2010–2020',
+  'founder.2010': 'Quase dez anos em uma empresa brasileira de plataforma de e-commerce.',
+  'founder.2020.label': '2020',
+  'founder.2020': 'Funda a Code Happy.',
+  'founder.2022.label': '2022',
+  'founder.2022': 'Projeto freelance em Londres, para uma plataforma SaaS de cunho social.',
+  'founder.now.label': 'Hoje',
+  'founder.now': 'Desenvolve funcionalidades de IA para uma empresa de SaaS dos Estados Unidos.',
   'cta.message': 'Enviar uma mensagem',
   'cta.services': 'Conhecer os serviços',
   'steps.call.title': 'Conversa inicial',
@@ -152,6 +185,39 @@ const en: Record<UiKey, string> = {
   'meta.services.title': 'Services',
   'meta.services.description':
     'Three ways to work with Code Happy: fractional CTO, AI strategy and engineering, and technology advisory. See which one fits where your company is now.',
+  'home.h1': 'Senior technology leadership, without hiring a full-time CTO.',
+  'home.lead':
+    'Code Happy helps companies make sound technical decisions, use AI where it actually pays off, and get software delivery back under control.',
+  'home.problems': 'Problems we solve',
+  'home.problem.1':
+    "We're building a product and nobody on the team can make or defend the big technical decisions.",
+  'home.problem.2':
+    "Our developers or agency deliver, but we can't tell if it's good, or why it's slow and expensive.",
+  'home.problem.3':
+    "We want to use AI, but don't know which ideas are viable, what they'll cost to run, or how to get them to production safely.",
+  'home.problem.4':
+    "We built something quickly, often with AI tools, and it's now fragile and nobody understands it.",
+  'home.problem.5':
+    'We need an independent opinion before a major decision: rewrite, re-platform, hire, invest or acquire.',
+  'home.services': 'How we can help',
+  'home.evidence': 'Who does the work',
+  'home.evidence.lead': 'Every Code Happy engagement is led personally by its founder.',
+  'home.evidence.more': 'More about Code Happy',
+  'home.work': 'Selected work',
+  'home.steps': 'How an engagement starts',
+  'home.closing': 'Prefer to write first?',
+  'home.closing.text':
+    'Tell us about your situation in a message. You will get a reply within 48 hours.',
+  'founder.2004.label': '2004',
+  'founder.2004': 'Starts working in software development.',
+  'founder.2010.label': '2010–2020',
+  'founder.2010': 'Almost ten years at a Brazilian e-commerce platform company.',
+  'founder.2020.label': '2020',
+  'founder.2020': 'Founds Code Happy.',
+  'founder.2022.label': '2022',
+  'founder.2022': 'A freelance project in London, for a social SaaS platform.',
+  'founder.now.label': 'Today',
+  'founder.now': 'Builds AI features for a US SaaS company.',
   'cta.message': 'Send a message',
   'cta.services': 'Explore services',
   'steps.call.title': 'Intro call',

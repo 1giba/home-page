@@ -117,7 +117,9 @@ const list = 'mt-4 list-disc space-y-2 pl-5'
       <ul class="mt-4 space-y-2">
         {SERVICE_IDS.filter((s) => s !== id).map((s) => (
           <li>
-            <a href={localizedPath(locale, `/services/${s}/`)}>{t(`service.${s}`)}</a>
+            <a href={localizedPath(locale, `/services/${s}/`)} class="inline-block py-1">
+              {t(`service.${s}`)}
+            </a>
           </li>
         ))}
       </ul>

@@ -1,0 +1,27 @@
+---
+// A service on the home page: title (the link), one-line summary and who it is for (SPEC §5.2).
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import type { ServiceId } from '@/lib/routes'
+
+export interface Props {
+  locale: Locale
+  id: ServiceId
+  title: string
+  summary: string
+  audience: string
+}
+const { locale, id, title, summary, audience } = Astro.props
+---
+
+<article data-service-card class="flex min-w-0 flex-col rounded-base border border-border p-6">
+  <h3 class="text-xl font-semibold tracking-tight">
+    <a href={localizedPath(locale, `/services/${id}/`)} class="text-text">
+      {title}
+    </a>
+  </h3>
+  <p class="mt-3">{summary}</p>
+  <p data-audience class="mt-3 text-sm text-muted">
+    {audience}
+  </p>
+</article>

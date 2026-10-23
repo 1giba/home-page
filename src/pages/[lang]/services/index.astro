@@ -33,7 +33,10 @@ const services = await getServices(locale)
 
     <div class="mt-12 grid gap-6 lg:grid-cols-3">
       {services.map(({ id, entry: { data } }) => (
-        <article data-service-summary class="flex flex-col rounded-base border border-border p-6">
+        <article
+          data-service-summary
+          class="flex min-w-0 flex-col rounded-base border border-border p-6"
+        >
           <h2 class="text-xl font-semibold tracking-tight">
             <a href={localizedPath(locale, `/services/${id}/`)} class="text-text">
               {data.title}

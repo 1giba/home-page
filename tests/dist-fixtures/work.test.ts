@@ -78,6 +78,14 @@ describe('Work routes with a published project (SPEC §4.5, §5.2)', () => {
     }
   })
 
+  it('shows the published case as home-page evidence instead of the founder background (§4.5)', () => {
+    for (const locale of ['pt-br', 'en']) {
+      const evidence = html(`${locale}/index.html`).querySelector('[data-section="evidence"]')!
+      expect(evidence.querySelector(`a[href="/${locale}/work/fixture/"]`), locale).not.toBeNull()
+      expect(evidence.querySelectorAll('[data-year]'), locale).toHaveLength(0)
+    }
+  })
+
   it('never renders outcome sources or confidentiality notes anywhere', () => {
     for (const f of allHtml()) {
       expect(read(f), f).not.toMatch(/SECRET-SOURCE|SECRET-NOTE/)
