@@ -11,4 +11,9 @@ export default [
   ...astro.configs.recommended,
   // Backed by eslint-plugin-jsx-a11y-x (ESLint 10-compatible fork; eslint-plugin-jsx-a11y caps at ESLint 9).
   ...astro.configs['jsx-a11y-recommended'],
+  // Node scripts run by hand or by npm (scripts/build-og.mjs, scripts/launch-check.mjs).
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { console: 'readonly', process: 'readonly' } },
+  },
 ]

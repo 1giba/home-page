@@ -1,7 +1,10 @@
+import { join } from 'node:path'
+import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 import type { HTMLElement } from 'node-html-parser'
 import {
   assertDistBuilt,
+  distDir,
   isLocalized,
   isRedirectStub,
   listHtmlFiles,
@@ -117,8 +120,7 @@ describe('SEO head on indexable localized pages (SPEC §11)', () => {
       expect(content(doc, 'meta[property="og:description"]', f)).toBe(
         content(doc, 'meta[name="description"]', f)
       )
-      // summary until the default OG image exists (plan F6-02 tightens this to summary_large_image).
-      expect(content(doc, 'meta[name="twitter:card"]', f)).toMatch(/^summary(_large_image)?$/)
+      expect(content(doc, 'meta[name="twitter:card"]', f)).toBe('summary_large_image')
     }
   })
 
@@ -180,6 +182,58 @@ describe('sitemap.xml and robots.txt (plan F6-01, SPEC §11.4)', () => {
     expect(lines).toContain('Allow: /')
     expect(lines).toContain(`Sitemap: ${SITE}/sitemap.xml`)
     expect(lines.filter((l) => /^Disallow:/i.test(l) && l.trim() !== 'Disallow:')).toEqual([])
+  })
+})
+
+describe('default OG image (plan F6-02, SPEC §11.7)', () => {
+  it('every page points og:image at the 1200×630 default image, which is built', async () => {
+    for (const f of pages()) {
+      expect(content(readHtml(f), 'meta[property="og:image"]', f)).toBe(`${SITE}/og/default.png`)
+    }
+    const { width, height, format } = await sharp(join(distDir, 'og/default.png')).metadata()
+    expect({ width, height, format }).toEqual({ width: 1200, height: 630, format: 'png' })
+  })
+})
+
+describe('structured data (plan F6-02, SPEC §11.8)', () => {
+  const blocks = (f: string) =>
+    readHtml(f)
+      .querySelectorAll('script[type="application/ld+json"]')
+      .map((s) => JSON.parse(s.text) as Record<string, unknown>)
+
+  it('home has exactly one block: the Organization', () => {
+    for (const f of ['pt-br/index.html', 'en/index.html']) {
+      const [org, ...rest] = blocks(f)
+      expect(rest, f).toHaveLength(0)
+      expect(org).toMatchObject({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Code Happy',
+        legalName: 'Code Happy Tecnologia Ltda.',
+        url: SITE,
+        email: 'contato@codehappy.com.br',
+      })
+    }
+  })
+
+  it('about has exactly one block: the founder as a Person working for Code Happy', () => {
+    for (const f of ['pt-br/about/index.html', 'en/about/index.html']) {
+      const [person, ...rest] = blocks(f)
+      expect(rest, f).toHaveLength(0)
+      expect(person).toMatchObject({
+        '@type': 'Person',
+        name: 'Giba',
+        worksFor: { '@type': 'Organization', name: 'Code Happy' },
+      })
+    }
+  })
+
+  it('no other page has structured data, and none has reviews, ratings or prices', () => {
+    for (const f of pages()) {
+      const ld = blocks(f)
+      if (!/^(pt-br|en)\/(about\/)?index\.html$/.test(f)) expect(ld, f).toHaveLength(0)
+      expect(JSON.stringify(ld), f).not.toMatch(/Review|AggregateRating|"offers"|"price/)
+    }
   })
 })
 

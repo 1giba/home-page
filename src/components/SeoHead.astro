@@ -12,7 +12,7 @@ export interface Props {
   description: string
   noindex?: boolean
   alternatesAvailable?: boolean
-  /** Absolute or root-relative image; the default OG image arrives in plan F6-02. */
+  /** Absolute or root-relative image; defaults to the 1200×630 branded image (plan F6-02). */
   ogImage?: string
   jsonLd?: object[]
 }
@@ -24,7 +24,7 @@ const {
   description,
   noindex = false,
   alternatesAvailable = true,
-  ogImage,
+  ogImage = '/og/default.png',
   jsonLd = [],
 } = Astro.props
 

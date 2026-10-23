@@ -12,6 +12,7 @@ import type { Locale } from '@/i18n/locales'
 import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
 import { getPublishedProjects, getServices } from '@/lib/content'
+import { organizationLd } from '@/lib/jsonld'
 import { localeStaticPaths } from '@/lib/routes'
 
 export const getStaticPaths = localeStaticPaths
@@ -32,6 +33,7 @@ const h2 = 'text-2xl font-semibold tracking-tight'
   path="/"
   title={t('meta.home.title')}
   description={t('meta.home.description')}
+  jsonLd={[organizationLd()]}
 >
   <section data-section="hero" class="border-b border-border">
     <Container class="py-20 md:py-28">
