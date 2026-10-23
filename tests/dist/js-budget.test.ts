@@ -4,8 +4,8 @@ import { gzipSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 import { distDir, listHtmlFiles, readHtml } from './helpers'
 
-// SPEC §12.1 / §9.3: first-party JS only on pages with the contact form, ≤ 10 KB gzipped, and no
-// third-party scripts anywhere (plan F5-02 Step 5).
+// SPEC §12.1 / §9.3, plan F5-02 Step 5 and F7-01: first-party JS only on pages with the contact
+// form, ≤ 10 KB gzipped, and no script or stylesheet from another host anywhere.
 const CONTACT = ['pt-br/contact/index.html', 'en/contact/index.html']
 const scripts = (rel: string) =>
   readHtml(rel)
@@ -32,6 +32,21 @@ describe('first-party JavaScript budget', () => {
       }
       expect(bytes, page).toBeGreaterThan(0)
       expect(bytes, page).toBeLessThanOrEqual(10240)
+    }
+  })
+
+  it('no <script> or <link> loads anything from another host (no third-party requests)', () => {
+    for (const file of listHtmlFiles()) {
+      const doc = readHtml(file)
+      const loaded = [
+        ...doc.querySelectorAll('script[src]').map((s) => s.getAttribute('src') ?? ''),
+        // Canonical and hreflang links are not requests; everything else a <link> names is.
+        ...doc
+          .querySelectorAll('link[href]')
+          .filter((l) => !['canonical', 'alternate'].includes(l.getAttribute('rel') ?? ''))
+          .map((l) => l.getAttribute('href') ?? ''),
+      ]
+      for (const url of loaded) expect(url, `${file} → ${url}`).toMatch(/^\/(?!\/)/)
     }
   })
 })
