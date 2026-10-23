@@ -8,6 +8,6 @@ type AstroViteConfig = Parameters<typeof getViteConfig>[0]
 // Unit-tested modules must still not import `astro:*` virtual modules (plan §3).
 export default getViteConfig({
   test: {
-    include: ['tests/unit/**/*.test.ts', 'tests/dist/**/*.test.ts'],
+    include: ['tests/unit/**/*.test.ts', 'tests/dist/**/*.test.ts', 'tests/build/**/*.test.ts'],
   },
 } as unknown as AstroViteConfig)

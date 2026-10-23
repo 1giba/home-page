@@ -5,6 +5,7 @@ import Header from '@/components/Header.astro'
 import SeoHead, { type Props as SeoHeadProps } from '@/components/SeoHead.astro'
 import { LANG_TAG } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
+import { hasPublishedWork } from '@/lib/content'
 
 /** SeoHead props (plan §3). `alternatesAvailable: false` (the 404) also removes the switcher. */
 export type Props = SeoHeadProps
@@ -14,8 +15,8 @@ const { locale, alternatesAvailable = true } = props
 const t = useTranslations(locale)
 
 // The Work link appears only once a case study is published (SPEC §4.5). The layout decides this,
-// never the page; F3-02 replaces the constant with `await hasPublishedWork()`.
-const showWork = false
+// never the page. Loading the projects also validates them, so unfit content fails the build.
+const showWork = await hasPublishedWork()
 ---
 
 <!doctype html>

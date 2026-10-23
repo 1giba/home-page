@@ -28,3 +28,5 @@ node_modules
 test-results/
 playwright-report/
 .env*
+/dist-guards
+/dist-fixtures

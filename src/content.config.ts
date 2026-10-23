@@ -6,8 +6,15 @@ import { z } from 'astro/zod'
 import { projectProblems } from './lib/publication'
 import { SERVICE_IDS } from './lib/routes'
 
-const markdownIn = (collection: string) =>
-  glob({ pattern: '**/*.md', base: `./src/content/${collection}` })
+const markdownIn = (collection: string, base = `./src/content/${collection}`) =>
+  glob({ pattern: '**/*.md', base })
+
+// Tests build against fictional projects instead of the real ones: CONTENT_FIXTURES=1 uses
+// tests/fixtures/projects, CONTENT_FIXTURES=<name> uses tests/fixtures/<name> (plan F3-03).
+const fixtures = process.env.CONTENT_FIXTURES
+const projectsBase = fixtures
+  ? `./tests/fixtures/${fixtures === '1' ? 'projects' : fixtures}`
+  : './src/content/projects'
 
 // YAML reads `2024` as a number; periods are stored as strings (YYYY or YYYY-MM).
 const yearMonth = z.coerce.string().regex(/^\d{4}(-\d{2})?$/, 'expected YYYY or YYYY-MM')
@@ -29,7 +36,7 @@ const services = defineCollection({
 })
 
 const projects = defineCollection({
-  loader: markdownIn('projects'),
+  loader: markdownIn('projects', projectsBase),
   schema: ({ image }) =>
     z
       .object({
