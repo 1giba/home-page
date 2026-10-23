@@ -3,6 +3,9 @@
 /** Canonical production origin (provisional until the domain is confirmed — plan F8-01). */
 export const SITE_URL = 'https://codehappy.com.br'
 
+/** Set to true in plan F8-01 once the production domain is confirmed; `npm run launch-check` fails until then. */
+export const SITE_URL_CONFIRMED = false
+
 export const LEGAL_NAME = 'Code Happy Tecnologia Ltda.'
 
 export const CONTACT_EMAIL = 'contato@codehappy.com.br'

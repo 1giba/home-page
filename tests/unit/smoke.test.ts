@@ -8,6 +8,10 @@ describe('site constants', () => {
     expect(site.LEGAL_NAME).toBe('Code Happy Tecnologia Ltda.')
   })
 
+  it('keeps the domain unconfirmed until F8-01 (launch-check gate, plan F6-03)', () => {
+    expect(site.SITE_URL_CONFIRMED).toBe(false)
+  })
+
   it('keeps the existing contact destinations', () => {
     expect(site.CONTACT_EMAIL).toBe('contato@codehappy.com.br')
     expect(site.CALENDLY_URL).toBe('https://calendly.com/1giba')
