@@ -160,6 +160,24 @@ for (const lang of ['pt-br', 'en'] as const) {
     })
   })
 
+  test(`/${lang}/contact/: a request that never answers ends in the failure state`, async ({
+    page,
+  }) => {
+    // Review F5: without a timeout the visitor stayed on "Sending…" with no way out.
+    await page.clock.install()
+    const calls = await mockFormSubmit(page, () => new Promise(() => {}))
+    await page.goto(`/${lang}/contact/`)
+    await fillValid(page)
+    await submit(page).click()
+    await expect(submit(page)).toHaveText(lang === 'pt-br' ? 'Enviando…' : 'Sending…')
+    await page.clock.runFor(30_000)
+    await expect(page.locator(`[data-form-status] a[href="mailto:${CONTACT_EMAIL}"]`)).toBeVisible()
+    await expect(submit(page)).not.toHaveText(lang === 'pt-br' ? 'Enviando…' : 'Sending…')
+    await expect(page.locator('[data-contact-form]')).not.toHaveAttribute('aria-busy', 'true')
+    await expect(page.locator('#message')).toHaveValue(MESSAGE)
+    expect(calls.native).toBe(0)
+  })
+
   test(`/${lang}/contact/?service=advisory preselects the service`, async ({ page }) => {
     await page.goto(`/${lang}/contact/?service=advisory`)
     await expect(page.locator('#service')).toHaveValue('advisory')

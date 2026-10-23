@@ -13,6 +13,10 @@ export interface ContactFormOptions {
   success: HTMLTemplateElement
   /** Shown in the status region when sending fails (includes the mailto link). */
   failure: HTMLTemplateElement
+  /** Live region outside the form, which is aria-busy while sending. */
+  status: HTMLElement
+  /** A request that has not answered by then counts as failed. */
+  timeoutMs?: number
 }
 
 type Field = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -41,7 +45,7 @@ export function initContactForm(form: HTMLFormElement, opts: ContactFormOptions)
     (f) => f.type !== 'hidden' && f.name !== '_honey'
   )
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!
-  const status = form.querySelector<HTMLElement>('[data-form-status]')!
+  const { status, timeoutMs = 20_000 } = opts
   const label = button.textContent
   let attempted = false
   let pending = false
@@ -90,21 +94,28 @@ export function initContactForm(form: HTMLFormElement, opts: ContactFormOptions)
     }
 
     setPending(true)
+    // A stalled request must not leave the visitor on "Sending…" (SPEC §13.4 failure state).
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), timeoutMs)
     try {
       const res = await fetch(ajaxUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        signal: controller.signal,
       })
       const body: unknown = await res.json().catch(() => null)
       if (isConfirmedSuccess(res.ok, body)) {
         const block = opts.success.content.firstElementChild!.cloneNode(true) as HTMLElement
+        status.textContent = ''
         form.replaceWith(block)
         block.querySelector<HTMLElement>('h2')?.focus()
         return
       }
     } catch {
-      // Network error: handled below as a failure.
+      // Network error or timeout: handled below as a failure.
+    } finally {
+      clearTimeout(timer)
     }
     setPending(false)
     status.replaceChildren(opts.failure.content.cloneNode(true))

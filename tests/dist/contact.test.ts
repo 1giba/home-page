@@ -10,12 +10,12 @@ const input = (locale: string, name: string) => form(locale).querySelector(`[nam
 
 // What the visitor can fill in, and how Privacy §1 discloses each field (review F4 I3: the form
 // must collect exactly what the policy says, no more and no less).
-const DISCLOSED = {
-  name: { 'pt-br': 'nome', en: 'name' },
-  email: { 'pt-br': 'e-mail', en: 'email' },
-  company: { 'pt-br': 'empresa (opcional)', en: 'company (optional)' },
-  service: { 'pt-br': 'o serviço de interesse', en: 'the service you are interested in' },
-  message: { 'pt-br': 'a mensagem', en: 'your message' },
+const DISCLOSED = ['name', 'email', 'company', 'service', 'message']
+// The exact enumeration in Privacy §1, in form order (review F5: substring checks were too loose).
+const POLICY_LIST = {
+  'pt-br':
+    'formulário de contato: nome, e-mail, empresa (opcional), o serviço de interesse e a mensagem.',
+  en: 'contact form: name, email, company (optional), the service you are interested in and your message.',
 } as const
 
 describe('contact form (SPEC §13.2–§13.4)', () => {
@@ -49,12 +49,10 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
           (el) => el.getAttribute('type') !== 'hidden' && el.getAttribute('name') !== '_honey'
         )
         .map((el) => el.getAttribute('name'))
-      expect(visible).toEqual(Object.keys(DISCLOSED))
+      expect(visible).toEqual(DISCLOSED)
 
       const policy = readHtml(`${locale}/privacy/index.html`).querySelector('main')!.text
-      const section1 = policy.replace(/\s+/g, ' ').match(/1\. [^]*?(?= 2\. )/)![0]
-      for (const [name, phrase] of Object.entries(DISCLOSED))
-        expect(section1, name).toContain(phrase[locale])
+      expect(policy.replace(/\s+/g, ' ')).toContain(POLICY_LIST[locale])
     })
 
     it(`${locale}: field constraints and autocomplete match SPEC §13.3`, () => {
@@ -66,7 +64,7 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
       expect(attrs('message')).toMatchObject({ required: '', minlength: '10', maxlength: '5000' })
       const select = input(locale, 'service')
       expect(select.tagName).toBe('SELECT')
-      expect(select.hasAttribute('required')).toBe(true)
+      expect(select.hasAttribute('required')).toBe(false) // always has a value (HTML conformance)
       expect(select.querySelectorAll('option').map((o) => o.getAttribute('value'))).toEqual([
         'fractional-cto',
         'ai',
@@ -78,7 +76,7 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
 
     it(`${locale}: every field has a visible label; required ones say so in words`, () => {
       const required = locale === 'pt-br' ? '(obrigatório)' : '(required)'
-      for (const name of Object.keys(DISCLOSED)) {
+      for (const name of DISCLOSED) {
         const id = input(locale, name).getAttribute('id')!
         const label = form(locale).querySelector(`label[for="${id}"]`)
         expect(label, name).not.toBeNull()
@@ -89,7 +87,7 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
     })
 
     it(`${locale}: each field references its (hidden) error text via aria-describedby`, () => {
-      for (const name of Object.keys(DISCLOSED)) {
+      for (const name of DISCLOSED) {
         const el = input(locale, name)
         const ids = el.getAttribute('aria-describedby')?.split(' ') ?? []
         expect(ids, name).toContain(`${el.getAttribute('id')}-error`)
@@ -100,7 +98,9 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
     })
 
     it(`${locale}: has a polite live region and a submit button that is never disabled`, () => {
-      expect(form(locale).querySelector('[role="status"][aria-live="polite"]')).not.toBeNull()
+      const root = readHtml(`${locale}/contact/index.html`).querySelector('[data-contact]')!
+      expect(root.querySelector('[role="status"][aria-live="polite"]')).not.toBeNull()
+      expect(form(locale).querySelector('[role="status"]')).toBeNull()
       const submit = form(locale).querySelector('button[type="submit"]')!
       expect(submit.hasAttribute('disabled')).toBe(false)
       expect(submit.text.trim().length).toBeGreaterThan(0)
@@ -109,6 +109,9 @@ describe('contact form (SPEC §13.2–§13.4)', () => {
     it(`${locale}: a privacy notice next to submit names FormSubmit and links the policy`, () => {
       const notice = form(locale).querySelector('[data-privacy-notice]')!
       expect(notice.text).toContain('FormSubmit')
+      expect(notice.text).toContain(
+        locale === 'pt-br' ? 'preparar uma proposta' : 'prepare a proposal'
+      )
       expect(notice.querySelector(`a[href="/${locale}/privacy/"]`)).not.toBeNull()
     })
   }
@@ -133,7 +136,7 @@ describe('typography', () => {
   it('no inline link is glued to the text before or after it', () => {
     for (const file of listHtmlFiles()) {
       const main = readHtml(file).querySelector('main')?.innerHTML ?? ''
-      expect(main, file).not.toMatch(/[\p{L}\d:;,]<a\s/u)
+      expect(main, file).not.toMatch(/[^\s>([“‘"']<a\s/u)
       expect(main, file).not.toMatch(/<\/a>[\p{L}\d]/u)
     }
   })

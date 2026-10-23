@@ -132,7 +132,7 @@ const ptBR = {
   'form.messageHint': 'Qual é a situação e como seria um bom resultado?',
   'form.submit': 'Enviar mensagem',
   'form.privacy':
-    'As informações deste formulário são entregues por e-mail por meio do serviço FormSubmit e usadas para responder ao seu contato.',
+    'As informações deste formulário são entregues por e-mail por meio do serviço FormSubmit e usadas para responder ao seu contato e, quando for o caso, preparar uma proposta.',
   'form.privacyLink': 'Política de Privacidade',
   'form.sending': 'Enviando…',
   'form.error.required': 'Preencha este campo.',
@@ -302,7 +302,7 @@ const en: Record<UiKey, string> = {
   'form.messageHint': "What's the situation and what would a good outcome look like?",
   'form.submit': 'Send message',
   'form.privacy':
-    'The information in this form is delivered by email through the FormSubmit service and used to reply to you.',
+    'The information in this form is delivered by email through the FormSubmit service and used to reply to you and, where relevant, to prepare a proposal.',
   'form.privacyLink': 'Privacy Policy',
   'form.sending': 'Sending…',
   'form.error.required': 'Fill in this field.',
@@ -321,7 +321,7 @@ const en: Record<UiKey, string> = {
   'contact.messageText': 'You will get a reply within 48 hours.',
   'contact.email': 'Email',
   'contact.emailText': 'If you prefer, write directly to:',
-  'contact.faq': 'Questions',
+  'contact.faq': 'Frequently asked questions',
   'contact.faq.budget': 'How much does it cost?',
   'contact.faq.budgetAnswer':
     'After an intro call, we send a written proposal with the scope and terms of the work.',

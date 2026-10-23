@@ -110,7 +110,7 @@ const options = {
       <label for="service" class={label}>
         {t('form.service')} <span class="font-normal text-muted">{t('form.required')}</span>
       </label>
-      <select id="service" name="service" required aria-describedby="service-error" class={field}>
+      <select id="service" name="service" aria-describedby="service-error" class={field}>
         {SERVICE_IDS.map((id) => (
           <option value={id}>{t(`service.${id}`)}</option>
         ))}
@@ -148,8 +148,6 @@ const options = {
       </a>
     </p>
 
-    <div role="status" aria-live="polite" data-form-status></div>
-
     <div>
       <button
         type="submit"
@@ -159,6 +157,9 @@ const options = {
       </button>
     </div>
   </form>
+
+  {/* Outside the form: the form is aria-busy while sending, which can hold back announcements. */}
+  <div role="status" aria-live="polite" data-form-status class="mt-4 max-w-prose"></div>
 
   <template data-success>
     <div data-contact-success class="max-w-prose">
@@ -197,6 +198,7 @@ const options = {
       ...JSON.parse(form.dataset.options!),
       success: root.querySelector<HTMLTemplateElement>('template[data-success]')!,
       failure: root.querySelector<HTMLTemplateElement>('template[data-failure]')!,
+      status: root.querySelector<HTMLElement>('[data-form-status]')!,
     })
   }
 </script>

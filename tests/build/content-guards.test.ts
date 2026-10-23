@@ -24,7 +24,8 @@ function build(fixture: string): { status: number | null; output: string } {
   }
 }
 
-describe('content publication guards (build-time)', () => {
+// Each case is a full Astro build (~4–5 s); Vitest's 5 s default made them flaky under load.
+describe('content publication guards (build-time)', { timeout: 120_000 }, () => {
   it('fails the build for a published project missing required fields', () => {
     const { status, output } = build('projects-incomplete')
     expect(status).not.toBe(0)
