@@ -1,0 +1,51 @@
+---
+// Contents of the mobile menu panel; the <details> toggle and show/hide rule live in Header.
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { ariaCurrent, type NavItem } from '@/lib/navigation'
+
+export interface Props {
+  locale: Locale
+  items: NavItem[]
+  showLanguageSwitcher: boolean
+}
+const { locale, items, showLanguageSwitcher } = Astro.props
+const t = useTranslations(locale)
+---
+
+<Container class="flex flex-col gap-4 py-4">
+  <nav aria-label={t('nav.label')}>
+    <ul class="flex flex-col">
+      {items.map((item) => {
+        const current = ariaCurrent(Astro.url.pathname, item.href)
+        return (
+          <li>
+            <a
+              href={item.href}
+              aria-current={current}
+              class:list={[
+                'block rounded-base py-3 text-base font-semibold text-text no-underline hover:text-accent',
+                current && 'underline decoration-accent decoration-[3px] underline-offset-8',
+              ]}
+            >
+              {t(item.key)}
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  </nav>
+  {showLanguageSwitcher && <LanguageSwitcher locale={locale} />}
+  <LinkButton
+    href={CALENDLY_URL}
+    variant="primary"
+    externalLabel={t('a11y.external')}
+    class="w-full"
+  >
+    {t('cta.book')}
+  </LinkButton>
+</Container>

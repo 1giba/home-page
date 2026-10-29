@@ -1,0 +1,38 @@
+---
+// A link styled as a button (navigation, not an action). Opens in the same tab (SPEC §6.2).
+// Height is at least 44px so it meets the primary-control target size (SPEC §6.3).
+// `externalLabel` marks an off-site destination with an icon and screen-reader text (SPEC §7.3).
+// Primary is the brand pink; `tone="night"` gives the secondary button light ink on dark surfaces.
+import Icon from '@/components/ui/Icon.astro'
+
+export interface Props {
+  href: string
+  variant: 'primary' | 'secondary'
+  tone?: 'light' | 'night'
+  externalLabel?: string
+  class?: string
+}
+const { href, variant, tone = 'light', externalLabel, class: className } = Astro.props
+---
+
+<a
+  href={href}
+  data-cta={variant}
+  class:list={[
+    'inline-flex max-w-full min-h-11 items-center justify-center gap-2 rounded-base px-5 py-2 text-center text-sm font-bold no-underline transition-colors duration-150',
+    variant === 'primary'
+      ? 'bg-cta text-on-accent hover:bg-cta-hover hover:text-on-accent'
+      : tone === 'night'
+        ? 'border-2 border-on-night bg-night text-on-night hover:bg-night-raised hover:text-on-night'
+        : 'border-2 border-text text-text hover:bg-pale hover:text-text',
+    className,
+  ]}
+>
+  <slot />
+  {externalLabel && (
+    <>
+      <Icon name="external" class="size-4 shrink-0" />
+      <span class="sr-only">{externalLabel}</span>
+    </>
+  )}
+</a>

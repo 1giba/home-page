@@ -1,55 +1,19 @@
 import js from '@eslint/js'
-import vue from 'eslint-plugin-vue'
-import typescript from '@typescript-eslint/eslint-plugin'
-import typescriptParser from '@typescript-eslint/parser'
-import vueParser from 'vue-eslint-parser'
-import prettier from 'eslint-config-prettier'
+import tseslint from 'typescript-eslint'
+import astro from 'eslint-plugin-astro'
 
 export default [
-  // Base JavaScript configuration
-  js.configs.recommended,
-
-  // Vue 3 configuration
-  ...vue.configs['flat/recommended'],
-
-  // TypeScript configuration
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.vue'],
-    languageOptions: {
-      parser: vueParser,
-      parserOptions: {
-        parser: typescriptParser,
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        extraFileExtensions: ['.vue'],
-      },
-      globals: {
-        browser: true,
-        es2022: true,
-        node: true,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescript,
-      vue,
-    },
-    rules: {
-      ...typescript.configs.recommended.rules,
-      'vue/multi-word-component-names': 'off',
-      // Disable conflicting rules with Prettier
-      'vue/max-attributes-per-line': 'off',
-      'vue/singleline-html-element-content-newline': 'off',
-      'vue/multiline-html-element-content-newline': 'off',
-      'vue/html-self-closing': 'off',
-      'vue/html-indent': 'off',
-    },
+    ignores: ['dist/', '.astro/', 'node_modules/', '.superpowers/'],
   },
-
-  // Prettier configuration (should be last)
-  prettier,
-
-  // Global ignores
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs.recommended,
+  // Backed by eslint-plugin-jsx-a11y-x (ESLint 10-compatible fork; eslint-plugin-jsx-a11y caps at ESLint 9).
+  ...astro.configs['jsx-a11y-recommended'],
+  // Node scripts run by hand or by npm (scripts/build-og.mjs, scripts/launch-check.mjs).
   {
-    ignores: ['dist/**', 'node_modules/**', '.vite/**', 'coverage/**'],
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { console: 'readonly', process: 'readonly' } },
   },
 ]

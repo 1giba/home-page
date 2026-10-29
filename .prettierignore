@@ -1,4 +1,9 @@
 node_modules
-dist
+/dist
 coverage
 *.log
+.astro
+package-lock.json
+test-results
+playwright-report
+.superpowers

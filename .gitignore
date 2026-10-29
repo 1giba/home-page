@@ -8,8 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
+/dist
+/dist-ssr
 *.local
 
 # Editor directories and files
@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated / test output
+.astro/
+test-results/
+playwright-report/
+.env*
+/dist-guards
+/dist-fixtures
+
+# Lighthouse output (plan F7-03)
+lh-*.json

@@ -1,0 +1,36 @@
+---
+// Simplified national flags for the language switcher (decorative: the link text names the
+// language). Inline SVG rather than emoji flags, which Windows renders as letter pairs.
+import type { Locale } from '@/i18n/locales'
+
+export interface Props {
+  locale: Locale
+  class?: string
+}
+const { locale, class: className = 'h-3.5 w-5' } = Astro.props
+const stripes = Array.from({ length: 7 }, (_, i) => i * 2)
+---
+
+<svg
+  class:list={['shrink-0 rounded-[2px] ring-1 ring-border', className]}
+  viewBox="0 0 20 14"
+  aria-hidden="true"
+  focusable="false"
+>
+  {locale === 'pt-br' ? (
+    <>
+      <rect width="20" height="14" fill="#009c3b" />
+      <path d="M10 1.6 18 7l-8 5.4L2 7z" fill="#ffdf00" />
+      <circle cx="10" cy="7" r="3.1" fill="#002776" />
+      <path d="M7.1 6.2q3-1 5.8.9" stroke="#fff" stroke-width="0.6" fill="none" />
+    </>
+  ) : (
+    <>
+      <rect width="20" height="14" fill="#fff" />
+      {stripes.map((y) => (
+        <rect y={y} width="20" height="1.08" fill="#b22234" />
+      ))}
+      <rect width="9" height="7.5" fill="#3c3b6e" />
+    </>
+  )}
+</svg>

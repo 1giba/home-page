@@ -1,0 +1,106 @@
+---
+// Static (non-sticky) header, so it can never cover a focused element (WCAG 2.2 SC 2.4.11).
+// Desktop (≥ lg): inline nav, language switcher and booking CTA. Below lg: a <details> toggle in
+// the bar and the menu panel as a full-width row beneath it (in normal flow, so opening it pushes
+// the page down instead of covering it). The bar wraps rather than overflowing at large text sizes.
+import { Image } from 'astro:assets'
+import logo from '@/assets/brand/logo/code-happy-logo-horizontal.svg'
+import Container from '@/components/ui/Container.astro'
+import Icon from '@/components/ui/Icon.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import MobileNav from '@/components/MobileNav.astro'
+import ThemeToggle from '@/components/ThemeToggle.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+import { ariaCurrent, mainNav } from '@/lib/navigation'
+
+export interface Props {
+  locale: Locale
+  showWork: boolean
+  showLanguageSwitcher: boolean
+}
+const { locale, showWork, showLanguageSwitcher } = Astro.props
+const t = useTranslations(locale)
+const items = mainNav(locale, showWork)
+---
+
+<header class="surface-light border-b border-border">
+  <Container class="flex min-h-16 flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2">
+    {/* The approved horizontal logo (two-line wordmark + cube), unchanged, 44 px tall (123 px
+       wide, above the 120 px minimum). The header is a light surface in both themes, so this
+       primary version always shows. The image's alt is the link's accessible name. */}
+    <a href={localizedPath(locale, '/')} class="inline-flex shrink-0 rounded-base">
+      <Image src={logo} alt="Code Happy" height={44} class="h-11 w-auto" loading="eager" />
+    </a>
+
+    <div class="flex max-w-full min-w-0 flex-wrap items-center justify-end gap-x-6 gap-y-2">
+      <div
+        data-desktop-nav
+        class="hidden flex-wrap items-center justify-end gap-x-6 gap-y-2 lg:flex"
+      >
+        <nav aria-label={t('nav.label')}>
+          <ul class="flex flex-wrap items-center gap-1">
+            {items.map((item) => {
+              const current = ariaCurrent(Astro.url.pathname, item.href)
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={current}
+                    class:list={[
+                      'inline-block rounded-base px-3 py-2 text-sm font-semibold text-text no-underline hover:text-accent',
+                      current &&
+                        'underline decoration-accent decoration-[3px] underline-offset-[10px]',
+                    ]}
+                  >
+                    {t(item.key)}
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+        {showLanguageSwitcher && <LanguageSwitcher locale={locale} />}
+        <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
+          {t('cta.book')}
+        </LinkButton>
+      </div>
+
+      {/* The theme toggle sits in the bar at every width, beside the menu button below lg. */}
+      <div class="flex flex-wrap items-center justify-end gap-2">
+        <ThemeToggle locale={locale} />
+        <details data-menu class="lg:hidden">
+          <summary
+            aria-controls="mobile-menu"
+            class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-base border-2 border-border px-3 text-sm font-semibold [&::-webkit-details-marker]:hidden"
+          >
+            <Icon name="menu" />
+            {t('nav.menu')}
+          </summary>
+        </details>
+      </div>
+    </div>
+  </Container>
+
+  <div id="mobile-menu" data-mobile-panel class="border-t border-border lg:hidden">
+    <MobileNav locale={locale} items={items} showLanguageSwitcher={showLanguageSwitcher} />
+  </div>
+</header>
+
+<style>
+  /* No-JS disclosure: the panel follows the <details> state. */
+  header:has(details[data-menu]:not([open])) [data-mobile-panel] {
+    display: none;
+  }
+
+  /* Without :has() the panel cannot be hidden, so it stays visible as plain navigation and the
+     toggle is removed; otherwise it would announce "collapsed" while the menu is shown. */
+  @supports not selector(:has(*)) {
+    details[data-menu] {
+      display: none;
+    }
+  }
+</style>

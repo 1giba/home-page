@@ -1,0 +1,335 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — arcade direction (modern consultancy × 1990s arcade, approved 26 Oct 2026).
+ * The values below are the LIGHT theme; the dark theme (the default) re-points the semantic
+ * tokens further down. Every text colour is checked for ≥ 4.5:1 on the backgrounds it is used
+ * on, in both themes, by tests/unit/contrast.test.ts. Tailwind's default palette, type scale and
+ * radii are removed so components can only use these tokens (SPEC §7.3).
+ */
+@theme {
+  --color-*: initial;
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-accent: #1d4ed8;
+  --color-accent-hover: #1e40af;
+  --color-on-accent: #ffffff;
+  --color-error: #b91c1c;
+  --color-success: #15803d;
+
+  /* Light editorial surfaces: pale blue bands between the dark arcade ones. */
+  --color-pale: #eef4ff;
+  --color-pale-strong: #dfeaff;
+  --color-pale-border: #c3d4f5;
+  --color-grid-line: rgb(37 99 235 / 0.06);
+
+  /* The closing band: the same strong blue in both themes, with white text. */
+  --color-band: #1d4ed8;
+
+  /* Primary action: brand pink, darkened so white text reaches 4.5:1. */
+  --color-cta: #d61f69;
+  --color-cta-hover: #be185d;
+
+  /* Dark arcade surfaces (hero, process, footer, page intros) and the text that sits on them. */
+  --color-night: #0b1640;
+  --color-night-raised: #12245e;
+  --color-night-line: #2a3f8f;
+  --color-on-night: #ffffff;
+  --color-on-night-muted: #c7d2fe;
+  --color-sky: #60a5fa;
+  --color-sun: #fbbf24;
+  --color-candy: #f472b6;
+
+  /* Pixel-art palette (decoration and pixel icons only, never body text): the logo's blue,
+     pink and yellow plus a supporting green. */
+  --color-px-ink: #0b1640;
+  --color-px-blue: #2563eb;
+  --color-px-light: #93c5fd;
+  --color-px-pink: #ec4899;
+  --color-px-yellow: #fbbf24;
+  --color-px-orange: #f59e0b;
+  --color-px-green: #22c55e;
+  --color-px-white: #ffffff;
+  --color-px-deep: #13286b;
+  --color-px-mid: #1c3a94;
+  --color-px-floor: #0e1d52;
+
+  /* System stacks only: no font downloads (SPEC §7.3, §12.1). */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --text-*: initial;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  --text-3xl: clamp(2rem, 1.5rem + 2.4vw, 3rem);
+  /* The home hero headline only. */
+  --text-display: clamp(2rem, 1.1rem + 2.95vw, 3.25rem);
+  /* Headings sit tighter than body text (1.6). */
+  --text-xl--line-height: 1.35;
+  --text-2xl--line-height: 1.25;
+  --text-3xl--line-height: 1.15;
+  --text-display--line-height: 1.08;
+
+  --radius-*: initial;
+  --radius-base: 0.5rem;
+
+  --container-content: 72rem;
+  --container-prose: 42rem;
+
+  /* At most two shadow levels (SPEC §7.3); none are needed yet. */
+  --shadow-*: initial;
+}
+
+/*
+ * Dark theme (the default). The inline script in BaseLayout sets data-theme on <html> before
+ * first paint: a saved choice, else the system preference, else dark. Without JavaScript there
+ * is no data-theme, and the page stays dark. Only semantic tokens change; the arcade night
+ * surfaces, brand and pixel colours are shared, except the pixel outline ink, which turns light
+ * so sprites stay outlined on dark backgrounds.
+ */
+:root[data-theme='dark'],
+:root:not([data-theme]) {
+  color-scheme: dark;
+  --color-bg: #070d29;
+  --color-surface: #0c1536;
+  --color-text: #e6ecff;
+  --color-muted: #aebbe6;
+  --color-border: #3a51a8;
+  --color-accent: #7aa7ff;
+  --color-accent-hover: #a8c5ff;
+  --color-error: #fca5a5;
+  --color-success: #86efac;
+  --color-pale: #0e1a48;
+  --color-pale-strong: #13225a;
+  --color-pale-border: #3a51a8;
+  --color-grid-line: rgb(96 165 250 / 0.1);
+  --color-px-ink: #dbe4ff;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 1rem;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    /* Long words wrap (hyphenated by the page's lang) instead of overflowing at large text sizes
+       or narrow widths (SPEC §12.2: 320 px, 200% text). */
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration-line: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    color: var(--color-accent-hover);
+  }
+
+  /* Dark surfaces set --focus-ring to a colour that reaches 3:1 on them (SPEC §6.5). */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-accent));
+    outline-offset: 2px;
+  }
+
+  /* Headings: heavy and tight, the display voice of the arcade direction. */
+  h1,
+  h2 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Hyphenation is for narrow screens and large text sizes; from 40rem lines are long enough
+     without it, and headings never hyphenate. */
+  h1,
+  h2,
+  h3 {
+    hyphens: manual;
+  }
+  @media (min-width: 40rem) {
+    body {
+      hyphens: manual;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0s !important;
+      animation-duration: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Arcade primitives. Decoration only: none of them carries meaning, and all are static (no
+ * animation, so nothing to reduce for prefers-reduced-motion).
+ * ------------------------------------------------------------------------------------------- */
+
+/* A dark arcade surface: night background, light text, and links and focus ring re-pointed to
+   colours that reach 4.5:1 and 3:1 on it (the base link rule reads --color-accent). */
+@utility surface-night {
+  --focus-ring: var(--color-sun);
+  --color-accent: var(--color-on-night);
+  --color-accent-hover: var(--color-sun);
+  background-color: var(--color-night);
+  color: var(--color-on-night);
+}
+
+/* Sparse pixel stars tiled over a night surface (inline SVG, no request). */
+@utility pixel-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='200' shape-rendering='crispEdges'%3E%3Cg fill='%23ffffff' fill-opacity='.55'%3E%3Crect x='18' y='26' width='3' height='3'/%3E%3Crect x='132' y='14' width='2' height='2'/%3E%3Crect x='204' y='68' width='3' height='3'/%3E%3Crect x='66' y='118' width='2' height='2'/%3E%3Crect x='170' y='156' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%2360a5fa' fill-opacity='.6'%3E%3Crect x='92' y='60' width='2' height='2'/%3E%3Crect x='226' y='130' width='3' height='3'/%3E%3Crect x='30' y='178' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%23fbbf24' fill-opacity='.45'%3E%3Crect x='148' y='92' width='2' height='6'/%3E%3Crect x='146' y='94' width='6' height='2'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* The home hero sky: the stars over a deep navy that brightens towards the horizon. */
+@utility hero-sky {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='200' shape-rendering='crispEdges'%3E%3Cg fill='%23ffffff' fill-opacity='.55'%3E%3Crect x='18' y='26' width='3' height='3'/%3E%3Crect x='132' y='14' width='2' height='2'/%3E%3Crect x='204' y='68' width='3' height='3'/%3E%3Crect x='66' y='118' width='2' height='2'/%3E%3Crect x='170' y='156' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%2360a5fa' fill-opacity='.6'%3E%3Crect x='92' y='60' width='2' height='2'/%3E%3Crect x='226' y='130' width='3' height='3'/%3E%3Crect x='30' y='178' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%23fbbf24' fill-opacity='.45'%3E%3Crect x='148' y='92' width='2' height='6'/%3E%3Crect x='146' y='94' width='6' height='2'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(
+      to bottom,
+      var(--color-night) 0%,
+      var(--color-night) 30%,
+      var(--color-night-raised) 62%,
+      var(--color-px-mid) 84%,
+      var(--color-px-blue) 100%
+    );
+}
+
+/* The home hero headline: tight lines and a hard, one-step pixel drop shadow in the scenery's
+   mid blue (an arcade title treatment with the system font; no font download). */
+@utility hero-title {
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  text-shadow: 0.05em 0.05em 0 var(--color-px-mid);
+}
+
+/* The closing band: the strong blue, lighter at the top, with the stars. */
+@utility closing-sky {
+  background-color: var(--color-band);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='200' shape-rendering='crispEdges'%3E%3Cg fill='%23ffffff' fill-opacity='.55'%3E%3Crect x='18' y='26' width='3' height='3'/%3E%3Crect x='132' y='14' width='2' height='2'/%3E%3Crect x='204' y='68' width='3' height='3'/%3E%3Crect x='66' y='118' width='2' height='2'/%3E%3Crect x='170' y='156' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%2360a5fa' fill-opacity='.6'%3E%3Crect x='92' y='60' width='2' height='2'/%3E%3Crect x='226' y='130' width='3' height='3'/%3E%3Crect x='30' y='178' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%23fbbf24' fill-opacity='.45'%3E%3Crect x='148' y='92' width='2' height='6'/%3E%3Crect x='146' y='94' width='6' height='2'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(to bottom, var(--color-px-blue), var(--color-band));
+}
+
+/* A light surface in both themes: the header, so the approved primary logo (dark "code", blue
+   "happy") always sits on the background it was drawn for. Restates the light semantic tokens. */
+@utility surface-light {
+  color-scheme: light;
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-accent: #1d4ed8;
+  --color-accent-hover: #1e40af;
+  --color-pale: #eef4ff;
+  --color-pale-strong: #dfeaff;
+  --color-pale-border: #c3d4f5;
+  --color-px-ink: #0b1640;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* A faint pixel grid for light bands. */
+@utility pixel-grid {
+  background-image:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* A notched, pixel-stepped border drawn outside the box (classic 8-bit panel). Set the colour
+   with --pixel-border; keep 4px of free space around the element. */
+@utility pixel-box {
+  box-shadow:
+    0 -4px 0 0 var(--pixel-border, var(--color-pale-border)),
+    0 4px 0 0 var(--pixel-border, var(--color-pale-border)),
+    -4px 0 0 0 var(--pixel-border, var(--color-pale-border)),
+    4px 0 0 0 var(--pixel-border, var(--color-pale-border));
+}
+
+/* A soft neon glow in the panel's own border colour (the hero's outcome panels). Static. */
+@utility neon {
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--pixel-border) 65%, transparent));
+}
+
+/* Short HUD-style labels (step numbers, years, scene panels): monospace, bold, uppercase. Never
+   for running text. */
+@utility font-hud {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  hyphens: manual;
+}
+
+/* Theme-specific content (e.g. the header logo, whose wordmark is dark on light and white on dark)
+   and the theme toggle, which needs JavaScript: without it there is no data-theme to toggle.
+   Unlayered on purpose, so it overrides display utilities such as `grid` on the same element. */
+:root[data-theme='light'] .dark-only,
+:root:not([data-theme='light']) .light-only,
+:root:not([data-theme]) [data-theme-toggle] {
+  display: none;
+}
+
+/* Pixel-icon colours (src/components/ui/PixelIcon.astro). */
+@layer components {
+  .px-k {
+    fill: var(--color-px-ink);
+  }
+  .px-b {
+    fill: var(--color-px-blue);
+  }
+  .px-l {
+    fill: var(--color-px-light);
+  }
+  .px-p {
+    fill: var(--color-px-pink);
+  }
+  .px-y {
+    fill: var(--color-px-yellow);
+  }
+  .px-o {
+    fill: var(--color-px-orange);
+  }
+  .px-g {
+    fill: var(--color-px-green);
+  }
+  .px-w {
+    fill: var(--color-px-white);
+  }
+  .px-d {
+    fill: var(--color-px-deep);
+  }
+  .px-m {
+    fill: var(--color-px-mid);
+  }
+  .px-f {
+    fill: var(--color-px-floor);
+  }
+}

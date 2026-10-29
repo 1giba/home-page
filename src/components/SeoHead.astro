@@ -1,0 +1,59 @@
+---
+// Per-page <head> metadata (SPEC §8.4, §11.1–§11.7). Pages pass an unlocalized `path`; canonical,
+// og:url and hreflang are derived from it. Pages without a URL of their own (the 404) omit `path`.
+import { OG_LOCALE, LOCALES, type Locale } from '@/i18n/locales'
+import { absoluteUrl, alternates, localizedPath } from '@/i18n/paths'
+
+export interface Props {
+  locale: Locale
+  /** Unlocalized path, e.g. `/services/ai/`. Omit for pages with no canonical URL. */
+  path?: string
+  title: string
+  description: string
+  noindex?: boolean
+  alternatesAvailable?: boolean
+  /** Absolute or root-relative image; defaults to the 1200×630 branded image (plan F6-02). */
+  ogImage?: string
+  jsonLd?: object[]
+}
+
+const {
+  locale,
+  path,
+  title,
+  description,
+  noindex = false,
+  alternatesAvailable = true,
+  ogImage = '/og/default.png',
+  jsonLd = [],
+} = Astro.props
+
+// Home pages pass their complete title; every other page is branded (SPEC §11.1).
+const fullTitle = path === '/' ? title : `${title} | Code Happy`
+const canonical = path === undefined ? undefined : absoluteUrl(localizedPath(locale, path))
+// hreflang only on indexable pages that exist in both languages.
+const hreflang = path !== undefined && alternatesAvailable && !noindex ? alternates(path) : []
+const otherLocales = alternatesAvailable ? LOCALES.filter((l) => l !== locale) : []
+const image = ogImage && (ogImage.startsWith('/') ? absoluteUrl(ogImage) : ogImage)
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={canonical} />}
+{hreflang.map((alt) => (
+  <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+))}
+<meta property="og:type" content="website" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:locale" content={OG_LOCALE[locale]} />
+{otherLocales.map((l) => (
+  <meta property="og:locale:alternate" content={OG_LOCALE[l]} />
+))}
+{image && <meta property="og:image" content={image} />}
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+{jsonLd.map((data) => (
+  <script type="application/ld+json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />
+))}

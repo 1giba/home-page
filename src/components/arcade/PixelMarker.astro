@@ -1,0 +1,14 @@
+---
+// Three pixel blocks in the logo's pink, blue and yellow: the arcade "HUD" mark above section
+// headings. Decorative only.
+export interface Props {
+  class?: string
+}
+const { class: className } = Astro.props
+---
+
+<span aria-hidden="true" class:list={['flex gap-1', className]}>
+  <span class="block h-2 w-5 bg-px-pink"></span>
+  <span class="block h-2 w-3 bg-px-blue"></span>
+  <span class="block h-2 w-2 bg-px-yellow"></span>
+</span>

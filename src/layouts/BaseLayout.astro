@@ -1,0 +1,86 @@
+---
+import '@/styles/global.css'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import SeoHead, { type Props as SeoHeadProps } from '@/components/SeoHead.astro'
+import { LANG_TAG } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { hasPublishedWork } from '@/lib/content'
+
+/** SeoHead props (plan §3). `alternatesAvailable: false` (the 404) also removes the switcher. */
+export type Props = SeoHeadProps
+
+const props = Astro.props
+const { locale, alternatesAvailable = true } = props
+const t = useTranslations(locale)
+
+// The Work link appears only once a case study is published (SPEC §4.5). The layout decides this,
+// never the page. Loading the projects also validates them, so unfit content fails the build.
+const showWork = await hasPublishedWork()
+---
+
+<!doctype html>
+<html lang={LANG_TAG[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Theme (the only script on every page; render-blocking on purpose, so the right theme is
+       applied before first paint). Resolves a saved choice, else the system preference, else
+       dark; follows system changes until the visitor chooses; handles the header toggle by
+       event delegation. Storage failures (private mode, blocked storage) fall back silently. */}
+    <script is:inline data-theme-init>
+      ;(() => {
+        const d = document.documentElement
+        const mq = matchMedia('(prefers-color-scheme: light)')
+        let saved = null
+        try {
+          saved = localStorage.getItem('theme')
+        } catch {
+          // Storage unavailable: the choice lasts for this page only.
+        }
+        const sync = () => {
+          for (const b of document.querySelectorAll('[data-theme-toggle]'))
+            b.setAttribute('aria-pressed', String(d.dataset.theme === 'dark'))
+        }
+        const set = (theme) => {
+          d.dataset.theme = theme
+          sync()
+        }
+        if (saved !== 'light' && saved !== 'dark') saved = null
+        set(saved ?? (mq.matches ? 'light' : 'dark'))
+        mq.addEventListener('change', (e) => {
+          if (!saved) set(e.matches ? 'light' : 'dark')
+        })
+        document.addEventListener('DOMContentLoaded', sync)
+        document.addEventListener('click', (e) => {
+          if (!(e.target instanceof Element) || !e.target.closest('[data-theme-toggle]')) return
+          saved = d.dataset.theme === 'dark' ? 'light' : 'dark'
+          set(saved)
+          try {
+            localStorage.setItem('theme', saved)
+          } catch {
+            // Storage unavailable: the choice lasts for this page only.
+          }
+        })
+      })()
+    </script>
+    {/* Favicons from the approved flat icon (src/assets/brand/logo/code-happy-icon.svg). */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <SeoHead {...props} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-20 focus:rounded-base focus:bg-bg focus:px-4 focus:py-2"
+    >
+      {t('skip')}
+    </a>
+    <Header locale={locale} showWork={showWork} showLanguageSwitcher={alternatesAvailable} />
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
+      <slot />
+    </main>
+    <Footer locale={locale} showWork={showWork} />
+  </body>
+</html>

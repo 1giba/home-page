@@ -1,0 +1,32 @@
+---
+// One published case study in the Work list: title (the link), summary, client and services.
+import type { CollectionEntry } from 'astro:content'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+
+export interface Props {
+  locale: Locale
+  id: string
+  project: CollectionEntry<'projects'>['data']
+  /** h2 in a page's list; h3 when nested under a section heading (e.g. related work). */
+  headingLevel?: 'h2' | 'h3'
+}
+const { locale, id, project, headingLevel: Heading = 'h2' } = Astro.props
+const t = useTranslations(locale)
+---
+
+<article class="pixel-box m-1 min-w-0 bg-bg p-6">
+  <Heading class="text-xl font-bold tracking-tight">
+    <a href={localizedPath(locale, `/work/${id}/`)} class="text-text no-underline hover:underline">
+      {project.title}
+    </a>
+  </Heading>
+  {project.client && <p class="mt-1 text-sm text-muted">{project.client.display}</p>}
+  {project.summary && <p class="mt-3">{project.summary}</p>}
+  {project.services?.length ? (
+    <p class="mt-3 text-sm text-muted">
+      {project.services.map((s) => t(`service.${s}`)).join(' · ')}
+    </p>
+  ) : null}
+</article>

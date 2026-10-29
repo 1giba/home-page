@@ -1,0 +1,58 @@
+---
+// Typography for rendered Markdown (About, legal pages), in the design tokens. External links in
+// the content are marked like the components' (SPEC §7.3).
+import type { Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+import { markExternalLinks } from '@/lib/external-links'
+
+export interface Props {
+  locale: Locale
+}
+const html = markExternalLinks(
+  await Astro.slots.render('default'),
+  useTranslations(Astro.props.locale)('a11y.external')
+)
+---
+
+<div class="prose max-w-prose" set:html={html} />
+
+<style>
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-top: 1rem;
+  }
+  .prose :global(ul) {
+    list-style: square;
+    padding-left: 1.25rem;
+  }
+  .prose :global(li::marker) {
+    color: var(--color-accent);
+  }
+  .prose :global(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+  .prose :global(li + li) {
+    margin-top: 0.5rem;
+  }
+  .prose :global(h2) {
+    margin-top: 3rem;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prose :global(h3) {
+    margin-top: 2rem;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
+  }
+  .prose :global(strong) {
+    font-weight: 600;
+  }
+  .prose > :global(:first-child) {
+    margin-top: 0;
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+// A published case study (SPEC §5.2). Never renders outcomes[].source or confidentialityNotes:
+// both are internal records of why a claim may be published.
+import { Image } from 'astro:assets'
+import { render, type CollectionEntry } from 'astro:content'
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { formatPeriod, useTranslations } from '@/i18n/ui'
+
+export interface Props {
+  locale: Locale
+  entry: CollectionEntry<'projects'>
+}
+const { locale, entry } = Astro.props
+const t = useTranslations(locale)
+const p = entry.data
+const { Content } = await render(entry)
+
+const sectionHeading = 'text-2xl'
+const list = 'mt-3 list-disc space-y-1 pl-5'
+---
+
+<Container class="py-16">
+  <article class="max-w-prose">
+    <h1 class="text-3xl">{p.title}</h1>
+    {p.summary && <p class="mt-4 text-lg text-muted">{p.summary}</p>}
+
+    {p.cover && p.coverAlt && (
+      <Image src={p.cover} alt={p.coverAlt} class="mt-8 h-auto w-full rounded-base" />
+    )}
+
+    <section aria-labelledby="case-summary" class="mt-8 rounded-base bg-surface p-6">
+      <h2 id="case-summary" class="sr-only">
+        {t('case.summary')}
+      </h2>
+      <dl class="grid gap-4 sm:grid-cols-2">
+        {p.client && (
+          <div>
+            <dt class="text-sm text-muted">{t('case.client')}</dt>
+            <dd>{p.client.display}</dd>
+          </div>
+        )}
+        {p.role && (
+          <div>
+            <dt class="text-sm text-muted">{t('case.role')}</dt>
+            <dd>{p.role}</dd>
+          </div>
+        )}
+        {p.period && (
+          <div>
+            <dt class="text-sm text-muted">{t('case.period')}</dt>
+            <dd>{formatPeriod(locale, p.period)}</dd>
+          </div>
+        )}
+        {p.services?.length ? (
+          <div>
+            <dt class="text-sm text-muted">{t('case.services')}</dt>
+            <dd>
+              <ul>
+                {p.services.map((s) => (
+                  <li>
+                    <a href={localizedPath(locale, `/services/${s}/`)}>{t(`service.${s}`)}</a>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ) : null}
+      </dl>
+    </section>
+
+    {p.context && (
+      <section class="mt-10">
+        <h2 class={sectionHeading}>{t('case.context')}</h2>
+        <p class="mt-3">{p.context}</p>
+      </section>
+    )}
+
+    {p.challenges?.length ? (
+      <section class="mt-10">
+        <h2 class={sectionHeading}>{t('case.challenges')}</h2>
+        <ul class={list}>
+          {p.challenges.map((c) => (
+            <li>{c}</li>
+          ))}
+        </ul>
+      </section>
+    ) : null}
+
+    <section class="mt-10">
+      <h2 class={sectionHeading}>{t('case.approach')}</h2>
+      <div class="mt-3">
+        <Content />
+      </div>
+    </section>
+
+    {p.delivered?.length ? (
+      <section class="mt-10">
+        <h2 class={sectionHeading}>{t('case.delivered')}</h2>
+        <ul class={list}>
+          {p.delivered.map((d) => (
+            <li>{d}</li>
+          ))}
+        </ul>
+      </section>
+    ) : null}
+
+    {p.outcomes?.length ? (
+      <section class="mt-10">
+        <h2 class={sectionHeading}>{t('case.outcomes')}</h2>
+        <ul class={list}>
+          {p.outcomes.map((o) => (
+            <li>{o.text}</li>
+          ))}
+        </ul>
+      </section>
+    ) : null}
+
+    {p.technologies?.length ? (
+      <section class="mt-10">
+        <h2 class={sectionHeading}>{t('case.technologies')}</h2>
+        <p class="mt-3">{p.technologies.join(', ')}</p>
+      </section>
+    ) : null}
+
+    <section class="mt-12 border-t border-border pt-8">
+      <h2 class={sectionHeading}>{t('case.cta')}</h2>
+      <LinkButton
+        href={CALENDLY_URL}
+        variant="primary"
+        externalLabel={t('a11y.external')}
+        class="mt-4"
+      >
+        {t('cta.book')}
+      </LinkButton>
+    </section>
+  </article>
+</Container>

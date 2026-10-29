@@ -1,0 +1,47 @@
+---
+// The opening band of an inner page: the page's H1 and lead on the night surface, with pixel
+// stars and a short pixel skyline along the bottom edge (decorative, aria-hidden). Lighter than
+// the home hero: no mascot, no scene. The slot holds the H1 and the paragraph that follows it.
+import Container from '@/components/ui/Container.astro'
+import PixelMarker from '@/components/arcade/PixelMarker.astro'
+
+// Building silhouettes along the bottom edge: [x, width, height] in a 480 × 40 tile.
+const skyline: [number, number, number][] = [
+  [0, 28, 16],
+  [32, 20, 28],
+  [56, 36, 12],
+  [100, 16, 36],
+  [120, 40, 20],
+  [168, 24, 30],
+  [200, 44, 14],
+  [252, 20, 40],
+  [276, 32, 22],
+  [316, 24, 32],
+  [348, 48, 12],
+  [404, 20, 26],
+  [428, 36, 18],
+  [468, 12, 30],
+]
+---
+
+<div class="surface-night pixel-stars relative overflow-hidden">
+  <Container class="relative pt-12 pb-20 md:pt-16 md:pb-24">
+    <PixelMarker class="mb-4" />
+    <slot />
+  </Container>
+  <svg
+    class="pointer-events-none absolute bottom-0 left-0 h-10 w-full"
+    aria-hidden="true"
+    focusable="false"
+    shape-rendering="crispEdges"
+  >
+    <defs>
+      <pattern id="page-intro-skyline" width="480" height="40" patternUnits="userSpaceOnUse">
+        {skyline.map(([x, w, h], i) => (
+          <rect x={x} y={40 - h} width={w} height={h} class={i % 2 ? 'px-d' : 'px-m'} />
+        ))}
+      </pattern>
+    </defs>
+    <rect width="100%" height="40" fill="url(#page-intro-skyline)" />
+  </svg>
+</div>

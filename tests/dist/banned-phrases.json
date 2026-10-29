@@ -1,0 +1,25 @@
+{
+  "$comment": "SPEC §3.6 banned phrases plus pt-BR equivalents (plan F7-01). Matched case-insensitively against the visible text of every built page. A use substantiated in the same sentence needs an allow entry: { \"page\": \"pt-br/…/index.html\", \"reason\": \"…\" }.",
+  "phrases": [
+    { "phrase": "innovative solutions", "allow": [] },
+    { "phrase": "cutting-edge", "allow": [] },
+    { "phrase": "digital transformation", "allow": [] },
+    { "phrase": "state-of-the-art", "allow": [] },
+    { "phrase": "world-class", "allow": [] },
+    { "phrase": "passionate", "allow": [] },
+    { "phrase": "synergy", "allow": [] },
+    { "phrase": "end-to-end", "allow": [] },
+    { "phrase": "revolutionize", "allow": [] },
+    { "phrase": "at the forefront of innovation", "allow": [] },
+    { "phrase": "soluções inovadoras", "allow": [] },
+    { "phrase": "de ponta", "allow": [] },
+    { "phrase": "transformação digital", "allow": [] },
+    { "phrase": "estado da arte", "allow": [] },
+    { "phrase": "de classe mundial", "allow": [] },
+    { "phrase": "apaixonado", "allow": [] },
+    { "phrase": "sinergia", "allow": [] },
+    { "phrase": "ponta a ponta", "allow": [] },
+    { "phrase": "revolucionar", "allow": [] },
+    { "phrase": "vanguarda da inovação", "allow": [] }
+  ]
+}

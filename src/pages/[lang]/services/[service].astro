@@ -1,0 +1,38 @@
+---
+import ServiceDetail from '@/components/ServiceDetail.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { LOCALES, type Locale } from '@/i18n/locales'
+import { getPublishedProjects, getService } from '@/lib/content'
+import { SERVICE_IDS, type ServiceId } from '@/lib/routes'
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    SERVICE_IDS.map((service) => ({
+      params: { lang, service },
+      props: { locale: lang, service },
+    }))
+  )
+}
+
+interface Props {
+  locale: Locale
+  service: ServiceId
+}
+const { locale, service: id } = Astro.props
+const service = await getService(id, locale)
+if (!service) throw new Error(`Missing content: src/content/services/${id}/${locale}.md`)
+
+// Related work: published case studies tagged with this service (omitted when none, SPEC §5.2).
+const related = (await getPublishedProjects(locale)).filter((p) =>
+  p.entry.data.services?.includes(id)
+)
+---
+
+<BaseLayout
+  locale={locale}
+  path={`/services/${id}/`}
+  title={service.data.metaTitle}
+  description={service.data.metaDescription}
+>
+  <ServiceDetail locale={locale} id={id} service={service.data} related={related} />
+</BaseLayout>

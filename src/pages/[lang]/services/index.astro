@@ -1,0 +1,83 @@
+---
+// Services overview (SPEC §5.2): intro, the three services by the situation they fit, and a
+// "not sure which fits?" CTA. Typical formats stay out until confirmed (Q-2).
+import PageIntro from '@/components/arcade/PageIntro.astro'
+import Container from '@/components/ui/Container.astro'
+import LinkButton from '@/components/ui/LinkButton.astro'
+import PixelIcon from '@/components/ui/PixelIcon.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { CALENDLY_URL } from '@/config/site'
+import type { Locale } from '@/i18n/locales'
+import { localizedPath } from '@/i18n/paths'
+import { useTranslations } from '@/i18n/ui'
+import { SERVICE_ICON } from '@/lib/arcade'
+import { getServices } from '@/lib/content'
+import { localeStaticPaths } from '@/lib/routes'
+
+export const getStaticPaths = localeStaticPaths
+
+interface Props {
+  locale: Locale
+}
+const { locale } = Astro.props
+const t = useTranslations(locale)
+const services = await getServices(locale)
+---
+
+<BaseLayout
+  locale={locale}
+  path="/services/"
+  title={t('meta.services.title')}
+  description={t('meta.services.description')}
+>
+  <PageIntro>
+    <h1 class="text-3xl">{t('page.services')}</h1>
+    <p class="mt-4 max-w-prose text-lg text-on-night-muted">{t('services.intro')}</p>
+  </PageIntro>
+  <Container class="py-16">
+    <div class="grid gap-8 lg:grid-cols-3">
+      {services.map(({ id, entry: { data } }) => (
+        <article data-service-summary class="pixel-box m-1 flex min-w-0 flex-col bg-bg p-6">
+          <span class="grid size-14 place-items-center bg-pale">
+            <PixelIcon name={SERVICE_ICON[id]} class="size-9" />
+          </span>
+          <h2 class="mt-5 text-xl font-bold tracking-tight">
+            <a
+              href={localizedPath(locale, `/services/${id}/`)}
+              class="text-text no-underline hover:text-accent hover:underline"
+            >
+              {data.title}
+            </a>
+          </h2>
+          <p class="mt-3">{data.summary}</p>
+          <h3 class="mt-5 text-sm font-semibold text-muted">{t('services.for')}</h3>
+          <p class="mt-1">{data.audience[0]}</p>
+          <ul class="mt-4 list-[square] space-y-1 pl-5 text-muted marker:text-accent">
+            {data.problems.slice(0, 3).map((p) => (
+              <li>{p}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <section
+      data-section="unsure"
+      class="pixel-box m-1 mt-16 max-w-prose bg-pale p-6 md:p-8"
+      aria-labelledby="unsure"
+    >
+      <h2 id="unsure" class="text-2xl">
+        {t('services.unsure')}
+      </h2>
+      <p class="mt-3">{t('services.unsureText')}</p>
+      <LinkButton
+        href={CALENDLY_URL}
+        variant="primary"
+        externalLabel={t('a11y.external')}
+        class="mt-5"
+      >
+        {t('cta.book')}
+      </LinkButton>
+    </section>
+  </Container>
+</BaseLayout>
