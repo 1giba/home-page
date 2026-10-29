@@ -16,7 +16,6 @@ export const INDEXABLE_PATHS = [
   '/about/',
   '/contact/',
   '/privacy/',
-  '/terms/',
 ] as const
 
 /** getStaticPaths for pages that exist once per locale under src/pages/[lang]/. */

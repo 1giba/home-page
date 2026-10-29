@@ -5,5 +5,7 @@ export const LEGACY_REDIRECTS: Readonly<Record<string, string>> = {
   '/about': '/pt-br/about/',
   '/contact': '/pt-br/contact/',
   '/privacy': '/pt-br/privacy/',
-  '/terms': '/pt-br/terms/',
+  // The Terms of Use page was removed (owner decision on Q-5, 27 Oct 2026); its legacy URL
+  // lands on the Portuguese home page.
+  '/terms': '/pt-br/',
 }

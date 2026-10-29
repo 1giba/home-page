@@ -5,13 +5,13 @@ import { assertDistBuilt, exists, readRaw } from './helpers'
 // Static output has no server redirects, so Astro emits a meta-refresh page per source path.
 // Host-native 301s are generated from the same list in F8-02 (SPEC §8.2, §11.10).
 describe('root and legacy redirects', () => {
-  it('maps / and the four legacy paths to their /pt-br/ equivalents', () => {
+  it('maps / and the four legacy paths to /pt-br/ (/terms to the home page: Terms removed, Q-5)', () => {
     expect(LEGACY_REDIRECTS).toEqual({
       '/': '/pt-br/',
       '/about': '/pt-br/about/',
       '/contact': '/pt-br/contact/',
       '/privacy': '/pt-br/privacy/',
-      '/terms': '/pt-br/terms/',
+      '/terms': '/pt-br/',
     })
   })
 

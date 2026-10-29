@@ -1,47 +1,117 @@
 ---
-# Legacy structure (legacy Vue site, pt-BR.json privacy.*, kept in
-# tests/fixtures/legacy-legal.json). Sections 1–3 rewritten and section 4 added per SPEC §13.5 (what
-# the site actually does; third parties); sections 5–8 are legacy sections 4–7 unchanged. DRAFT
-# pending owner/legal approval (E2): no claim about LGPD sufficiency; hosting wording to be
-# finalized once the host is chosen (E1); the email provider is not named until confirmed (E2).
+# Revisão de 29/10/2026, no formato do modelo escolhido pelo proprietário, ajustado ao que o código
+# faz: formulário via FormSubmit, e-mail no Google Workspace, agendamento por links do Calendly,
+# hospedagem na Vercel e a preferência de tema no localStorage. Critério de retenção confirmado
+# pelo proprietário em 27/10/2026. Omite (não presume) bases legais, mecanismos de transferência e
+# medidas de segurança não confirmados. O proprietário conferiu o CNPJ no comprovante oficial
+# e aprovou o texto em 29/10/2026 (E2).
 title: Política de Privacidade
-subtitle: Como coletamos, usamos e protegemos suas informações pessoais
-updated: 2026-10-23
+subtitle: Como tratamos os dados pessoais recebidos por este site
+updated: 2026-10-29
+approved:
+  by: 1giba
+  on: 2026-10-29
 ---
 
-Esta política descreve como a Code Happy Tecnologia Ltda., controladora dos dados pessoais tratados neste site, coleta, usa e protege essas informações. Contato: contato@codehappy.com.br.
+## 1. Sobre esta política
 
-## 1. Coleta de Informações
+Esta Política de Privacidade explica como a Code Happy Tecnologia Ltda., inscrita no CNPJ sob o nº 37.833.013/0001-51, trata dados pessoais de visitantes que acessam este site ou entram em contato para conhecer os serviços de consultoria em tecnologia, estratégia e engenharia de IA e atuação como CTO fracionado.
 
-Este site coleta as informações que você envia pelo formulário de contato: nome, e-mail, empresa (opcional), o serviço de interesse e a mensagem. Se você escrever diretamente para contato@codehappy.com.br, recebemos as informações incluídas no e-mail. O site não usa ferramentas de estatísticas de visitas. O provedor de hospedagem pode manter registros técnicos de acesso, como endereço IP e data da requisição, para operar e proteger o serviço.
+O objetivo é explicar, de forma transparente, quais informações são tratadas, para quais finalidades e como você pode exercer os seus direitos.
 
-## 2. Uso das Informações
+## 2. Dados pessoais tratados
 
-Usamos as informações enviadas apenas para responder ao seu contato e, quando for o caso, preparar uma proposta. Não vendemos nem alugamos suas informações pessoais. Elas são tratadas pelos serviços descritos na seção 4, necessários para receber a sua mensagem ou agendar uma conversa.
+Dependendo da forma como você interage com este site, poderemos tratar as seguintes informações:
 
-## 3. Cookies
+- **Dados de contato:** o que você envia pelo formulário de contato: nome, e-mail, empresa (opcional), o serviço de interesse e a mensagem. Se você escrever diretamente para contato@codehappy.com.br, recebemos o seu endereço de e-mail e o conteúdo da mensagem.
+- **Dados profissionais:** informações sobre a sua empresa, projetos e necessidades de negócio que você compartilhar durante o contato.
+- **Informações de agendamento:** dados fornecidos para marcar reuniões por meio do Calendly.
+- **Dados técnicos de navegação:** ao acessar o site, o seu navegador envia à hospedagem dados técnicos, como endereço IP, data e hora, página acessada e informações do navegador, necessários para entregar o site.
 
-Este site não define cookies e não usa ferramentas de rastreamento. Se isso mudar, esta política será atualizada.
+Solicitamos apenas informações pertinentes às finalidades descritas nesta política.
 
-## 4. Serviços de Terceiros
+## 3. Finalidades do tratamento
 
-- **FormSubmit:** as mensagens do formulário de contato são enviadas por meio do serviço FormSubmit, que as entrega ao e-mail contato@codehappy.com.br.
-- **Calendly:** o agendamento de conversas acontece no Calendly. As informações que você fornece por lá são tratadas pelo Calendly, conforme o [aviso de privacidade do Calendly](https://calendly.com/legal/privacy-notice).
-- **E-mail:** as mensagens recebidas em contato@codehappy.com.br ficam armazenadas no nosso provedor de e-mail.
-- **Hospedagem:** o site é servido por um provedor de hospedagem, que pode manter os registros técnicos de acesso descritos na seção 1.
+Os dados pessoais poderão ser utilizados para:
 
-## 5. Segurança dos Dados
+- Responder a solicitações enviadas pelo formulário de contato ou por e-mail.
+- Agendar e realizar reuniões de apresentação e diagnóstico.
+- Avaliar oportunidades e, quando for o caso, preparar uma proposta de prestação de serviços.
+- Atender a obrigações legais.
+- Entregar o site e manter o seu funcionamento.
 
-Implementamos medidas de segurança técnicas e organizacionais apropriadas para proteger suas informações pessoais contra acesso não autorizado, alteração, divulgação ou destruição.
+Não utilizamos os dados para finalidades incompatíveis com aquelas informadas a você.
 
-## 6. Retenção de Dados
+## 4. Formulário de contato e comunicação por e-mail
 
-Mantemos suas informações pessoais apenas pelo tempo necessário para cumprir os propósitos descritos nesta política, a menos que um período de retenção mais longo seja exigido ou permitido por lei.
+As mensagens enviadas pelo formulário de contato passam pelo FormSubmit, que as entrega ao e-mail da empresa, contato@codehappy.com.br, hospedado no Google Workspace.
 
-## 7. Seus Direitos
+Essas informações poderão ser utilizadas para responder à solicitação, manter o histórico da conversa e dar continuidade a uma possível negociação comercial.
 
-Você tem o direito de acessar, corrigir, excluir ou portar suas informações pessoais. Para exercer esses direitos, entre em contato conosco através do e-mail contato@codehappy.com.br.
+O envio de uma mensagem não implica contratação automática de serviços.
 
-## 8. Contato
+## 5. Agendamento de reuniões pelo Calendly
 
-Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco através do e-mail contato@codehappy.com.br ou através do formulário de contato em nosso site.
+Os links para agendar reuniões levam ao Calendly. Ao utilizá-lo, você poderá fornecer as informações solicitadas pela plataforma, como nome, endereço de e-mail, disponibilidade e detalhes relacionados à reunião.
+
+O tratamento desses dados também está sujeito às práticas de privacidade do Calendly. Consulte a [Política de Privacidade do Calendly](https://calendly.com/legal/privacy-notice).
+
+## 6. Compartilhamento de dados
+
+Os dados pessoais são tratados pelos fornecedores de tecnologia necessários à operação do site e à comunicação e agendamento:
+
+- **FormSubmit:** recebimento das mensagens do formulário de contato e entrega por e-mail.
+- **Google Workspace:** nosso provedor de e-mail, para recebimento e gerenciamento das mensagens de contato.
+- **Calendly:** disponibilização e gerenciamento de agendamentos.
+- **Vercel:** hospedagem e disponibilização do site.
+
+Não comercializamos dados pessoais dos visitantes.
+
+O compartilhamento também poderá ocorrer quando necessário para cumprir obrigações legais ou atender a determinações de autoridades competentes.
+
+## 7. Transferência internacional de dados
+
+Esses fornecedores são empresas estrangeiras e poderão realizar operações de tratamento ou armazenamento de dados fora do Brasil.
+
+## 8. Cookies e armazenamento no navegador
+
+Este site não utiliza cookies nem ferramentas de estatísticas de visitas, publicidade ou rastreamento.
+
+Se você usar o botão de tema claro ou escuro, a sua escolha fica salva no armazenamento local do seu navegador (localStorage). Essa informação não é enviada a nós e pode ser apagada nas configurações do navegador.
+
+## 9. Retenção e exclusão de dados
+
+Mantemos os dados de contato e as mensagens enquanto forem necessários para responder ao seu contato e acompanhar uma eventual proposta. Quando deixarem de ser necessários, eles são excluídos, ressalvadas as hipóteses legais de conservação.
+
+## 10. Direitos dos titulares
+
+Nos termos do art. 18 da LGPD, você poderá solicitar:
+
+- Confirmação da existência de tratamento dos seus dados pessoais.
+- Acesso aos dados tratados.
+- Correção de dados incompletos, inexatos ou desatualizados.
+- Anonimização, bloqueio ou eliminação de dados nas hipóteses previstas em lei.
+- Portabilidade dos dados.
+- Informações sobre o compartilhamento dos seus dados.
+- Revogação do consentimento, quando o tratamento estiver baseado nessa hipótese.
+- Outros direitos previstos na LGPD.
+
+As solicitações serão avaliadas e respondidas conforme os requisitos legais aplicáveis.
+
+## 11. Contato sobre privacidade
+
+Para esclarecer dúvidas ou solicitar providências relacionadas ao tratamento de dados pessoais, entre em contato:
+
+- **Empresa:** Code Happy Tecnologia Ltda.
+- **CNPJ:** 37.833.013/0001-51
+- **E-mail:** contato@codehappy.com.br
+
+O canal acima também poderá ser utilizado para solicitações relacionadas aos direitos previstos na LGPD.
+
+## 12. Alterações desta política
+
+Esta política poderá ser atualizada para refletir mudanças no funcionamento do site, nas atividades da empresa ou nas exigências legais. A versão vigente estará disponível nesta página, com a data da última atualização.
+
+## 13. Legislação aplicável
+
+Esta política é interpretada de acordo com a legislação brasileira aplicável, especialmente a Lei nº 13.709/2018 (Lei Geral de Proteção de Dados Pessoais).

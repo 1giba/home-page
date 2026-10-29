@@ -16,8 +16,8 @@ const { locale, id, project, headingLevel: Heading = 'h2' } = Astro.props
 const t = useTranslations(locale)
 ---
 
-<article class="min-w-0 rounded-base border border-border p-6">
-  <Heading class="text-xl font-semibold tracking-tight">
+<article class="pixel-box m-1 min-w-0 bg-bg p-6">
+  <Heading class="text-xl font-bold tracking-tight">
     <a href={localizedPath(locale, `/work/${id}/`)} class="text-text no-underline hover:underline">
       {project.title}
     </a>

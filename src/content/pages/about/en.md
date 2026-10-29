@@ -18,6 +18,6 @@ principles:
 
 ## Who does the work
 
-Every Code Happy engagement is led personally by its founder, Giba. You talk to, and work with, the person doing the work.
+I'm Giba, and I lead every Code Happy engagement personally. You talk to, and work with, the person doing the work: me.
 
-Giba has been working in software development since 2004. From 2010 to 2020, Giba spent almost ten years at a Brazilian e-commerce platform company, and founded Code Happy in 2020. In 2022, Giba worked on a freelance project in London for a social SaaS platform. Today, Giba builds AI features for a US SaaS company.
+I have been working in software development since 2004. From 2010 to 2020, I spent almost ten years at a Brazilian e-commerce platform company, and I founded Code Happy in 2020. In 2022, I worked on a freelance project in London for a social SaaS platform. Today, I build AI features for a US SaaS company.

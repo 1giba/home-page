@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { readHtml } from './helpers'
+import { exists, listHtmlFiles, readHtml } from './helpers'
 
 // Plan F4-05 / SPEC §2.9, §13.5: Terms ported verbatim from the legacy site; Privacy keeps the
 // legacy structure, but §1–§3 are rewritten to describe what the site actually does and a
@@ -26,37 +26,47 @@ const LOCALES = [
   { locale: 'en', legacyFile: 'en' },
 ] as const
 
-describe('Terms (ported verbatim, Q-5 default)', () => {
-  for (const { locale, legacyFile } of LOCALES) {
-    it(`${locale}: contains every legacy section title and text unchanged`, () => {
-      const page = text(`${locale}/terms/index.html`)
-      for (const s of Object.values(legacy(legacyFile).terms.sections)) {
-        expect(page).toContain(clean(s.title))
-        expect(page).toContain(clean(s.content))
-      }
-    })
-
-    it(`${locale}: shows the localized last-updated date of the legacy text (24 July 2025)`, () => {
-      expect(text(`${locale}/terms/index.html`)).toContain(
-        locale === 'pt-br' ? '24 de julho de 2025' : 'July 24, 2025'
-      )
+// Q-5, decided by the owner on 27 Oct 2026: the institutional site has no Terms of Use page (the
+// legacy terms were service-contract terms; engagements are governed by proposal or contract).
+describe('Terms of Use (removed, Q-5)', () => {
+  for (const locale of ['pt-br', 'en']) {
+    it(`${locale}: no Terms page is built and nothing links to one`, () => {
+      expect(exists(`${locale}/terms/index.html`)).toBe(false)
+      for (const file of listHtmlFiles().filter((f) => f.startsWith(`${locale}/`)))
+        expect(readHtml(file).querySelector(`a[href^="/${locale}/terms"]`), file).toBeNull()
     })
   }
 })
 
-describe('Privacy (rewritten §1–§3 and third parties, pending approval E2)', () => {
+describe('Privacy (LGPD revision, pending approval E2)', () => {
   for (const { locale, legacyFile } of LOCALES) {
     const page = () => text(`${locale}/privacy/index.html`)
 
-    it(`${locale}: keeps legacy §4–§7 (security, retention, rights, contact) unchanged`, () => {
-      const { security, retention, rights, contact } = legacy(legacyFile).privacy.sections
-      for (const s of [security, retention, rights, contact])
-        expect(page()).toContain(clean(s.content))
+    // The legacy §1–§5 text made claims the project cannot confirm (generic security measures,
+    // "as long as necessary" retention); the revision states only confirmed facts.
+    it(`${locale}: no longer uses the legacy collection, usage, cookies, security or retention text`, () => {
+      const { collection, usage, cookies, security, retention } =
+        legacy(legacyFile).privacy.sections
+      for (const s of [collection, usage, cookies, security, retention])
+        expect(page()).not.toContain(clean(s.content))
     })
 
-    it(`${locale}: no longer uses the legacy §1–§3 text`, () => {
-      const { collection, usage, cookies } = legacy(legacyFile).privacy.sections
-      for (const s of [collection, usage, cookies]) expect(page()).not.toContain(clean(s.content))
+    it(`${locale}: identifies the controller's CNPJ and every provider the site actually uses`, () => {
+      for (const fact of [
+        '37.833.013/0001-51',
+        'FormSubmit',
+        'Google Workspace',
+        'Calendly',
+        'Vercel',
+      ])
+        expect(page()).toContain(fact)
+    })
+
+    it(`${locale}: discloses the theme preference in localStorage and the data subject's rights`, () => {
+      expect(page()).toContain('localStorage')
+      // The rights section cites LGPD art. 18 (art. 9, VII). The ANPD mention was dropped by the
+      // owner on 29 Oct 2026.
+      expect(page()).toContain('art. 18')
     })
 
     it(`${locale}: makes no analytics claims (SPEC §13.5)`, () => {
@@ -104,7 +114,7 @@ describe('Privacy (rewritten §1–§3 and third parties, pending approval E2)',
 })
 
 describe('legal pages (SPEC §2.6 fixes)', () => {
-  for (const page of ['privacy', 'terms']) {
+  for (const page of ['privacy']) {
     it(`en/${page}: no Portuguese helper text left (was hard-coded in the Vue pages)`, () => {
       expect(text(`en/${page}/index.html`)).not.toMatch(/Tem dúvidas|Se você tiver dúvidas/)
     })
@@ -116,9 +126,8 @@ describe('legal pages (SPEC §2.6 fixes)', () => {
         )!
         const expected = {
           privacy: { 'pt-br': 'Dúvidas sobre esta política', en: 'Questions about this policy' },
-          terms: { 'pt-br': 'Dúvidas sobre estes termos', en: 'Questions about these terms' },
         } as const
-        expect(cta.text).toContain(expected[page as 'privacy' | 'terms'][locale as 'pt-br' | 'en'])
+        expect(cta.text).toContain(expected[page as 'privacy'][locale as 'pt-br' | 'en'])
         expect(cta.querySelector(`a[href="/${locale}/contact/"]`)).not.toBeNull()
       })
     }

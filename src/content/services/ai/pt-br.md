@@ -23,5 +23,5 @@ value:
   - Investimento direcionado a usos de IA com uma justificativa crível.
   - Funcionalidades que se sustentam em produção.
   - Custos de operação conhecidos.
-implementation: A implementação pode ser feita diretamente pela Code Happy ou pelo seu time, com a Code Happy na liderança técnica.
+implementation: Posso implementar diretamente, ou o seu time implementa com a minha liderança técnica.
 ---

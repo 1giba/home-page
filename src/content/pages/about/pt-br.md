@@ -18,6 +18,6 @@ A **Code Happy Tecnologia Ltda.** é uma consultoria brasileira de tecnologia, f
 
 ## Quem conduz o trabalho
 
-Todo trabalho da Code Happy é conduzido pessoalmente por Giba, que fundou a empresa. Você conversa e trabalha diretamente com quem faz o trabalho.
+Sou Giba e conduzo pessoalmente todo trabalho da Code Happy. Você conversa e trabalha diretamente comigo, a pessoa que faz o trabalho.
 
-Giba trabalha com desenvolvimento de software desde 2004. Passou quase dez anos, de 2010 a 2020, em uma empresa brasileira de plataforma de e-commerce, e fundou a Code Happy em 2020. Em 2022, fez um projeto freelance em Londres para uma plataforma SaaS de cunho social. Hoje, desenvolve funcionalidades de IA para uma empresa de SaaS dos Estados Unidos.
+Trabalho com desenvolvimento de software desde 2004. Passei quase dez anos, de 2010 a 2020, em uma empresa brasileira de plataforma de e-commerce, e fundei a Code Happy em 2020. Em 2022, fiz um projeto freelance em Londres para uma plataforma SaaS de cunho social. Hoje, desenvolvo funcionalidades de IA para uma empresa de SaaS dos Estados Unidos.

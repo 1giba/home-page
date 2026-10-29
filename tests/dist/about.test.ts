@@ -7,12 +7,12 @@ const main = (locale: string) => readHtml(`${locale}/about/index.html`).querySel
 const EXPECTED = {
   'pt-br': {
     company: ['Code Happy Tecnologia Ltda.', '2020', 'brasileira'],
-    led: 'conduzido pessoalmente por Giba',
+    led: 'Sou Giba e conduzo pessoalmente todo trabalho da Code Happy',
     founder: ['2004', '2010', '2020', '2022'],
   },
   en: {
     company: ['Code Happy Tecnologia Ltda.', '2020', 'Brazilian'],
-    led: 'led personally by its founder',
+    led: "I'm Giba, and I lead every Code Happy engagement personally",
     founder: ['2004', '2010', '2020', '2022'],
   },
 } as const

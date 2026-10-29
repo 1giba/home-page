@@ -1,0 +1,110 @@
+---
+// The home hero's pixel scenery below lg (a bottom strip; HeroScene.astro is the full desktop
+// environment): a neon grid floor, a stylized skyline with lit windows, pixel
+// clouds and a floating island with a flag. Original artwork, decorative only (aria-hidden,
+// pointer-events none), static, and drawn in one inline SVG so it costs no request. It is
+// anchored to the bottom-right, so narrow screens keep the skyline and lose the empty floor.
+const W = 1440
+const H = 320
+const GROUND = 262
+
+type Rect = { x: number; y: number; w: number; h: number; c: string; o?: number }
+const rects: Rect[] = []
+
+// Skyline: [x, width, height]. Short at the far left (behind text on wide screens), tall right.
+const buildings: [number, number, number][] = [
+  [0, 46, 70],
+  [50, 34, 96],
+  [88, 52, 58],
+  [900, 56, 92],
+  [962, 42, 142],
+  [1010, 72, 112],
+  [1088, 38, 176],
+  [1132, 62, 124],
+  [1200, 46, 206],
+  [1252, 70, 150],
+  [1328, 42, 236],
+  [1376, 64, 134],
+]
+buildings.forEach(([x, w, h], b) => {
+  rects.push({ x, y: GROUND - h, w, h, c: b % 2 ? 'd' : 'm' })
+  // Lit windows in a fixed, sparse pattern (no randomness: the build is reproducible).
+  for (let wy = GROUND - h + 12; wy < GROUND - 14; wy += 18) {
+    for (let wx = x + 8; wx < x + w - 10; wx += 14) {
+      const n = (wx * 7 + wy * 3 + b * 11) % 13
+      if (n < 3) rects.push({ x: wx, y: wy, w: 6, h: 8, c: n === 0 ? 'p' : n === 1 ? 'y' : 'l' })
+    }
+  }
+})
+
+// Pixel clouds: rows of [dx, dy, width] blocks, 8 px tall.
+const cloud = (cx: number, cy: number, o: number) =>
+  (
+    [
+      [16, 0, 24],
+      [8, 8, 48],
+      [0, 16, 72],
+      [-8, 24, 96],
+    ] as const
+  ).forEach(([dx, dy, w]) => rects.push({ x: cx + dx, y: cy + dy, w, h: 8, c: 'l', o }))
+cloud(1010, 28, 0.35)
+cloud(1290, 96, 0.28)
+cloud(24, 120, 0.22)
+
+// Floating island with a flag (right), and a small one (left of the skyline).
+const island = (x: number, y: number, w: number, flag: boolean) => {
+  rects.push({ x, y, w, h: 8, c: 'g' })
+  rects.push({ x, y: y + 8, w, h: 8, c: 'm' })
+  rects.push({ x: x + 8, y: y + 16, w: w - 16, h: 8, c: 'd' })
+  rects.push({ x: x + 24, y: y + 24, w: w - 48, h: 8, c: 'd' })
+  if (flag) {
+    rects.push({ x: x + w - 30, y: y - 44, w: 4, h: 44, c: 'w' })
+    rects.push({ x: x + w - 26, y: y - 44, w: 20, h: 6, c: 'p' })
+    rects.push({ x: x + w - 26, y: y - 38, w: 26, h: 6, c: 'p' })
+    rects.push({ x: x + w - 26, y: y - 32, w: 18, h: 6, c: 'p' })
+  }
+}
+island(1150, 168, 104, true)
+island(800, 214, 64, false)
+
+// Floor: horizontal lines closer together towards the horizon, verticals converging on it.
+const floorLines = [GROUND + 10, GROUND + 22, GROUND + 38, GROUND + 58]
+const vanishX = W / 2
+const verticals = Array.from({ length: 25 }, (_, i) => (i - 12) * 120)
+---
+
+<svg
+  class="pointer-events-none absolute right-0 bottom-0 h-40 w-full md:h-56 lg:hidden"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMaxYMax slice"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  <rect x="0" y={GROUND} width={W} height={H - GROUND} class="px-f" />
+  <g style="stroke: var(--color-px-blue)" stroke-opacity="0.55" stroke-width="2" fill="none">
+    <line
+      x1="0"
+      y1={GROUND}
+      x2={W}
+      y2={GROUND}
+      style="stroke: var(--color-sky)"
+      stroke-opacity="0.8"
+    />
+    {floorLines.map((y) => (
+      <line x1="0" y1={y} x2={W} y2={y} />
+    ))}
+    {verticals.map((dx) => (
+      <line
+        x1={vanishX + dx * 0.25}
+        y1={GROUND}
+        x2={vanishX + dx * 1.6}
+        y2={H}
+        shape-rendering="geometricPrecision"
+      />
+    ))}
+  </g>
+  {rects.map(({ x, y, w, h, c, o }) => (
+    <rect x={x} y={y} width={w} height={h} class={`px-${c}`} fill-opacity={o} />
+  ))}
+</svg>

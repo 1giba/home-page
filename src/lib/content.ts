@@ -62,7 +62,7 @@ export async function getService(id: ServiceId, locale: Locale) {
   return (await getServices(locale)).find((s) => s.id === id)?.entry
 }
 
-export async function getLegal(id: 'privacy' | 'terms', locale: Locale) {
+export async function getLegal(id: 'privacy', locale: Locale) {
   return (await inLocale('legal', locale)).find((e) => e.id === id)?.entry
 }
 

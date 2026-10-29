@@ -1,28 +1,60 @@
 ---
 // How an engagement starts (SPEC §5.2): intro call → scoping → proposal. Factual content only
 // (Q-9): the 30-minute call is confirmed (B6); no durations, cadence or prices (Q-2).
+// Arcade progression: numbered pixel blocks, a pixel icon per step and arrows between steps
+// (side by side from md, a vertical sequence below). `tone` matches the surface it sits on.
+import PixelIcon from '@/components/ui/PixelIcon.astro'
 import type { Locale } from '@/i18n/locales'
 import { useTranslations } from '@/i18n/ui'
 
 export interface Props {
   locale: Locale
   headingLevel?: 'h3' | 'h4'
+  tone?: 'light' | 'night'
 }
-const { locale, headingLevel: Heading = 'h3' } = Astro.props
+const { locale, headingLevel: Heading = 'h3', tone = 'light' } = Astro.props
 const t = useTranslations(locale)
-const steps = ['call', 'scope', 'proposal'] as const
+// [step, icon, number block, title colour on the night surface] — pink, blue, yellow.
+const steps = [
+  ['call', 'chat', 'bg-cta text-on-accent', 'text-candy'],
+  ['scope', 'target', 'bg-px-light text-night', 'text-sky'],
+  ['proposal', 'document', 'bg-px-yellow text-night', 'text-sun'],
+] as const
 ---
 
-<ol class="grid gap-6 md:grid-cols-3">
-  {steps.map((step, i) => (
-    <li class="min-w-0 rounded-base border border-border p-5">
-      <Heading class="font-semibold">
-        <span class="mr-2 font-mono text-sm text-muted" aria-hidden="true">
-          {String(i + 1).padStart(2, '0')}
+<ol class="grid gap-8 md:grid-cols-3 md:gap-6">
+  {steps.map(([step, icon, block, titleColor], i) => (
+    <li class="min-w-0">
+      <div class="flex items-center gap-3">
+        <span
+          class:list={['grid size-10 shrink-0 place-items-center font-hud text-lg', block]}
+          aria-hidden="true"
+        >
+          {i + 1}
         </span>
+        <PixelIcon name={icon} class="size-9 shrink-0" />
+        {i < steps.length - 1 && (
+          <PixelIcon
+            name="arrow"
+            mono
+            class:list={[
+              'ml-auto hidden h-3.5 w-4 md:block',
+              tone === 'night' ? 'text-sky' : 'text-accent',
+            ]}
+          />
+        )}
+      </div>
+      <Heading class:list={['mt-4 text-lg font-bold', tone === 'night' && titleColor]}>
         {t(`steps.${step}.title`)}
       </Heading>
-      <p class="mt-2 text-muted">{t(`steps.${step}.text`)}</p>
+      <p
+        class:list={[
+          'mt-1.5 text-sm leading-relaxed',
+          tone === 'night' ? 'text-on-night-muted' : 'text-muted',
+        ]}
+      >
+        {t(`steps.${step}.text`)}
+      </p>
     </li>
   ))}
 </ol>

@@ -1,6 +1,7 @@
 ---
 // Home-page evidence while no case study is published (SPEC §4.5): the founder's confirmed
 // background (B5), in chronological order, and that engagements are led by the founder (B3).
+// Drawn as an arcade "level map": pixel milestones joined by a path (across from lg, down below).
 import type { Locale } from '@/i18n/locales'
 import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
@@ -14,17 +15,32 @@ const facts = ['2004', '2010', '2020', '2022', 'now'] as const
 ---
 
 <p class="max-w-prose text-lg">{t('home.evidence.lead')}</p>
-<ol class="mt-8 max-w-prose border-l border-border">
-  {facts.map((year) => (
-    <li data-year={year} class="relative pb-6 pl-6 last:pb-0">
-      <span class="absolute top-2 -left-1.25 size-2.5 rounded-full bg-accent" aria-hidden="true" />
-      <span class="font-mono text-sm text-muted">{t(`founder.${year}.label`)}</span>
-      <p class="mt-1">{t(`founder.${year}`)}</p>
-    </li>
-  ))}
+<ol class="mt-10 grid lg:grid-cols-5 lg:gap-6">
+  {facts.map((year, i) => {
+    const last = i === facts.length - 1
+    return (
+      <li data-year={year} class="relative min-w-0 pb-8 pl-12 last:pb-0 lg:pb-0 lg:pt-14 lg:pl-0">
+        {!last && (
+          <span
+            aria-hidden="true"
+            class="absolute top-6 bottom-0 left-2.5 w-1 bg-pale-border lg:top-2.5 lg:right-[-1.5rem] lg:bottom-auto lg:left-6 lg:h-1 lg:w-auto"
+          />
+        )}
+        <span
+          aria-hidden="true"
+          class:list={[
+            'pixel-box absolute top-0 left-0 size-6 [--pixel-border:var(--color-px-ink)]',
+            last ? 'bg-px-pink' : 'bg-px-yellow',
+          ]}
+        />
+        <span class="font-hud text-sm text-accent">{t(`founder.${year}.label`)}</span>
+        <p class="mt-1 text-sm leading-relaxed">{t(`founder.${year}`)}</p>
+      </li>
+    )
+  })}
 </ol>
-<p class="mt-8">
-  <a href={localizedPath(locale, '/about/')} class="inline-block py-1">
+<p class="mt-10">
+  <a href={localizedPath(locale, '/about/')} class="inline-block py-1 font-semibold">
     {t('home.evidence.more')}
   </a>
 </p>

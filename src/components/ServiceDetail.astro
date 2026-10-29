@@ -2,14 +2,17 @@
 // A service page body (SPEC §5.2): fit → scope → how it works → value → related work (only when a
 // published case uses this service) → CTA → other services. No FAQ until answers are confirmed.
 import type { CollectionEntry } from 'astro:content'
+import PageIntro from '@/components/arcade/PageIntro.astro'
 import CaseCard from '@/components/CaseCard.astro'
 import EngagementSteps from '@/components/EngagementSteps.astro'
 import Container from '@/components/ui/Container.astro'
 import LinkButton from '@/components/ui/LinkButton.astro'
+import PixelIcon from '@/components/ui/PixelIcon.astro'
 import { CALENDLY_URL } from '@/config/site'
 import type { Locale } from '@/i18n/locales'
 import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
+import { SERVICE_ICON } from '@/lib/arcade'
 import { SERVICE_IDS, type ServiceId } from '@/lib/routes'
 
 export interface Props {
@@ -21,15 +24,20 @@ export interface Props {
 const { locale, id, service, related } = Astro.props
 const t = useTranslations(locale)
 
-const h2 = 'text-2xl font-semibold tracking-tight'
-const list = 'mt-4 list-disc space-y-2 pl-5'
+const h2 = 'text-2xl'
+const list = 'mt-4 list-[square] space-y-2 pl-5 marker:text-accent'
 ---
 
-<Container class="py-16">
-  <h1 class="text-3xl font-semibold tracking-tight">{service.title}</h1>
-  <p class="mt-4 max-w-prose text-lg text-muted">{service.summary}</p>
+<PageIntro>
+  <span class="mb-5 grid size-14 place-items-center bg-pale">
+    <PixelIcon name={SERVICE_ICON[id]} class="size-9" />
+  </span>
+  <h1 class="text-3xl">{service.title}</h1>
+  <p class="mt-4 max-w-prose text-lg text-on-night-muted">{service.summary}</p>
+</PageIntro>
 
-  <div class="mt-12 flex max-w-prose flex-col gap-12">
+<Container class="py-16">
+  <div class="flex max-w-prose flex-col gap-12">
     <section data-section="fit" aria-labelledby="fit">
       <h2 id="fit" class={h2}>
         {t('service.fit')}
@@ -96,7 +104,7 @@ const list = 'mt-4 list-disc space-y-2 pl-5'
       </section>
     )}
 
-    <section data-section="cta" aria-labelledby="cta">
+    <section data-section="cta" aria-labelledby="cta" class="pixel-box m-1 bg-pale p-6 md:p-8">
       <h2 id="cta" class={h2}>
         {t('service.cta')}
       </h2>
@@ -114,10 +122,14 @@ const list = 'mt-4 list-disc space-y-2 pl-5'
       <h2 id="other" class={h2}>
         {t('service.other')}
       </h2>
-      <ul class="mt-4 space-y-2">
+      <ul class="mt-4 space-y-3">
         {SERVICE_IDS.filter((s) => s !== id).map((s) => (
           <li>
-            <a href={localizedPath(locale, `/services/${s}/`)} class="inline-block py-1">
+            <a
+              href={localizedPath(locale, `/services/${s}/`)}
+              class="inline-flex items-center gap-3 py-1 font-semibold"
+            >
+              <PixelIcon name={SERVICE_ICON[s]} class="size-7 shrink-0" />
               {t(`service.${s}`)}
             </a>
           </li>

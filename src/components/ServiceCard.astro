@@ -1,7 +1,11 @@
 ---
 // A service on the home page: title (the link), one-line summary and who it is for (SPEC §5.2).
+// A row panel after the concept: pixel icon tile, text, arrow; the title link covers the whole
+// panel as its click target.
+import PixelIcon from '@/components/ui/PixelIcon.astro'
 import type { Locale } from '@/i18n/locales'
 import { localizedPath } from '@/i18n/paths'
+import { SERVICE_ICON } from '@/lib/arcade'
 import type { ServiceId } from '@/lib/routes'
 
 export interface Props {
@@ -14,14 +18,26 @@ export interface Props {
 const { locale, id, title, summary, audience } = Astro.props
 ---
 
-<article data-service-card class="flex min-w-0 flex-col rounded-base border border-border p-6">
-  <h3 class="text-xl font-semibold tracking-tight">
-    <a href={localizedPath(locale, `/services/${id}/`)} class="text-text">
-      {title}
-    </a>
-  </h3>
-  <p class="mt-3">{summary}</p>
-  <p data-audience class="mt-3 text-sm text-muted">
-    {audience}
-  </p>
+<article
+  data-service-card
+  class="pixel-box relative m-1 flex min-w-0 items-start gap-4 bg-bg px-4 py-3 hover:[--pixel-border:var(--color-px-blue)]"
+>
+  <span class="grid size-11 shrink-0 place-items-center bg-pale">
+    <PixelIcon name={SERVICE_ICON[id]} class="size-8" />
+  </span>
+  <div class="min-w-0 flex-1">
+    <h3 class="text-base leading-snug font-bold">
+      <a
+        href={localizedPath(locale, `/services/${id}/`)}
+        class="text-text no-underline after:absolute after:inset-0 hover:text-accent"
+      >
+        {title}
+      </a>
+    </h3>
+    <p class="mt-0.5 text-sm leading-snug">{summary}</p>
+    <p data-audience class="mt-1 text-sm leading-snug text-muted">
+      {audience}
+    </p>
+  </div>
+  <PixelIcon name="arrow" mono class="mt-1.5 h-3.5 w-4 shrink-0 self-center text-accent" />
 </article>

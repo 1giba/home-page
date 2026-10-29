@@ -19,13 +19,13 @@ const t = useTranslations(locale)
 const p = entry.data
 const { Content } = await render(entry)
 
-const sectionHeading = 'text-2xl font-semibold tracking-tight'
+const sectionHeading = 'text-2xl'
 const list = 'mt-3 list-disc space-y-1 pl-5'
 ---
 
 <Container class="py-16">
   <article class="max-w-prose">
-    <h1 class="text-3xl font-semibold tracking-tight">{p.title}</h1>
+    <h1 class="text-3xl">{p.title}</h1>
     {p.summary && <p class="mt-4 text-lg text-muted">{p.summary}</p>}
 
     {p.cover && p.coverAlt && (

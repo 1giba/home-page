@@ -46,8 +46,12 @@ describe('BaseLayout', () => {
     expect(mains[0].querySelector('h1')?.text).toBe('Body')
   })
 
-  it('ships no client-side JavaScript (SPEC §9.3)', async () => {
-    const scripts = (await page('pt-br')).querySelectorAll('script')
-    expect(scripts.filter((s) => s.getAttribute('type') !== 'application/ld+json')).toHaveLength(0)
+  it('ships no client-side JavaScript beyond the inline theme initializer (SPEC §9.3)', async () => {
+    const scripts = (await page('pt-br'))
+      .querySelectorAll('script')
+      .filter((s) => s.getAttribute('type') !== 'application/ld+json')
+    expect(scripts).toHaveLength(1)
+    expect(scripts[0].hasAttribute('data-theme-init')).toBe(true)
+    expect(scripts[0].getAttribute('src')).toBeUndefined()
   })
 })

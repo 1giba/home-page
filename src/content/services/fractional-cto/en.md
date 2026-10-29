@@ -27,5 +27,5 @@ value:
   - Decisions made by someone experienced and accountable for them.
   - Lower risk of costly rewrites or vendor lock-in.
   - A clearer view of what your technology spend is producing.
-implementation: 'When the work includes implementation, the person leading it can also build: Code Happy can develop alongside your team.'
+implementation: 'When the work includes implementation, I also build alongside your team.'
 ---

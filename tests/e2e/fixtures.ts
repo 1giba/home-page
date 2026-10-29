@@ -7,7 +7,6 @@ export const PAGES: { pt: string; en: string }[] = [
   { pt: '/pt-br/services/advisory/', en: '/en/services/advisory/' },
   { pt: '/pt-br/about/', en: '/en/about/' },
   { pt: '/pt-br/privacy/', en: '/en/privacy/' },
-  { pt: '/pt-br/terms/', en: '/en/terms/' },
   { pt: '/pt-br/contact/', en: '/en/contact/' },
   { pt: '/pt-br/contact/thanks/', en: '/en/contact/thanks/' },
 ]

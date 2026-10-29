@@ -23,8 +23,11 @@ const html = markExternalLinks(
     margin-top: 1rem;
   }
   .prose :global(ul) {
-    list-style: disc;
+    list-style: square;
     padding-left: 1.25rem;
+  }
+  .prose :global(li::marker) {
+    color: var(--color-accent);
   }
   .prose :global(ol) {
     list-style: decimal;
@@ -37,14 +40,14 @@ const html = markExternalLinks(
     margin-top: 3rem;
     font-size: var(--text-2xl);
     line-height: var(--text-2xl--line-height);
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
   .prose :global(h3) {
     margin-top: 2rem;
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
-    font-weight: 600;
+    font-weight: 700;
   }
   .prose :global(strong) {
     font-weight: 600;

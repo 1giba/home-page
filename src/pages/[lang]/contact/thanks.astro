@@ -1,6 +1,7 @@
 ---
 // Confirmation after a no-JS form submission (SPEC §5.2): not for search results, hence noindex.
 // States the confirmed reply time (B6) and offers the intro call and a way back home.
+import PageIntro from '@/components/arcade/PageIntro.astro'
 import Container from '@/components/ui/Container.astro'
 import LinkButton from '@/components/ui/LinkButton.astro'
 import { CALENDLY_URL } from '@/config/site'
@@ -26,11 +27,13 @@ const t = useTranslations(locale)
   title={t('meta.thanks.title')}
   description={t('meta.thanks.description')}
 >
+  <PageIntro>
+    <h1 class="text-3xl">{t('page.thanks')}</h1>
+    <p class="mt-4 max-w-prose text-lg text-on-night-muted">{t('thanks.text')}</p>
+  </PageIntro>
   <Container class="py-16">
     <div class="max-w-prose">
-      <h1 class="text-3xl font-semibold tracking-tight">{t('page.thanks')}</h1>
-      <p class="mt-4 text-lg">{t('thanks.text')}</p>
-      <p class="mt-8">{t('thanks.call')}</p>
+      <p>{t('thanks.call')}</p>
       <LinkButton
         href={CALENDLY_URL}
         variant="primary"

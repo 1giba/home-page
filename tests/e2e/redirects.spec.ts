@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
-// Review Focus 1: legacy URLs, with or without trailing slash or a query, land on /pt-br/.
+// Review Focus 1: legacy URLs, with or without trailing slash or a query, land on /pt-br/. The
+// Terms page was removed (Q-5), so /terms lands on the Portuguese home page.
 const LANDS_ON = (path: string) => new RegExp(`/pt-br${path}(\\?[^#]*)?$`)
 
 async function expectLanding(page: import('@playwright/test').Page, from: string, to: string) {
@@ -15,7 +16,7 @@ const SLASHED: [from: string, to: string][] = [
   ['/about/', '/about/'],
   ['/contact/?ref=x', '/contact/'],
   ['/privacy/', '/privacy/'],
-  ['/terms/', '/terms/'],
+  ['/terms/', '/'],
 ]
 
 for (const [from, to] of SLASHED) {
@@ -38,7 +39,7 @@ test.describe('slash-less legacy URLs on the deployed host', () => {
     ['/about', '/about/'],
     ['/contact?ref=x', '/contact/'],
     ['/privacy', '/privacy/'],
-    ['/terms', '/terms/'],
+    ['/terms', '/'],
   ] as const) {
     test(`${from} lands on /pt-br${to}`, async ({ page }) => {
       await expectLanding(page, from, to)

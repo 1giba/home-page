@@ -21,7 +21,8 @@ const hrefs = (root: HTMLElement | null | undefined) =>
 describe('header navigation (SPEC §6.1)', () => {
   it('links the wordmark and every nav item to the current locale', async () => {
     const header = (await at('en', '/en/about/')).querySelector('header')
-    expect(header?.querySelector('a')?.text.trim()).toBe('Code Happy')
+    // The logo image's alt is the link's accessible name (visual design spec §7.1).
+    expect(header?.querySelector('a')?.querySelector('img')?.getAttribute('alt')).toBe('Code Happy')
     expect(header?.querySelector('a')?.getAttribute('href')).toBe('/en/')
     const navHrefs = hrefs(header?.querySelector('nav'))
     expect(navHrefs).toEqual(['/en/about/', '/en/contact/', '/en/services/'])
@@ -121,6 +122,23 @@ describe('header navigation (SPEC §6.1)', () => {
   })
 })
 
+describe('theme toggle', () => {
+  it('is a real button with a localized name, in the header bar at every width', async () => {
+    for (const [locale, name] of [
+      ['pt-br', 'Tema escuro'],
+      ['en', 'Dark theme'],
+    ] as const) {
+      const header = (await at(locale, `/${locale}/`)).querySelector('header')
+      const toggles = header?.querySelectorAll('[data-theme-toggle]') ?? []
+      expect(toggles, locale).toHaveLength(1)
+      expect(toggles[0].tagName).toBe('BUTTON')
+      expect(toggles[0].getAttribute('type')).toBe('button')
+      expect(toggles[0].getAttribute('aria-label')).toBe(name)
+      expect(toggles[0].closest('[data-desktop-nav], [data-mobile-panel]')).toBeNull()
+    }
+  })
+})
+
 describe('external links (SPEC §7.3: identifiable)', () => {
   it('marks the off-site booking CTA visually and for screen readers, in the page language', async () => {
     for (const [locale, hint] of [
@@ -143,10 +161,21 @@ describe('language switcher (SPEC §8.4)', () => {
   it('links to the same page in each language, named in its own language', async () => {
     const list = switcher(await at('pt-br', '/pt-br/services/ai/'))
     const links = list?.querySelectorAll('a') ?? []
-    expect(links.map((a) => [a.text.trim(), a.getAttribute('href')])).toEqual([
-      ['Português', '/pt-br/services/ai/'],
-      ['English', '/en/services/ai/'],
+    // Visible: flag + code; accessible name: the code plus the full name (label in name).
+    expect(
+      links.map((a) => [
+        a.text.replace(/\s+/g, ' ').trim(),
+        a.querySelector('.sr-only')?.text.trim(),
+        a.getAttribute('href'),
+      ])
+    ).toEqual([
+      ['PT – Português (Brasil)', '– Português (Brasil)', '/pt-br/services/ai/'],
+      ['EN – English', '– English', '/en/services/ai/'],
     ])
+    for (const a of links) {
+      expect(a.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true')
+      expect(a.getAttribute('aria-label')).toBeUndefined()
+    }
   })
 
   it('marks the current language and declares lang/hreflang on each link', async () => {
@@ -196,22 +225,23 @@ describe('footer (SPEC §6.1, §13.1)', () => {
     expect(footer?.text).toContain(`© 2020–${new Date().getFullYear()}`)
   })
 
-  it('links privacy and terms in the page language', async () => {
+  it('links the privacy policy in the page language, and no Terms page (removed, Q-5)', async () => {
     const pt = (await at('pt-br', '/pt-br/')).querySelector('footer')
     expect(pt?.querySelector('a[href="/pt-br/privacy/"]')?.text.trim()).toBe(
       'Política de Privacidade'
     )
-    expect(pt?.querySelector('a[href="/pt-br/terms/"]')?.text.trim()).toBe('Termos de Uso')
+    expect(pt?.querySelector('a[href^="/pt-br/terms"]')).toBeNull()
     const en = (await at('en', '/en/')).querySelector('footer')
     expect(en?.querySelector('a[href="/en/privacy/"]')?.text.trim()).toBe('Privacy Policy')
-    expect(en?.querySelector('a[href="/en/terms/"]')?.text.trim()).toBe('Terms of Use')
+    expect(en?.querySelector('a[href^="/en/terms"]')).toBeNull()
   })
 })
 
 describe('whole layout', () => {
-  it('opens no link in a new tab and ships no script (SPEC §6.2, §9.3)', async () => {
+  it('opens no link in a new tab and ships no script but the theme initializer (SPEC §6.2, §9.3)', async () => {
     const doc = await at('en', '/en/about/')
     expect(doc.querySelectorAll('a[target]')).toHaveLength(0)
-    expect(doc.querySelectorAll('script')).toHaveLength(0)
+    expect(doc.querySelectorAll('script:not([data-theme-init])')).toHaveLength(0)
+    expect(doc.querySelectorAll('script[data-theme-init]')).toHaveLength(1)
   })
 })

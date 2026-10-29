@@ -23,5 +23,5 @@ value:
   - Investment directed to AI uses with a credible case.
   - Features that hold up in production.
   - Known running costs.
-implementation: Implementation can be done directly by Code Happy or by your team, with Code Happy leading it technically.
+implementation: I can build it myself, or your team builds it with me leading it technically.
 ---

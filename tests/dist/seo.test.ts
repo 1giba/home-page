@@ -46,10 +46,10 @@ const indexable = () => pages().filter((f) => isLocalized(f) && !isNoindex(readH
 describe('SEO head on indexable localized pages (SPEC §11)', () => {
   it('covers the expected pages', () => {
     assertDistBuilt()
-    // Per locale: home, services, 3 services, about, contact, privacy, terms (9), plus the Work
+    // Per locale: home, services, 3 services, about, contact, privacy (8), plus the Work
     // index and one page per published case study once anything is published (SPEC §4.5).
     const published = projectSources().filter((p) => p.published).length
-    const perLocale = 9 + (published > 0 ? 1 + published : 0)
+    const perLocale = 8 + (published > 0 ? 1 + published : 0)
     expect(indexable()).toHaveLength(2 * perLocale)
   })
 

@@ -27,5 +27,5 @@ value:
   - Decisões tomadas por alguém experiente e responsável por elas.
   - Menos risco de reescritas caras ou de ficar preso a um fornecedor.
   - Uma visão mais clara do que o investimento em tecnologia está produzindo.
-implementation: 'Quando o trabalho inclui implementação, quem lidera também constrói: a Code Happy pode desenvolver junto com o seu time.'
+implementation: 'Quando o trabalho inclui implementação, também desenvolvo junto com o seu time.'
 ---

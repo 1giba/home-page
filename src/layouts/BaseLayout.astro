@@ -24,7 +24,50 @@ const showWork = await hasPublishedWork()
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    {/* Theme (the only script on every page; render-blocking on purpose, so the right theme is
+       applied before first paint). Resolves a saved choice, else the system preference, else
+       dark; follows system changes until the visitor chooses; handles the header toggle by
+       event delegation. Storage failures (private mode, blocked storage) fall back silently. */}
+    <script is:inline data-theme-init>
+      ;(() => {
+        const d = document.documentElement
+        const mq = matchMedia('(prefers-color-scheme: light)')
+        let saved = null
+        try {
+          saved = localStorage.getItem('theme')
+        } catch {
+          // Storage unavailable: the choice lasts for this page only.
+        }
+        const sync = () => {
+          for (const b of document.querySelectorAll('[data-theme-toggle]'))
+            b.setAttribute('aria-pressed', String(d.dataset.theme === 'dark'))
+        }
+        const set = (theme) => {
+          d.dataset.theme = theme
+          sync()
+        }
+        if (saved !== 'light' && saved !== 'dark') saved = null
+        set(saved ?? (mq.matches ? 'light' : 'dark'))
+        mq.addEventListener('change', (e) => {
+          if (!saved) set(e.matches ? 'light' : 'dark')
+        })
+        document.addEventListener('DOMContentLoaded', sync)
+        document.addEventListener('click', (e) => {
+          if (!(e.target instanceof Element) || !e.target.closest('[data-theme-toggle]')) return
+          saved = d.dataset.theme === 'dark' ? 'light' : 'dark'
+          set(saved)
+          try {
+            localStorage.setItem('theme', saved)
+          } catch {
+            // Storage unavailable: the choice lasts for this page only.
+          }
+        })
+      })()
+    </script>
+    {/* Favicons from the approved flat icon (src/assets/brand/logo/code-happy-icon.svg). */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <SeoHead {...props} />
   </head>
   <body class="flex min-h-screen flex-col">

@@ -5,18 +5,49 @@ import { describe, expect, it } from 'vitest'
 import { distDir, listHtmlFiles, readHtml } from './helpers'
 
 // SPEC §12.1 / §9.3, plan F5-02 Step 5 and F7-01: first-party JS only on pages with the contact
-// form, ≤ 10 KB gzipped, and no script or stylesheet from another host anywhere.
+// form, ≤ 10 KB gzipped, and no script or stylesheet from another host anywhere. The one exception
+// is the inline theme initializer (dark/light theme, 26 Oct 2026), held to its own small budget.
 const CONTACT = ['pt-br/contact/index.html', 'en/contact/index.html']
+const THEME_BUDGET = 1024
 
 /** URLs a stylesheet would fetch: url(...) and @import "...". */
 const cssUrls = (css: string) => [
   ...[...css.matchAll(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g)].map((m) => m[2].trim()),
   ...[...css.matchAll(/@import\s+(['"])([^'"]+)\1/g)].map((m) => m[2].trim()),
 ]
-const scripts = (rel: string) =>
+const allScripts = (rel: string) =>
   readHtml(rel)
     .querySelectorAll('script')
     .filter((s) => s.getAttribute('type') !== 'application/ld+json')
+const isTheme = (s: ReturnType<typeof allScripts>[number]) => s.hasAttribute('data-theme-init')
+/** Every script except the theme initializer. */
+const scripts = (rel: string) => allScripts(rel).filter((s) => !isTheme(s))
+
+describe('theme initializer', () => {
+  it('every page has exactly one, inline, first in <head> after the meta tags', () => {
+    for (const file of listHtmlFiles()) {
+      const doc = readHtml(file)
+      // Astro's generated redirect stubs (legacy URLs) render nothing and are skipped.
+      if (doc.querySelector('meta[http-equiv="refresh"]')) continue
+      const theme = doc.querySelectorAll('script').filter(isTheme)
+      expect(theme, file).toHaveLength(1)
+      expect(theme[0].getAttribute('src'), file).toBeUndefined()
+      expect(theme[0].parentNode, file).toBe(doc.querySelector('head'))
+      // Nothing that loads or renders comes before it, so it runs before first paint.
+      const before = doc
+        .querySelector('head')!
+        .childNodes.filter((n) => 'tagName' in n && (n as { tagName: string }).tagName !== 'META')
+      expect(before[0], file).toBe(theme[0])
+    }
+  })
+
+  it('is ≤ 1 KB gzipped, makes no requests and only touches the theme', () => {
+    const text = allScripts('en/index.html').filter(isTheme)[0].text
+    expect(gzipSync(text).length).toBeLessThanOrEqual(THEME_BUDGET)
+    expect(text).not.toMatch(/\b(fetch|XMLHttpRequest|import|sendBeacon|cookie|WebSocket)\b/)
+    expect(text).toContain("localStorage.getItem('theme')")
+  })
+})
 
 describe('first-party JavaScript budget', () => {
   it('only the contact pages ship a script', () => {

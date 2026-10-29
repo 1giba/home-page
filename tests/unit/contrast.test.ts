@@ -58,3 +58,63 @@ describe('design tokens (SPEC §7.3, §12.2: text ≥ 4.5:1)', () => {
     expect(contrastRatio(token('accent'), token('surface'))).toBeGreaterThanOrEqual(3)
   })
 })
+
+describe('arcade surfaces (text ≥ 4.5:1 on every background it is used on)', () => {
+  it('white button text reaches 4.5:1 on the pink CTA and its hover state', () => {
+    expect(contrastRatio(token('on-accent'), token('cta'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrastRatio(token('on-accent'), token('cta-hover'))).toBeGreaterThanOrEqual(4.5)
+  })
+
+  for (const surface of ['night', 'night-raised']) {
+    for (const name of ['on-night', 'on-night-muted', 'sky', 'sun', 'candy']) {
+      it(`--color-${name} reaches 4.5:1 on --color-${surface}`, () => {
+        expect(contrastRatio(token(name), token(surface))).toBeGreaterThanOrEqual(4.5)
+      })
+    }
+    it(`the night focus ring (sun) reaches 3:1 on --color-${surface}`, () => {
+      expect(contrastRatio(token('sun'), token(surface))).toBeGreaterThanOrEqual(3)
+    })
+  }
+
+  for (const surface of ['pale', 'pale-strong']) {
+    for (const name of ['text', 'muted', 'accent']) {
+      it(`--color-${name} reaches 4.5:1 on --color-${surface}`, () => {
+        expect(contrastRatio(token(name), token(surface))).toBeGreaterThanOrEqual(4.5)
+      })
+    }
+  }
+
+  it('white text and the sun focus ring work on the accent closing band', () => {
+    expect(contrastRatio(token('on-accent'), token('accent'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrastRatio(token('sun'), token('accent'))).toBeGreaterThanOrEqual(3)
+  })
+})
+
+describe('dark theme tokens (the default theme)', () => {
+  const block = css.match(/:root\[data-theme='dark'\],\s*:root:not\(\[data-theme\]\)\s*\{([^}]*)\}/)
+  const dark = (name: string): string => {
+    if (!block) throw new Error('dark theme block not found in src/styles/global.css')
+    const m = block[1].match(new RegExp(`--color-${name}:\\s*(#[0-9a-f]{6})\\s*;`, 'i'))
+    return m ? m[1] : token(name)
+  }
+
+  for (const surface of ['bg', 'surface', 'pale', 'pale-strong']) {
+    for (const name of ['text', 'muted', 'accent', 'accent-hover', 'error', 'success']) {
+      it(`--color-${name} reaches 4.5:1 on --color-${surface}`, () => {
+        expect(contrastRatio(dark(name), dark(surface))).toBeGreaterThanOrEqual(4.5)
+      })
+    }
+    it(`the focus outline (accent) reaches 3:1 on --color-${surface}`, () => {
+      expect(contrastRatio(dark('accent'), dark(surface))).toBeGreaterThanOrEqual(3)
+    })
+  }
+
+  it('the form-field border (muted) reaches 3:1 on the page (WCAG 1.4.11)', () => {
+    expect(contrastRatio(dark('muted'), dark('bg'))).toBeGreaterThanOrEqual(3)
+  })
+
+  it('white text and the sun focus ring work on the closing band', () => {
+    expect(contrastRatio(token('on-accent'), token('band'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrastRatio(token('sun'), token('band'))).toBeGreaterThanOrEqual(3)
+  })
+})

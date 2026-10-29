@@ -1,5 +1,6 @@
 // Launch gate (plan F6-03): fails until every legal text carries an owner/counsel approval
-// (`approved: { by, on }`, E2) and SITE_URL is marked confirmed (SITE_URL_CONFIRMED, F8-01).
+// (`approved: { by, on }`, E2) and no pending-information marker (⟦…⟧, e.g. ⟦PENDENTE⟧ or
+// ⟦PENDING⟧), and SITE_URL is marked confirmed (SITE_URL_CONFIRMED, F8-01).
 // Not part of `npm run verify`, so development is not blocked; it is on the F8 launch checklist.
 import { readdirSync, readFileSync, realpathSync } from 'node:fs'
 import { join, relative } from 'node:path'
@@ -40,11 +41,15 @@ function isCalendarDate(value) {
 export function launchProblems({ legalDir = LEGAL_DIR, siteFile = SITE_FILE } = {}) {
   const problems = []
   for (const file of markdownFiles(legalDir).sort()) {
-    const { by, on } = approval(readFileSync(file, 'utf8'))
+    const source = readFileSync(file, 'utf8')
+    const { by, on } = approval(source)
+    // Any ⟦…⟧ marker means the text still waits for information, even if someone approved it.
+    const markers = source.match(/⟦[^⟧]*⟧?/g) ?? []
     const reasons = [
       !by && 'missing approved.by',
       !on && 'missing approved.on',
       on && !isCalendarDate(on) && `approved.on is not a YYYY-MM-DD date ("${on}")`,
+      markers.length > 0 && `${markers.length} pending marker(s) such as "${markers[0]}"`,
     ].filter(Boolean)
     if (reasons.length > 0)
       problems.push(`${relative(legalDir, file)}: ${reasons.join(', ')} (legal approval, E2)`)

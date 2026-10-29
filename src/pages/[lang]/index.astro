@@ -1,11 +1,19 @@
 ---
 // Home (SPEC §5.2): hero → problems → services → evidence → how an engagement starts → closing.
+// Arcade direction: dark pixel-art bands (hero, steps) alternate with light editorial bands.
+import { Picture } from 'astro:assets'
+import mascot from '@/assets/brand/mascot/code-happy-mascot.png'
+import HeroScene from '@/components/arcade/HeroScene.astro'
+import HeroSceneCompact from '@/components/arcade/HeroSceneCompact.astro'
+import PixelMarker from '@/components/arcade/PixelMarker.astro'
 import CaseCard from '@/components/CaseCard.astro'
 import EngagementSteps from '@/components/EngagementSteps.astro'
 import FounderEvidence from '@/components/FounderEvidence.astro'
 import ServiceCard from '@/components/ServiceCard.astro'
 import Container from '@/components/ui/Container.astro'
 import LinkButton from '@/components/ui/LinkButton.astro'
+import PixelIcon from '@/components/ui/PixelIcon.astro'
+import type { PixelIconName } from '@/components/ui/pixel-icons'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { CALENDLY_URL } from '@/config/site'
 import type { Locale } from '@/i18n/locales'
@@ -13,6 +21,7 @@ import { localizedPath } from '@/i18n/paths'
 import { useTranslations } from '@/i18n/ui'
 import { getPublishedProjects, getServices } from '@/lib/content'
 import { organizationLd } from '@/lib/jsonld'
+import { SERVICE_ICON } from '@/lib/arcade'
 import { localeStaticPaths } from '@/lib/routes'
 
 export const getStaticPaths = localeStaticPaths
@@ -24,8 +33,30 @@ const { locale } = Astro.props
 const t = useTranslations(locale)
 const services = await getServices(locale)
 const work = await getPublishedProjects(locale)
-const problems = ['1', '2', '3', '4', '5'] as const
-const h2 = 'text-2xl font-semibold tracking-tight'
+const problems: ['1' | '2' | '3' | '4' | '5', PixelIconName][] = [
+  ['1', 'signpost'],
+  ['2', 'hourglass'],
+  ['3', 'sparkle'],
+  ['4', 'bug'],
+  ['5', 'magnifier'],
+]
+const h2 = 'mt-3 text-2xl'
+
+// The H1 keeps its approved wording; only its last phrase is set apart in colour (deliberate
+// line breaks come from block spans). If the copy changes, it falls back to one plain run.
+const h1 = t('home.h1')
+const accentTail = { 'pt-br': 'CTO em tempo integral.', en: 'full-time CTO.' }[locale]
+const comma = h1.indexOf(', ')
+const split = comma > 0 && h1.endsWith(accentTail)
+const h1Lead = split ? h1.slice(0, comma + 1) : h1
+const h1Middle = split ? h1.slice(comma + 2, h1.length - accentTail.length) : ''
+
+// Floating outcome panels beside the mascot (md and up; the lead says the same in prose).
+const panels = [
+  ['home.value.1', '[--pixel-border:var(--color-sky)]'],
+  ['home.value.2', '[--pixel-border:var(--color-candy)]'],
+  ['home.value.3', '[--pixel-border:var(--color-sun)]'],
+] as const
 ---
 
 <BaseLayout
@@ -35,61 +66,172 @@ const h2 = 'text-2xl font-semibold tracking-tight'
   description={t('meta.home.description')}
   jsonLd={[organizationLd()]}
 >
-  <section data-section="hero" class="border-b border-border">
-    <Container class="py-20 md:py-28">
-      <h1 class="max-w-3xl text-3xl font-semibold tracking-tight">{t('home.h1')}</h1>
-      <p class="mt-6 max-w-prose text-lg text-muted">{t('home.lead')}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
-          {t('cta.book')}
-        </LinkButton>
-        <LinkButton href={localizedPath(locale, '/services/')} variant="secondary">
-          {t('cta.services')}
-        </LinkButton>
+  <section data-section="hero" class="hero-sky surface-night relative overflow-hidden">
+    <HeroScene />
+    <HeroSceneCompact />
+    {/* DOM order is the reading order on small screens: copy and actions, then the mascot with
+       its outcome panels, then the service links. From lg the copy and links share the left
+       half and the mascot and panels the right, over one continuous pixel scene. */}
+    <Container class="relative pt-8 pb-44 md:pt-12 md:pb-60 lg:grid lg:grid-cols-12 lg:gap-x-6 lg:pt-6 lg:pb-[calc(min(44px,3.056vw)+0.75rem)] xl:pt-7">
+      <div class="lg:col-span-7 lg:row-start-1 lg:self-end">
+        <h1 class="hero-title text-display font-black text-on-night">
+          {split ? (
+            <>
+              <span class="block">{h1Lead}</span> <span class="block text-sky">{h1Middle}</span>
+              <span class="block text-sun">{accentTail}</span>
+            </>
+          ) : (
+            h1
+          )}
+        </h1>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-on-night lg:mt-3 lg:max-w-[40rem] lg:text-base lg:leading-normal">
+          {t('home.lead')}
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 lg:mt-5">
+          <LinkButton href={CALENDLY_URL} variant="primary" externalLabel={t('a11y.external')}>
+            {t('cta.book')}
+          </LinkButton>
+          <LinkButton href={localizedPath(locale, '/services/')} variant="secondary" tone="night">
+            {t('cta.services')}
+          </LinkButton>
+        </div>
       </div>
-    </Container>
-  </section>
 
-  <section data-section="problems" aria-labelledby="problems">
-    <Container class="py-16">
-      <h2 id="problems" class={h2}>
-        {t('home.problems')}
-      </h2>
-      <ul class="mt-8 grid gap-4 md:grid-cols-2">
-        {problems.map((n) => (
-          <li class="border-l-2 border-accent pl-4">{t(`home.problem.${n}`)}</li>
+      {/* The mascot is decorative (alt=""); sparkles and an island frame it, and the outcome
+         panels float beside it over the skyline. */}
+      <div class="mt-10 flex min-w-0 flex-wrap items-center justify-center gap-6 md:justify-between lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:-mr-4 lg:flex-nowrap lg:justify-end lg:gap-0 xl:-mr-20 min-[1400px]:-mr-28">
+        <div class="relative max-w-full min-w-0 px-8 md:ml-10 lg:ml-0 lg:px-5">
+          <PixelIcon name="plus" class="absolute top-2 left-0 size-8 lg:size-10" />
+          <PixelIcon name="plus" class="absolute top-16 right-0 size-10 lg:size-12" />
+          <PixelIcon name="plus" class="absolute bottom-20 left-1 size-6 lg:size-7" />
+          <Picture
+            src={mascot}
+            alt=""
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            width={480}
+            widths={[176, 288, 352, 480, 640]}
+            sizes="(min-width: 1400px) 330px, (min-width: 1280px) 280px, (min-width: 1024px) 200px, (min-width: 768px) 260px, 176px"
+            loading="eager"
+            class="relative mx-auto h-auto w-[176px] max-w-full md:w-[260px] lg:w-[200px] xl:w-[280px] min-[1400px]:w-[330px]"
+          />
+          <PixelIcon
+            name="island"
+            class="mx-auto -mt-3 h-auto w-[160px] max-w-full md:w-[220px] lg:w-[176px] xl:w-[232px] min-[1400px]:w-[272px]"
+          />
+        </div>
+        <ul class="hidden w-56 max-w-full min-w-0 shrink-0 flex-col gap-6 md:mr-6 md:flex lg:mr-0 lg:w-44 lg:self-start lg:pt-2 xl:w-60 min-[1400px]:-ml-8">
+          {panels.map(([key, border], i) => (
+            <li
+              class:list={[
+                'pixel-box neon -rotate-3 bg-night/90 px-5 py-4 font-hud text-base leading-snug text-on-night',
+                border,
+                i === 1 ? 'translate-x-3' : '',
+              ]}
+            >
+              {t(key)}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <ul class="mt-10 grid gap-4 sm:grid-cols-3 lg:col-span-7 lg:row-start-2 lg:mt-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-3">
+        {services.map(({ id }) => (
+          <li>
+            <a
+              href={localizedPath(locale, `/services/${id}/`)}
+              class="flex items-center gap-3 rounded-base py-1 text-sm leading-snug font-semibold no-underline"
+            >
+              <span class="grid size-11 shrink-0 place-items-center bg-pale">
+                <PixelIcon name={SERVICE_ICON[id]} class="size-7" />
+              </span>
+              {t(`service.${id}`)}
+            </a>
+          </li>
         ))}
       </ul>
     </Container>
   </section>
 
-  <section data-section="services" aria-labelledby="services" class="bg-surface">
-    <Container class="py-16">
-      <h2 id="services" class={h2}>
-        {t('home.services')}
-      </h2>
-      <div class="mt-8 grid gap-6 lg:grid-cols-3">
-        {services.map(({ id, entry: { data } }) => (
-          <ServiceCard
-            locale={locale}
-            id={id}
-            title={data.title}
-            summary={data.summary}
-            audience={data.audience[0]}
-          />
-        ))}
-      </div>
-    </Container>
-  </section>
+  {/* Problems and services: two light bands, side by side from xl as in the concept (a pale
+     problems column and a light-blue services column, split off-centre and aligned to the page
+     column), stacked below. */}
+  <div class="xl:grid xl:grid-cols-[calc(50%+6rem)_minmax(0,1fr)]">
+    <section
+      data-section="problems"
+      aria-labelledby="problems"
+      class="pixel-grid bg-pale py-12 md:py-14"
+    >
+      <Container class="xl:mr-0 xl:ml-auto xl:max-w-[42rem]">
+        <PixelMarker />
+        <h2 id="problems" class={h2}>
+          {t('home.problems')}
+        </h2>
+        <ul class="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {problems.map(([n, icon]) => (
+            <li class="flex min-w-0 gap-4 sm:flex-col sm:gap-2">
+              <PixelIcon name={icon} class="size-12 shrink-0 sm:size-[60px]" />
+              <p class="text-sm leading-relaxed font-medium">{t(`home.problem.${n}`)}</p>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+
+    <section
+      data-section="services"
+      aria-labelledby="services"
+      class="relative overflow-hidden bg-pale-strong py-12 md:py-14"
+    >
+      {/* A cluster of pixel blocks fading in from the top-right corner. */}
+      <svg
+        class="pointer-events-none absolute top-0 right-0 h-auto w-40"
+        viewBox="0 0 10 6"
+        shape-rendering="crispEdges"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <g class="px-l" fill-opacity="0.35">
+          <rect x="9" y="0" width="1" height="1" />
+          <rect x="7" y="0" width="1" height="1" />
+          <rect x="8" y="1" width="2" height="1" />
+          <rect x="5" y="1" width="1" height="1" />
+          <rect x="9" y="2" width="1" height="1" />
+          <rect x="6" y="2" width="2" height="1" />
+          <rect x="8" y="3" width="1" height="1" />
+          <rect x="9" y="4" width="1" height="1" />
+          <rect x="4" y="0" width="1" height="1" />
+        </g>
+      </svg>
+      <Container class="relative xl:mr-auto xl:ml-0 xl:max-w-[30rem]">
+        <PixelMarker />
+        <h2 id="services" class={h2}>
+          {t('home.services')}
+        </h2>
+        <div class="mt-8 grid max-w-3xl gap-3">
+          {services.map(({ id, entry: { data } }) => (
+            <ServiceCard
+              locale={locale}
+              id={id}
+              title={data.title}
+              summary={data.summary}
+              audience={data.audience[0]}
+            />
+          ))}
+        </div>
+      </Container>
+    </section>
+  </div>
 
   <section data-section="evidence" aria-labelledby="evidence">
-    <Container class="py-16">
+    <Container class="py-12 md:py-14">
+      <PixelMarker />
       {work.length > 0 ? (
         <>
           <h2 id="evidence" class={h2}>
             {t('home.work')}
           </h2>
-          <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div class="mt-8 grid gap-8 md:grid-cols-2">
             {work.map((p) => (
               <CaseCard locale={locale} id={p.id} project={p.entry.data} headingLevel="h3" />
             ))}
@@ -100,7 +242,7 @@ const h2 = 'text-2xl font-semibold tracking-tight'
           <h2 id="evidence" class={h2}>
             {t('home.evidence')}
           </h2>
-          <div class="mt-6">
+          <div class="mt-4">
             <FounderEvidence locale={locale} />
           </div>
         </>
@@ -108,26 +250,72 @@ const h2 = 'text-2xl font-semibold tracking-tight'
     </Container>
   </section>
 
-  <section data-section="steps" aria-labelledby="steps" class="bg-surface">
-    <Container class="py-16">
-      <h2 id="steps" class={h2}>
-        {t('home.steps')}
-      </h2>
-      <div class="mt-8">
-        <EngagementSteps locale={locale} />
+  <section data-section="steps" aria-labelledby="steps" class="surface-night pixel-stars">
+    <Container class="py-12 md:py-12 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10">
+      <div class="lg:col-span-7">
+        <PixelMarker />
+        <h2 id="steps" class={h2}>
+          {t('home.steps')}
+        </h2>
+        <div class="mt-7">
+          <EngagementSteps locale={locale} tone="night" />
+        </div>
+      </div>
+      <div class="pixel-box mt-12 flex min-w-0 flex-col gap-5 bg-night-raised p-6 [--pixel-border:var(--color-night-line)] sm:flex-row sm:items-center lg:col-span-5 lg:mt-0">
+        <PixelIcon name="trophy" class="size-16 shrink-0" />
+        <div class="min-w-0">
+          <p class="text-xl leading-snug font-extrabold">{t('service.cta')}</p>
+          <LinkButton
+            href={CALENDLY_URL}
+            variant="primary"
+            externalLabel={t('a11y.external')}
+            class="mt-4"
+          >
+            {t('cta.book')}
+          </LinkButton>
+          <PixelMarker class="mt-5" />
+        </div>
       </div>
     </Container>
   </section>
 
-  <section data-section="closing" aria-labelledby="closing">
-    <Container class="py-16">
-      <h2 id="closing" class={h2}>
-        {t('home.closing')}
-      </h2>
-      <p class="mt-3 max-w-prose">{t('home.closing.text')}</p>
-      <LinkButton href={localizedPath(locale, '/contact/')} variant="primary" class="mt-6">
-        {t('cta.message')}
-      </LinkButton>
+  {/* The closing scene: a vivid blue band with pixel clouds, and a pixel mountain with a flag
+     standing on the band's bottom edge, beside the message CTA. */}
+  <section
+    data-section="closing"
+    aria-labelledby="closing"
+    class="closing-sky relative overflow-hidden text-on-accent [--focus-ring:var(--color-sun)]"
+  >
+    <svg
+      class="pointer-events-none absolute top-3 right-0 h-auto w-56 md:w-72"
+      viewBox="0 0 48 12"
+      shape-rendering="crispEdges"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g class="px-w" fill-opacity="0.22">
+        <rect x="30" y="2" width="6" height="1" />
+        <rect x="28" y="3" width="11" height="1" />
+        <rect x="26" y="4" width="16" height="2" />
+        <rect x="6" y="7" width="5" height="1" />
+        <rect x="4" y="8" width="10" height="1" />
+        <rect x="2" y="9" width="14" height="2" />
+      </g>
+    </svg>
+    <Container class="relative flex flex-col gap-8 pt-14 md:flex-row md:items-end md:gap-14 md:pt-16">
+      <PixelIcon
+        name="mountain"
+        class="order-last h-auto w-[208px] max-w-full self-start md:order-none md:w-[300px]"
+      />
+      <div class="pb-2 md:pb-16">
+        <h2 id="closing" class="text-2xl">
+          {t('home.closing')}
+        </h2>
+        <p class="mt-3 max-w-prose text-lg">{t('home.closing.text')}</p>
+        <LinkButton href={localizedPath(locale, '/contact/')} variant="primary" class="mt-6">
+          {t('cta.message')}
+        </LinkButton>
+      </div>
     </Container>
   </section>
 </BaseLayout>

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brand Reference Preview</title>
+    <!--
+      Local review page for the PROPOSED brand assets (not part of the site build).
+      Left column: crops of docs/design/code-happy-brand-reference.png, cut with CSS background
+      positioning (no new image files). Right column: the proposed SVGs in src/assets/brand/logo/.
+    -->
+    <style>
+      :root {
+        --bg: #f3f4f6;
+        --card: #ffffff;
+        --ink: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --warn-bg: #fff7ed;
+        --warn-line: #fdba74;
+        --zoom: 1;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          15px/1.5 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px 16px 64px;
+      }
+      h1 {
+        font-size: 26px;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 19px;
+        margin: 40px 0 8px;
+      }
+      h3 {
+        font-size: 15px;
+        margin: 0 0 8px;
+      }
+      p,
+      li {
+        color: #374151;
+      }
+      code {
+        font-size: 13px;
+        background: #eef2f7;
+        padding: 1px 4px;
+        border-radius: 4px;
+      }
+      .note {
+        background: var(--warn-bg);
+        border: 1px solid var(--warn-line);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 16px 0;
+      }
+      .controls {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--bg);
+        padding: 10px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+      }
+      .row {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+        margin: 16px 0;
+      }
+      .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 720px) {
+        .pair {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cell {
+        border: 1px dashed #cbd5e1;
+        border-radius: 8px;
+        padding: 12px;
+        overflow: auto;
+      }
+      .cell .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .stage {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: calc(var(--h) * var(--zoom) + 16px);
+        padding: 8px;
+        border-radius: 6px;
+      }
+      .crop {
+        background-image: url('code-happy-brand-reference.png');
+        background-repeat: no-repeat;
+        flex: none;
+      }
+      .stage img {
+        height: calc(var(--h) * var(--zoom));
+        width: auto;
+        display: block;
+      }
+      .on-dark {
+        background: #111827;
+      }
+      .on-white {
+        background: #ffffff;
+      }
+      .on-fafb {
+        background: #f9fafb;
+      }
+      .on-blue {
+        background: #eef3ff;
+      }
+      .checks {
+        margin: 12px 0 0;
+        padding-left: 20px;
+        font-size: 14px;
+      }
+      .scroll {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+        background: var(--card);
+      }
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 6px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .swatch {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1px solid #0002;
+        vertical-align: -4px;
+        margin-right: 6px;
+      }
+      .mascots {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 720px) {
+        .mascots {
+          grid-template-columns: 1fr;
+        }
+      }
+      .mascots figure {
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .mascots img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .mascots figcaption {
+        background: var(--card);
+        padding: 6px 10px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .sizes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: flex-end;
+      }
+      .sizes div {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Code Happy: proposed brand assets vs reference</h1>
+      <p>
+        Review page for the <strong>proposed</strong> logo set in
+        <code>src/assets/brand/logo/</code> and the processed mascot in
+        <code>src/assets/brand/mascot/</code>. Nothing here is used by the website. The left column
+        of each row is a crop of <code>docs/design/code-happy-brand-reference.png</code>; the right
+        column is the proposed SVG, drawn at the same height.
+      </p>
+      <div class="note">
+        <strong>Provisional typeface.</strong> The wordmark is drawn with
+        <strong>Saira</strong> (SIL OFL 1.1), weight 800, width 125, chosen because it visually
+        matches the reference.
+        <strong>The original wordmark typeface has not been identified.</strong> The flat cube icon
+        is a hand-drawn approximation of the reference icon. The current SVGs in
+        <code>src/assets/brand/</code> are unchanged.
+      </div>
+
+      <div class="controls">
+        <label
+          >Zoom <input id="zoom" type="range" min="1" max="3" step="0.25" value="1" />
+          <span id="zv">1×</span></label
+        >
+        <span style="color: var(--muted); font-size: 13px">
+          Reference crops are low resolution (the board is 1536 × 1024 px); they blur when zoomed.
+        </span>
+      </div>
+
+      <h2>1. Variants beside the reference</h2>
+
+      <section class="row">
+        <h3>Stacked: icon above the two-line wordmark</h3>
+        <div class="pair">
+          <div class="cell">
+            <div class="label">Reference (board, "Logo principal")</div>
+            <div class="stage on-white" style="--h: 214px">
+              <div class="crop" data-crop="70 262 200 214" data-h="214"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="label">Proposed · code-happy-logo-stacked.svg</div>
+            <div class="stage on-white" style="--h: 214px">
+              <img src="../../src/assets/brand/logo/code-happy-logo-stacked.svg" alt="Code Happy" />
+            </div>
+          </div>
+        </div>
+        <ul class="checks">
+          <li>
+            Wordmark: "code" (navy) sits directly above "happy" (blue); the two lines nearly touch.
+          </li>
+          <li>
+            "code" is about 0.73 of the width of "happy" on the reference; the proposal is 0.75.
+          </li>
+          <li>
+            Pink bar: on the baseline right after the "y", about one sixth of the width of "happy".
+          </li>
+          <li>
+            Icon size: the drawn cube and sparks are about 1.7 × the wordmark's height (about 1.75 ×
+            on the board; it was about 1.3 × in the previous iteration). The icon sits close above
+            "code".
+          </li>
+        </ul>
+      </section>
+
+      <section class="row">
+        <h3>Horizontal: wordmark with the icon to its right</h3>
+        <div class="pair">
+          <div class="cell">
+            <div class="label">Reference (board, site header)</div>
+            <div class="stage on-white" style="--h: 96px">
+              <div class="crop" data-crop="596 44 150 58" data-h="96"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="label">Proposed · code-happy-logo-horizontal.svg</div>
+            <div class="stage on-white" style="--h: 96px">
+              <img
+                src="../../src/assets/brand/logo/code-happy-logo-horizontal.svg"
+                alt="Code Happy"
+              />
+            </div>
+          </div>
+        </div>
+        <ul class="checks">
+          <li>The icon is about 1.2 × the wordmark's height and vertically centred on it.</li>
+          <li>
+            Check the gap between the pink bar and the icon (the proposal uses 0.18 × wordmark
+            height).
+          </li>
+        </ul>
+      </section>
+
+      <section class="row">
+        <h3>Icon only</h3>
+        <div class="pair">
+          <div class="cell">
+            <div class="label">Reference (board, favicon 180 × 180)</div>
+            <div class="stage on-white" style="--h: 128px">
+              <div class="crop" data-crop="276 888 80 80" data-h="128"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="label">Proposed · code-happy-icon.svg</div>
+            <div class="stage on-white" style="--h: 128px">
+              <img src="../../src/assets/brand/logo/code-happy-icon.svg" alt="Code Happy" />
+            </div>
+          </div>
+        </div>
+        <ul class="checks">
+          <li>
+            Flat 2D cube: navy outline, white front face, yellow right side, light-blue top, thin
+            blue frame. The cube is turned a little more than before, so the yellow side is wider
+            (about 0.65 of the front face's width).
+          </li>
+          <li>
+            Expression: rounded closed eyes (∩ ∩), set wider apart, and a small smile (∪) tucked
+            between them, drawn as line art.
+          </li>
+          <li>
+            Four rounded sparks above the top-right corner: blue dot, blue, yellow and pink strokes.
+          </li>
+        </ul>
+      </section>
+
+      <section class="row">
+        <h3>Dark-background version</h3>
+        <div class="pair">
+          <div class="cell">
+            <div class="label">Reference (board, "Versão para fundo escuro")</div>
+            <div class="stage on-dark" style="--h: 96px">
+              <div class="crop" data-crop="404 896 224 72" data-h="96"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="label">Proposed · code-happy-logo-on-dark.svg (on #111827)</div>
+            <div class="stage on-dark" style="--h: 96px">
+              <img src="../../src/assets/brand/logo/code-happy-logo-on-dark.svg" alt="Code Happy" />
+            </div>
+          </div>
+        </div>
+        <ul class="checks">
+          <li>
+            White wordmark, pink bar kept, full-colour icon. The SVG background is transparent.
+          </li>
+          <li>
+            The icon's outline is white here, as on the reference, so the cube stays visible on
+            navy. The face stays navy because it is drawn on the white front face.
+          </li>
+          <li>See section 2 for this version at small sizes.</li>
+        </ul>
+      </section>
+
+      <section class="row">
+        <h3>Monochrome icon</h3>
+        <div class="pair">
+          <div class="cell">
+            <div class="label">Reference (board, "Versão monocromática")</div>
+            <div class="stage on-white" style="--h: 96px">
+              <div class="crop" data-crop="890 896 130 72" data-h="96"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="label">Proposed · code-happy-icon-mono.svg</div>
+            <div class="stage on-white" style="--h: 96px">
+              <img src="../../src/assets/brand/logo/code-happy-icon-mono.svg" alt="Code Happy" />
+            </div>
+          </div>
+        </div>
+        <ul class="checks">
+          <li>Navy line art on white faces, with the same four sparks as the colour icon.</li>
+          <li>
+            <strong>Unconfirmed:</strong> the board's "Versão monocromática" tile is ambiguous. At
+            its resolution it seems to show two or three sparks, but the intended spark count has
+            not been confirmed. The proposal keeps four until it is.
+          </li>
+        </ul>
+      </section>
+
+      <h2>2. Small sizes</h2>
+      <div class="row">
+        <div class="sizes">
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-icon.svg"
+              alt=""
+              width="16"
+              height="16"
+            /><br />16
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-icon.svg"
+              alt=""
+              width="32"
+              height="32"
+            /><br />32
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-icon.svg"
+              alt=""
+              width="48"
+              height="48"
+            /><br />48
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-horizontal.svg"
+              alt=""
+              height="32"
+            /><br />horizontal 32 px
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-horizontal.svg"
+              alt=""
+              height="44"
+            /><br />horizontal 44 px
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-stacked.svg"
+              alt=""
+              height="96"
+            /><br />stacked 96 px
+          </div>
+        </div>
+      </div>
+      <div class="row on-dark">
+        <div class="sizes">
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-on-dark.svg"
+              alt=""
+              height="24"
+            /><br />on dark 24 px
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-on-dark.svg"
+              alt=""
+              height="32"
+            /><br />on dark 32 px
+          </div>
+          <div>
+            <img
+              src="../../src/assets/brand/logo/code-happy-logo-on-dark.svg"
+              alt=""
+              height="56"
+            /><br />on dark 56 px
+          </div>
+        </div>
+      </div>
+
+      <h2>3. Wordmark measurements</h2>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Measure</th>
+              <th>Reference (measured on the stacked lockup)</th>
+              <th>Proposal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Case and lines</td>
+              <td>lowercase, "code" above "happy"</td>
+              <td>same</td>
+            </tr>
+            <tr>
+              <td>Width of "code" ÷ width of "happy"</td>
+              <td>≈ 0.725</td>
+              <td>0.75 (follows from the typeface)</td>
+            </tr>
+            <tr>
+              <td>Line spacing</td>
+              <td>
+                top of "happy" ascenders ≈ 0.06 × "happy" ink height below the "code" baseline
+              </td>
+              <td>same value</td>
+            </tr>
+            <tr>
+              <td>Letter spacing</td>
+              <td>slightly tight</td>
+              <td>−0.02 em</td>
+            </tr>
+            <tr>
+              <td>Pink bar gap after "y"</td>
+              <td>≈ 0.026 × width of "happy"</td>
+              <td>same value</td>
+            </tr>
+            <tr>
+              <td>Pink bar length</td>
+              <td>≈ 0.157 × width of "happy"</td>
+              <td>same value</td>
+            </tr>
+            <tr>
+              <td>Pink bar thickness</td>
+              <td>≈ 0.22 × "happy" ink height</td>
+              <td>same value, corners radius 0.32 × thickness</td>
+            </tr>
+            <tr>
+              <td>Pink bar position</td>
+              <td>top at ≈ 0.62 × "happy" ink height (sits on the baseline)</td>
+              <td>same value</td>
+            </tr>
+            <tr>
+              <td>Typeface</td>
+              <td><strong>not identified</strong></td>
+              <td>Saira 800 / width 125 (provisional)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Colours and contrast</h2>
+      <p>
+        The proposed assets use the reference board's palette labels. The site's own design tokens
+        are unchanged.
+      </p>
+      <div class="scroll">
+        <table id="palette">
+          <thead>
+            <tr>
+              <th>Use in the proposed assets</th>
+              <th>Colour</th>
+              <th>Board label</th>
+              <th>Contrast on #FFFFFF</th>
+              <th>Contrast on #F9FAFB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-hex="#111827">
+              <td>"code", icon outline, mono icon</td>
+              <td></td>
+              <td>Texto</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr data-hex="#2563EB">
+              <td>"happy", icon frame, spark</td>
+              <td></td>
+              <td>Primária</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr data-hex="#EC4899">
+              <td>Pink bar, spark</td>
+              <td></td>
+              <td>Rosa</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr data-hex="#F59E0B">
+              <td>Cube side, spark</td>
+              <td></td>
+              <td>Amarelo</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr data-hex="#87A9F4">
+              <td>Cube top</td>
+              <td></td>
+              <td>none (45% white tint of #2563EB)</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 13px; color: var(--muted)">
+        The wordmark is large display text and a logo; WCAG contrast minimums do not apply to
+        logotypes, but the values are shown to help judge legibility. The pink bar and the yellow
+        face are decorative.
+      </p>
+
+      <h2>5. Mascot (processed copy, separate from the logo)</h2>
+      <div class="note">
+        <strong>Open-mouth 3D version ("Feliz").</strong> This is the 3D mascot with an open mouth
+        and a pink tongue, without arms. It is not the logo icon. Colours are unchanged from
+        <code>docs/design/code-happy-mascot-3d.png</code>; only the canvas was trimmed and
+        near-opaque alpha raised to 255. File:
+        <code>src/assets/brand/mascot/code-happy-mascot.png</code> (995 × 1071 px, transparent
+        background).
+      </div>
+      <div class="mascots">
+        <figure class="on-white">
+          <img
+            src="../../src/assets/brand/mascot/code-happy-mascot.png"
+            alt="Code Happy mascot, open-mouth 3D version"
+          />
+          <figcaption>On #FFFFFF</figcaption>
+        </figure>
+        <figure class="on-fafb">
+          <img src="../../src/assets/brand/mascot/code-happy-mascot.png" alt="" />
+          <figcaption>On #F9FAFB</figcaption>
+        </figure>
+        <figure class="on-blue">
+          <img src="../../src/assets/brand/mascot/code-happy-mascot.png" alt="" />
+          <figcaption>On light blue #EEF3FF</figcaption>
+        </figure>
+      </div>
+    </main>
+
+    <script>
+      // Reference crops: data-crop = "left top width height" in board pixels (1536 × 1024).
+      const BOARD = { w: 1536, h: 1024 }
+      function layoutCrops(zoom) {
+        for (const el of document.querySelectorAll('.crop')) {
+          const [l, t, w, h] = el.dataset.crop.split(' ').map(Number)
+          const s = (Number(el.dataset.h) * zoom) / h
+          el.style.width = `${w * s}px`
+          el.style.height = `${h * s}px`
+          el.style.backgroundSize = `${BOARD.w * s}px ${BOARD.h * s}px`
+          el.style.backgroundPosition = `${-l * s}px ${-t * s}px`
+        }
+      }
+      const zoom = document.getElementById('zoom')
+      zoom.addEventListener('input', () => {
+        document.documentElement.style.setProperty('--zoom', zoom.value)
+        document.getElementById('zv').textContent = `${zoom.value}×`
+        layoutCrops(Number(zoom.value))
+      })
+      layoutCrops(1)
+
+      // WCAG 2.x contrast ratios for the palette table.
+      const lum = (hex) => {
+        const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+        const [r, g, b] = c.map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+      }
+      const ratio = (a, b) => {
+        const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p)
+        return (x + 0.05) / (y + 0.05)
+      }
+      for (const tr of document.querySelectorAll('#palette tbody tr')) {
+        const hex = tr.dataset.hex
+        const td = tr.children
+        td[1].innerHTML = `<span class="swatch" style="background:${hex}"></span><code>${hex}</code>`
+        td[3].textContent = `${ratio(hex, '#FFFFFF').toFixed(2)} : 1`
+        td[4].textContent = `${ratio(hex, '#F9FAFB').toFixed(2)} : 1`
+      }
+    </script>
+  </body>
+</html>

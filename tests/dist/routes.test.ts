@@ -20,7 +20,6 @@ const EXPECTED = [
   'contact/',
   'contact/thanks/',
   'privacy/',
-  'terms/',
 ]
 
 describe('localized routes', () => {
@@ -31,6 +30,12 @@ describe('localized routes', () => {
         expect(exists(`${locale}/${page}index.html`), `${locale}/${page}`).toBe(true)
       }
     }
+  })
+
+  it('builds no Terms of Use page (removed, Q-5); only the legacy /terms/ redirect stub remains', () => {
+    expect(exists('pt-br/terms/index.html')).toBe(false)
+    expect(exists('en/terms/index.html')).toBe(false)
+    expect(exists('terms/index.html')).toBe(true)
   })
 
   it('builds a 404 page and no Work pages while nothing is published', () => {

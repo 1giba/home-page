@@ -1,0 +1,47 @@
+---
+// Dark/light theme toggle: a real button with a fixed name ("Dark theme") and aria-pressed for
+// its state. The inline script in BaseLayout handles clicks, saves the choice and keeps
+// aria-pressed in sync; the visible icon (moon when dark, sun when light) follows data-theme in
+// CSS. Hidden when JavaScript is off (global.css), since it could not work.
+import type { Locale } from '@/i18n/locales'
+import { useTranslations } from '@/i18n/ui'
+
+export interface Props {
+  locale: Locale
+}
+const t = useTranslations(Astro.props.locale)
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label={t('theme.dark')}
+  class="grid size-[44px] shrink-0 cursor-pointer place-items-center rounded-base border-2 border-border text-text hover:border-accent hover:text-accent"
+>
+  <svg
+    class="dark-only size-5"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+    shape-rendering="crispEdges"
+  >
+    {/* Pixel crescent moon. */}
+    <path
+      fill="currentColor"
+      d="M10 3h4v2h-2v2h-2v4h2v2h2v2h4v-2h2v4h-2v2h-2v2h-6v-2H8v-2H6v-2H4v-6h2V7h2V5h2z"
+    />
+  </svg>
+  <svg
+    class="light-only size-5"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+    shape-rendering="crispEdges"
+  >
+    {/* Pixel sun: a square core and eight rays. */}
+    <path
+      fill="currentColor"
+      d="M9 8h6v1h1v6h-1v1H9v-1H8V9h1zM11 1h2v4h-2zM11 19h2v4h-2zM1 11h4v2H1zM19 11h4v2h-4zM4 4h2v2h1v1H5V6H4zM17 4h3v2h-1v1h-2V6h-1V5h1zM5 17h2v1h1v2H6v-1H4v-2zM17 17h2v2h-2v1h-1v-2h1z"
+    />
+  </svg>
+</button>

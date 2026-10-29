@@ -23,6 +23,13 @@ export const LOCALE_NAME = { 'pt-br': 'Português', en: 'English' } as const sat
   string
 >
 
+/** The switcher's visible abbreviation and the full name it gives assistive technology. */
+export const LOCALE_SHORT = { 'pt-br': 'PT', en: 'EN' } as const satisfies Record<Locale, string>
+export const LOCALE_FULL_NAME = {
+  'pt-br': 'Português (Brasil)',
+  en: 'English',
+} as const satisfies Record<Locale, string>
+
 export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value)
 }

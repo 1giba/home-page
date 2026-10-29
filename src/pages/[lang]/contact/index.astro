@@ -1,6 +1,7 @@
 ---
 // Contact (SPEC §5.2, plan F5-03): the intro call first (primary CTA, Q-11 default), then the
 // form, direct email and the one confirmed FAQ answer. No "available for projects" indicator.
+import PageIntro from '@/components/arcade/PageIntro.astro'
 import ContactForm from '@/components/ContactForm.astro'
 import Container from '@/components/ui/Container.astro'
 import LinkButton from '@/components/ui/LinkButton.astro'
@@ -17,7 +18,7 @@ interface Props {
 }
 const { locale } = Astro.props
 const t = useTranslations(locale)
-const h2 = 'text-2xl font-semibold tracking-tight'
+const h2 = 'text-2xl'
 ---
 
 <BaseLayout
@@ -26,12 +27,13 @@ const h2 = 'text-2xl font-semibold tracking-tight'
   title={t('meta.contact.title')}
   description={t('meta.contact.description')}
 >
+  <PageIntro>
+    <h1 class="text-3xl">{t('contact.title')}</h1>
+    <p class="mt-4 max-w-prose text-lg text-on-night-muted">{t('contact.lead')}</p>
+  </PageIntro>
   <Container class="py-16">
-    <h1 class="text-3xl font-semibold tracking-tight">{t('contact.title')}</h1>
-    <p class="mt-4 max-w-prose text-lg text-muted">{t('contact.lead')}</p>
-
-    <div class="mt-12 flex max-w-prose flex-col gap-16">
-      <section data-section="call" aria-labelledby="call">
+    <div class="flex max-w-prose flex-col gap-16">
+      <section data-section="call" aria-labelledby="call" class="pixel-box m-1 bg-pale p-6 md:p-8">
         <h2 id="call" class={h2}>
           {t('contact.call')}
         </h2>

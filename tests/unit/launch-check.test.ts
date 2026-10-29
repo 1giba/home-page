@@ -73,6 +73,25 @@ describe('launchProblems', () => {
     )
   })
 
+  it('blocks an approved legal text that still has a ⟦PENDENTE⟧ or ⟦PENDING⟧ marker', () => {
+    const opts = fixture(
+      {
+        'privacy/pt-br.md':
+          'approved: { by: Owner, on: 2026-11-01 }\n---\n\nPrazo: ⟦PENDENTE: definir⟧.\n',
+        'privacy/en.md':
+          'approved: { by: Owner, on: 2026-11-01 }\n---\n\nPeriod: ⟦PENDING: set⟧.\n',
+        'terms/en.md': 'approved: { by: Owner, on: 2026-11-01 }\n',
+      },
+      true
+    )
+    const problems: string[] = launchProblems(opts)
+    expect(problems).toHaveLength(2)
+    expect(problems.find((p) => p.includes('privacy/pt-br.md'))).toMatch(
+      /1 pending marker\(s\) such as "⟦PENDENTE: definir⟧"/
+    )
+    expect(problems.find((p) => p.includes('privacy/en.md'))).toMatch(/⟦PENDING: set⟧/)
+  })
+
   it('accepts a typed SITE_URL_CONFIRMED declaration and ignores commented-out ones', () => {
     const typed = fixture({}, true)
     writeFileSync(typed.siteFile, 'export const SITE_URL_CONFIRMED: boolean = true\n')

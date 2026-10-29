@@ -1,0 +1,180 @@
+---
+// The home hero's full pixel environment from lg: one continuous scene behind the copy, mascot and
+// outcome panels, after the approved concept. Back to front: far clouds, a far skyline, a near
+// skyline with lit windows, a stone column with a grass top at the left edge, floating islands
+// (one with a flag), and a neon grid floor with a glowing horizon. Original artwork, decorative
+// (aria-hidden, pointer-events none), static, inline SVG (no request).
+const W = 1440
+const H = 640
+const GROUND = 596
+
+type Rect = { x: number; y: number; w: number; h: number; c: string; o?: number }
+const rects: Rect[] = []
+const add = (x: number, y: number, w: number, h: number, c: string, o?: number) =>
+  rects.push({ x, y, w, h, c, o })
+// Everything left of this x belongs to the left-edge group (drawn in its own layer).
+const LEFT_EDGE = 400
+
+// Pixel clouds: stacked 8-unit rows, widest at the bottom.
+const cloud = (x: number, y: number, size: number, o: number) => {
+  const rows = [
+    [3, 2],
+    [1, 6],
+    [0, 8],
+  ]
+  rows.forEach(([dx, w], i) => add(x + dx * size, y + i * 8, w * size, 8, i ? 'l' : 'w', o))
+}
+// Bright pixel clouds as in the concept: a lit top row over a softer body.
+cloud(10, 196, 14, 0.55)
+cloud(820, 128, 10, 0.5)
+cloud(1210, 92, 12, 0.45)
+cloud(1180, 444, 26, 0.7)
+
+// Windows: a fixed, sparse pattern (no randomness, so the build is reproducible).
+const windows = (x: number, top: number, w: number, seed: number, every: number) => {
+  for (let wy = top + 14; wy < GROUND - 16; wy += 20) {
+    for (let wx = x + 8; wx < x + w - 12; wx += 14) {
+      const n = (wx * 7 + wy * 3 + seed * 11) % every
+      if (n < 3) add(wx, wy, 6, 8, n === 0 ? 'p' : n === 1 ? 'y' : 'l')
+    }
+  }
+}
+
+// Far skyline: tall, dark, few windows.
+const far: [number, number, number][] = [
+  [0, 70, 250],
+  [74, 40, 300],
+  [880, 60, 230],
+  [946, 46, 300],
+  [1000, 70, 260],
+  [1076, 40, 340],
+  [1124, 64, 280],
+  [1194, 50, 380],
+  [1250, 72, 300],
+  [1330, 44, 400],
+  [1380, 60, 320],
+]
+far.forEach(([x, w, h], i) => {
+  add(x, GROUND - h, w, h, 'd')
+  windows(x, GROUND - h, w, i + 3, 23)
+})
+// Antennas on the tallest towers.
+add(1350, GROUND - 430, 4, 30, 'd')
+add(1215, GROUND - 404, 4, 24, 'd')
+
+// Near skyline: shorter, brighter, more windows.
+const near: [number, number, number][] = [
+  [116, 54, 120],
+  [856, 50, 120],
+  [910, 64, 168],
+  [980, 40, 120],
+  [1026, 58, 196],
+  [1090, 72, 150],
+  [1168, 44, 220],
+  [1218, 66, 170],
+  [1290, 48, 240],
+  [1344, 70, 180],
+  [1418, 30, 140],
+]
+near.forEach(([x, w, h], i) => {
+  add(x, GROUND - h, w, h, 'm')
+  windows(x, GROUND - h, w, i, 11)
+})
+
+// Stone column with a grass top at the left edge, and floating islands.
+const column = (x: number, top: number, w: number) => {
+  add(x, top, w, 10, 'g')
+  add(x, top + 10, w, 8, 'm')
+  for (let y = top + 18; y < GROUND; y += 24) {
+    add(x + 6, y, w - 12, 22, 'd')
+    add(x + 12, y + 4, 16, 6, 'm')
+  }
+}
+column(14, 440, 96)
+// A pink-lit tower behind the column, as in the concept's left edge.
+add(118, GROUND - 300, 46, 300, 'd')
+for (let y = GROUND - 284; y < GROUND - 20; y += 22) {
+  add(126, y, 10, 10, 'p', 0.85)
+  add(144, y, 10, 10, (y / 22) % 3 < 1 ? 'y' : 'p', 0.85)
+}
+
+const island = (x: number, y: number, w: number, flag: boolean) => {
+  add(x, y, w, 10, 'g')
+  add(x, y + 10, w, 10, 'm')
+  add(x + 10, y + 20, w - 20, 10, 'd')
+  add(x + 26, y + 30, w - 52, 10, 'd')
+  add(x + (w >> 1) - 10, y + 40, 20, 10, 'd')
+  if (flag) {
+    add(x + w - 34, y - 52, 4, 52, 'w')
+    add(x + w - 30, y - 52, 24, 7, 'p')
+    add(x + w - 30, y - 45, 30, 7, 'p')
+    add(x + w - 30, y - 38, 20, 7, 'p')
+  }
+}
+island(1214, 370, 120, true)
+island(1112, 502, 72, false)
+
+const left = rects.filter((r) => r.x < LEFT_EDGE)
+const right = rects.filter((r) => r.x >= LEFT_EDGE)
+const FLOOR = H - GROUND
+
+// Floor: lines closer together towards the horizon; verticals converge on it.
+const floorLines = [6, 14, 25, 40]
+const vanishX = W * 0.6
+const verticals = Array.from({ length: 31 }, (_, i) => (i - 15) * 110)
+---
+
+{/* Three layers, so the scenery never runs behind the copy: the right-hand scene scales with
+   the page width (whole scene visible, anchored bottom-right); the left-edge pieces appear only
+   from 1440 px, where the page margin holds them; the floor spans the full width at the height the
+   scaled scene's ground line sits at (44 px at 1440, 3.056vw below). */}
+<svg
+  class="pointer-events-none absolute right-0 bottom-0 hidden h-full w-full lg:block"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMaxYMax meet"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  {right.map(({ x, y, w, h, c, o }) => (
+    <rect x={x} y={y} width={w} height={h} class={`px-${c}`} fill-opacity={o} />
+  ))}
+</svg>
+<svg
+  class="pointer-events-none absolute bottom-0 left-0 hidden h-full w-full min-[1440px]:block"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMinYMax meet"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  {left.map(({ x, y, w, h, c, o }) => (
+    <rect x={x} y={y} width={w} height={h} class={`px-${c}`} fill-opacity={o} />
+  ))}
+</svg>
+<svg
+  class="pointer-events-none absolute right-0 bottom-0 hidden h-[min(44px,3.056vw)] w-full lg:block"
+  viewBox={`0 0 ${W} ${FLOOR}`}
+  preserveAspectRatio="xMidYMin slice"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  <rect width={W} height={FLOOR} class="px-f" />
+  <g style="stroke: var(--color-px-blue)" stroke-opacity="0.6" stroke-width="2" fill="none">
+    {floorLines.map((y) => (
+      <line x1="0" y1={y} x2={W} y2={y} />
+    ))}
+    {verticals.map((dx) => (
+      <line
+        x1={vanishX + dx * 0.2}
+        y1="0"
+        x2={vanishX + dx * 1.8}
+        y2={FLOOR}
+        shape-rendering="geometricPrecision"
+      />
+    ))}
+  </g>
+  {/* The horizon glows: a bright line at the top edge. */}
+  <rect width={W} height="3" style="fill: var(--color-sky)" fill-opacity="0.9" />
+</svg>

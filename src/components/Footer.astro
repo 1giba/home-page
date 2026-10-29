@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets'
+import logo from '@/assets/brand/logo/code-happy-logo-on-dark.svg'
 import Container from '@/components/ui/Container.astro'
 import Icon from '@/components/ui/Icon.astro'
 import { CONTACT_EMAIL, LEGAL_NAME, SOCIAL } from '@/config/site'
@@ -20,14 +22,20 @@ const socials = [
   { name: 'X', href: SOCIAL.x, icon: 'x' },
 ] as const
 
-const linkClass = 'inline-block py-1 text-muted no-underline hover:text-accent hover:underline'
+const linkClass = 'inline-block py-1 text-on-night-muted no-underline hover:underline'
 ---
 
-<footer class="border-t border-border bg-surface text-sm">
+<footer class="surface-night text-sm">
+  {/* A pixel skyline edge joins the footer to the page above it. */}
+  <div
+    aria-hidden="true"
+    class="h-3 bg-[linear-gradient(90deg,var(--color-px-blue)_0_25%,var(--color-px-pink)_25%_50%,var(--color-px-yellow)_50%_75%,var(--color-px-green)_75%)] bg-size-[64px_100%]"
+  ></div>
   <Container class="grid gap-10 py-12 md:grid-cols-3">
     <div>
-      <p class="text-base font-semibold tracking-tight text-text">Code Happy</p>
-      <p class="mt-2 max-w-xs text-muted">{t('footer.tagline')}</p>
+      {/* The on-dark logo (white wordmark, white icon outline) on the night surface. */}
+      <Image src={logo} alt="Code Happy" height={44} class="block h-11 w-auto" />
+      <p class="mt-4 max-w-xs text-on-night-muted">{t('footer.tagline')}</p>
     </div>
 
     <nav aria-label={t('footer.nav')}>
@@ -52,7 +60,7 @@ const linkClass = 'inline-block py-1 text-muted no-underline hover:text-accent h
             <a
               href={social.href}
               aria-label={social.name}
-              class="flex size-11 items-center justify-center rounded-base text-muted hover:text-accent"
+              class="flex size-11 items-center justify-center rounded-base text-on-night-muted"
             >
               <Icon name={social.icon} />
             </a>
@@ -62,8 +70,8 @@ const linkClass = 'inline-block py-1 text-muted no-underline hover:text-accent h
     </div>
   </Container>
 
-  <div class="border-t border-border">
-    <Container class="flex flex-col gap-2 py-6 text-muted sm:flex-row sm:items-center sm:justify-between">
+  <div class="border-t border-night-line">
+    <Container class="flex flex-col gap-2 py-6 text-on-night-muted sm:flex-row sm:items-center sm:justify-between">
       <p>
         © 2020–{new Date().getFullYear()} {LEGAL_NAME} {t('footer.rights')}
       </p>
@@ -71,11 +79,6 @@ const linkClass = 'inline-block py-1 text-muted no-underline hover:text-accent h
         <li>
           <a href={localizedPath(locale, '/privacy/')} class={linkClass}>
             {t('footer.privacy')}
-          </a>
-        </li>
-        <li>
-          <a href={localizedPath(locale, '/terms/')} class={linkClass}>
-            {t('footer.terms')}
           </a>
         </li>
       </ul>
